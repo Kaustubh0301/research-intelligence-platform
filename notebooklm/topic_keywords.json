@@ -1,0 +1,209 @@
+{
+  "_comment": "Keyword vocabularies for the 25 notebook topics. Edit freely — no code changes needed.",
+  "_schema": {
+    "primary":   "High-weight terms. A match here counts 2x.",
+    "secondary": "Lower-weight context terms. A match here counts 1x.",
+    "domain":    "Top-level grouping (for conference hard-rules and fallback assignment).",
+    "fallback_conferences": "If a paper is from one of these conferences and scores below threshold in every topic, assign here as fallback."
+  },
+
+  "llm-architectures": {
+    "name": "LLM Architectures & Scaling",
+    "domain": "llm",
+    "primary":   ["scaling", "scaling law", "pretraining", "language model", "transformer", "GPT", "llama", "mistral", "parameter", "token", "context length", "architecture", "next token", "autoregressive", "foundation model", "large language model", "billion", "trillion"],
+    "secondary": ["attention", "embedding", "positional encoding", "tokenizer", "byte pair", "perplexity", "benchmark", "evaluation"],
+    "fallback_conferences": []
+  },
+
+  "llm-alignment": {
+    "name": "Instruction Tuning, RLHF & Alignment",
+    "domain": "llm",
+    "primary":   ["alignment", "RLHF", "reinforcement learning from human feedback", "instruction tuning", "instruction following", "fine-tuning", "supervised fine-tuning", "preference optimization", "DPO", "PPO", "reward model", "human feedback", "helpfulness", "harmlessness", "sycophancy", "constitutional AI", "RLAIF"],
+    "secondary": ["chat", "assistant", "safety", "refusal", "policy", "value", "annotation"],
+    "fallback_conferences": []
+  },
+
+  "llm-reasoning": {
+    "name": "LLM Reasoning, Planning & In-Context Learning",
+    "domain": "llm",
+    "primary":   ["reasoning", "chain of thought", "CoT", "in-context learning", "few-shot", "zero-shot", "planning", "self-consistency", "tree of thought", "scratchpad", "step-by-step", "math reasoning", "commonsense reasoning", "logical reasoning", "multi-step", "problem solving", "GSM8K", "MATH dataset", "arithmetic", "MCTS", "monte carlo tree search", "self-improvement", "self-play", "imagination"],
+    "secondary": ["prompt", "demonstration", "example", "analogical", "decomposition", "verification"],
+    "fallback_conferences": []
+  },
+
+  "llm-efficiency": {
+    "name": "LLM Efficiency: Quantization, Pruning & KV Cache",
+    "domain": "llm",
+    "primary":   ["quantization", "pruning", "KV cache", "key-value cache", "compression", "distillation", "knowledge distillation", "efficient", "sparse", "flash attention", "low-rank", "adapter", "LoRA", "PEFT", "parameter-efficient", "int8", "int4", "weight sharing", "cross-layer attention", "multi-query attention", "grouped-query attention", "speculative decoding", "model compression"],
+    "secondary": ["inference", "throughput", "latency", "memory", "bandwidth", "deployment", "serving"],
+    "fallback_conferences": []
+  },
+
+  "llm-evaluation": {
+    "name": "LLM Evaluation & Benchmarks",
+    "domain": "llm",
+    "primary":   ["benchmark", "evaluation", "leaderboard", "MMLU", "BIG-bench", "HellaSwag", "TruthfulQA", "HumanEval", "MBPP", "hallucination", "factuality", "calibration", "contamination", "metric", "human evaluation", "automatic evaluation", "LLM-as-judge"],
+    "secondary": ["comparison", "analysis", "assessment", "test set", "accuracy", "score"],
+    "fallback_conferences": []
+  },
+
+  "agentic-ai": {
+    "name": "Agentic AI, Tool Use & API Grounding",
+    "domain": "agentic",
+    "primary":   ["agent", "tool use", "API", "function call", "gorilla", "toolbench", "ReAct", "autonomous", "action", "environment", "scaffold", "plugin", "web browsing", "computer use", "task completion", "multi-agent", "tool-augmented", "API calling", "grounding", "API documentation"],
+    "secondary": ["LLM", "language model", "retrieval", "planning", "execution", "workflow"],
+    "fallback_conferences": []
+  },
+
+  "retrieval-augmented": {
+    "name": "Retrieval-Augmented Generation (RAG)",
+    "domain": "agentic",
+    "primary":   ["retrieval", "RAG", "retrieval-augmented", "dense retrieval", "passage retrieval", "knowledge retrieval", "vector database", "faiss", "DPR", "BM25", "embedding retrieval", "open-domain QA", "knowledge-intensive", "retrieved context", "retrieval head"],
+    "secondary": ["document", "corpus", "index", "search", "query", "knowledge base"],
+    "fallback_conferences": []
+  },
+
+  "code-generation": {
+    "name": "Code Generation & Programming AI",
+    "domain": "agentic",
+    "primary":   ["code generation", "code synthesis", "program synthesis", "HumanEval", "MBPP", "CodeBERT", "Codex", "StarCoder", "GitHub Copilot", "code completion", "software engineering", "bug fixing", "code repair", "test generation", "execution feedback"],
+    "secondary": ["programming", "Python", "Java", "repository", "function", "unit test", "compiler"],
+    "fallback_conferences": []
+  },
+
+  "ai-safety": {
+    "name": "AI Safety, Robustness & Red Teaming",
+    "domain": "safety",
+    "primary":   ["safety", "refusal", "jailbreak", "red team", "harmful", "robustness", "adversarial", "backdoor", "sycophancy", "bias", "toxicity", "misuse", "alignment tax", "refusal direction", "mechanistic interpretability", "activation steering", "white-box", "black-box attack", "prompt injection"],
+    "secondary": ["RLHF", "reward", "human feedback", "policy", "fine-tuning", "defense"],
+    "fallback_conferences": []
+  },
+
+  "fairness-ethics": {
+    "name": "Fairness, Ethics, Bias & Privacy",
+    "domain": "safety",
+    "primary":   ["fairness", "bias", "discrimination", "privacy", "differential privacy", "federated learning", "ethics", "responsible AI", "transparency", "explainability", "interpretability", "demographic", "disparate impact", "debiasing", "misinformation", "copyright", "memorization"],
+    "secondary": ["audit", "accountability", "social", "harmful", "stereotype", "gender", "race"],
+    "fallback_conferences": []
+  },
+
+  "vision-language": {
+    "name": "Vision-Language Models & Multimodal Learning",
+    "domain": "vision",
+    "primary":   ["vision-language", "VLM", "multimodal", "image-text", "visual question answering", "VQA", "image captioning", "CLIP", "BLIP", "LLaVA", "GPT-4V", "visual grounding", "cross-modal", "visual reasoning", "OCR", "chart understanding", "document understanding"],
+    "secondary": ["image", "vision", "language", "encoder", "decoder", "contrastive"],
+    "fallback_conferences": []
+  },
+
+  "image-generation": {
+    "name": "Image & Video Generation (Diffusion, GANs)",
+    "domain": "vision",
+    "primary":   ["diffusion", "GAN", "generative adversarial", "image generation", "image synthesis", "denoising", "latent diffusion", "stable diffusion", "DDPM", "DDIM", "score matching", "VAE", "variational autoencoder", "flow matching", "text-to-image", "video generation", "FID", "inception score", "distillation diffusion", "moment matching", "consistency model"],
+    "secondary": ["generative", "sampling", "noise", "guidance", "conditioning", "unconditional"],
+    "fallback_conferences": []
+  },
+
+  "object-detection": {
+    "name": "Object Detection, Segmentation & Tracking",
+    "domain": "vision",
+    "primary":   ["object detection", "segmentation", "instance segmentation", "semantic segmentation", "panoptic", "YOLO", "DETR", "Mask R-CNN", "bounding box", "anchor", "tracking", "SAM", "segment anything", "open-vocabulary detection", "grounding DINO"],
+    "secondary": ["COCO", "ImageNet", "backbone", "feature pyramid", "detection head"],
+    "fallback_conferences": ["CVPR", "ICCV", "ECCV"]
+  },
+
+  "3d-vision": {
+    "name": "3D Vision, Point Clouds & Scene Understanding",
+    "domain": "vision",
+    "primary":   ["3D", "point cloud", "depth estimation", "scene understanding", "NeRF", "neural radiance field", "3D reconstruction", "stereo", "LiDAR", "voxel", "mesh", "surface reconstruction", "novel view synthesis", "gaussian splatting"],
+    "secondary": ["geometry", "camera", "pose estimation", "mapping", "RGB-D"],
+    "fallback_conferences": []
+  },
+
+  "information-extraction": {
+    "name": "Information Extraction & Knowledge Graphs",
+    "domain": "nlp",
+    "primary":   ["information extraction", "named entity recognition", "NER", "relation extraction", "event extraction", "knowledge graph", "entity linking", "coreference", "slot filling", "open information extraction", "structured prediction", "knowledge base completion"],
+    "secondary": ["entity", "relation", "triple", "schema", "ontology"],
+    "fallback_conferences": ["ACL", "EMNLP"]
+  },
+
+  "machine-translation": {
+    "name": "Machine Translation & Cross-Lingual NLP",
+    "domain": "nlp",
+    "primary":   ["machine translation", "neural machine translation", "NMT", "cross-lingual", "multilingual", "BLEU", "translation", "low-resource", "language transfer", "mBERT", "XLM", "code-switching", "speech translation"],
+    "secondary": ["language pair", "bilingual", "parallel corpus", "alignment"],
+    "fallback_conferences": ["ACL", "EMNLP"]
+  },
+
+  "dialogue-qa": {
+    "name": "Dialogue, Question Answering & Summarization",
+    "domain": "nlp",
+    "primary":   ["dialogue", "conversation", "question answering", "QA", "reading comprehension", "summarization", "abstractive summarization", "extractive summarization", "SQuAD", "TriviaQA", "Natural Questions", "open-domain QA", "conversational AI", "chatbot", "ROUGE"],
+    "secondary": ["response generation", "utterance", "context", "passage", "document"],
+    "fallback_conferences": []
+  },
+
+  "reinforcement-learning": {
+    "name": "Reinforcement Learning & Decision Making",
+    "domain": "core-ml",
+    "primary":   ["reinforcement learning", "RL", "reward", "policy gradient", "Q-learning", "actor-critic", "PPO", "SAC", "offline RL", "offline reinforcement learning", "model-based RL", "multi-agent RL", "exploration", "Markov decision process", "MDP", "deep RL", "DQN", "environment", "game playing", "Atari", "MuJoCo"],
+    "secondary": ["agent", "action", "state", "return", "value function", "discount"],
+    "fallback_conferences": []
+  },
+
+  "graph-neural-networks": {
+    "name": "Graph Neural Networks & Structured Data",
+    "domain": "core-ml",
+    "primary":   ["graph neural network", "GNN", "graph convolutional", "GCN", "graph attention", "message passing", "node classification", "link prediction", "graph classification", "knowledge graph embedding", "molecular graph", "heterogeneous graph"],
+    "secondary": ["graph", "node", "edge", "adjacency", "topology", "network"],
+    "fallback_conferences": []
+  },
+
+  "optimization-training": {
+    "name": "Optimization, Training Dynamics & Architecture Search",
+    "domain": "core-ml",
+    "primary":   ["optimization", "optimizer", "Adam", "SGD", "learning rate", "training dynamics", "loss landscape", "gradient", "batch normalization", "layer normalization", "neural architecture search", "NAS", "hyperparameter", "warmup", "weight decay", "dropout", "residual connection", "grokking", "phase transition"],
+    "secondary": ["convergence", "stability", "overfitting", "regularization", "schedule"],
+    "fallback_conferences": []
+  },
+
+  "theory-generalization": {
+    "name": "Theoretical ML, Generalization & Learning Theory",
+    "domain": "core-ml",
+    "primary":   ["generalization", "PAC learning", "VC dimension", "Rademacher complexity", "uniform convergence", "bias-variance", "sample complexity", "statistical learning theory", "bound", "excess risk", "benign overfitting", "double descent", "neural tangent kernel", "implicit bias", "overparameterized", "expressivity"],
+    "secondary": ["theorem", "proof", "analysis", "regret", "minimax", "hypothesis class"],
+    "fallback_conferences": []
+  },
+
+  "biomedical-ai": {
+    "name": "Biomedical AI, Drug Discovery & Healthcare",
+    "domain": "applications",
+    "primary":   ["biomedical", "drug discovery", "protein", "genomics", "clinical", "medical imaging", "healthcare", "EHR", "electronic health record", "molecular", "drug-target", "AlphaFold", "sequence alignment", "radiology", "pathology", "disease prediction"],
+    "secondary": ["patient", "treatment", "diagnosis", "biology", "chemistry", "gene"],
+    "fallback_conferences": []
+  },
+
+  "scientific-discovery": {
+    "name": "Scientific Discovery & Computational Science",
+    "domain": "applications",
+    "primary":   ["scientific discovery", "physics simulation", "climate", "material science", "neural PDE", "operator learning", "neural ODE", "physics-informed", "fluid dynamics", "quantum", "scientific machine learning", "surrogate model"],
+    "secondary": ["simulation", "equation", "physics", "numerical", "solver"],
+    "fallback_conferences": []
+  },
+
+  "robotics": {
+    "name": "Robotics, Embodied AI & Physical Simulation",
+    "domain": "applications",
+    "primary":   ["robotics", "embodied", "manipulation", "locomotion", "sim-to-real", "imitation learning", "behavior cloning", "dexterous", "mobile robot", "navigation", "planning robot", "grasping", "motor control", "physical simulation"],
+    "secondary": ["robot", "actuator", "sensor", "control policy", "task success"],
+    "fallback_conferences": []
+  },
+
+  "finance-forecasting": {
+    "name": "Finance, Time-Series & Forecasting",
+    "domain": "applications",
+    "primary":   ["time series", "forecasting", "financial", "stock", "trading", "anomaly detection", "temporal", "sequence modeling", "LSTM", "temporal convolutional network", "Transformer time series", "prediction interval", "probabilistic forecasting"],
+    "secondary": ["trend", "seasonality", "multivariate", "regression", "autoregressive"],
+    "fallback_conferences": []
+  }
+}
