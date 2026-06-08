@@ -158,7 +158,7 @@ def _resolve_conference_name(session: Session, paper: Paper) -> Optional[str]:
 def _get_or_create_notebook(
     session: Session,
     topic_slug: str,
-    max_sources: int = 45,
+    max_sources: int = 20,
 ) -> Notebook:
     """
     Return an active notebook for the topic with remaining capacity.
