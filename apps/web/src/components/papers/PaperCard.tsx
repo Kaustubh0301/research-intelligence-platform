@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TrendingUp, BookOpen, Star } from "lucide-react";
 import type { PaperSummary } from "@/lib/types";
 import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -70,10 +71,17 @@ export function PaperCard({ paper, onTechniqueClick }: Props) {
           )}
         </div>
 
-        {/* Title */}
-        <h2 className="text-sm font-semibold leading-snug mb-1.5 group-hover:text-primary transition-colors line-clamp-2">
-          {paper.title}
-        </h2>
+        {/* Title + primary category */}
+        <div className="flex items-start gap-2 mb-1.5">
+          <h2 className="flex-1 text-sm font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+            {paper.title}
+          </h2>
+          <CategoryBadge
+            category={paper.primary_category}
+            clusterId={paper.cluster_id}
+            className="flex-shrink-0 mt-0.5"
+          />
+        </div>
 
         {/* Abstract snippet */}
         {paper.abstract_snippet && (

@@ -31,6 +31,7 @@ from sqlalchemy.orm import Session
 from api.deps import get_db
 from api.helpers import (
     base_paper_query,
+    fetch_primary_categories_batch,
     fetch_top_techniques_batch,
     paper_summary,
 )
@@ -203,8 +204,9 @@ def search(
     offset  = (req.page - 1) * req.per_page
     page_ids = ranked[offset : offset + req.per_page]
 
-    # Batch-fetch top techniques for the page
-    techniques_by_paper = fetch_top_techniques_batch(db, page_ids)
+    # Batch-fetch top techniques + primary categories for the page
+    techniques_by_paper  = fetch_top_techniques_batch(db, page_ids)
+    categories_by_paper  = fetch_primary_categories_batch(db, page_ids)
 
     results = [
         SearchMatch(
@@ -213,6 +215,7 @@ def search(
                 paper_cache[pid][1],
                 paper_cache[pid][2],
                 techniques_by_paper.get(pid, []),
+                categories_by_paper.get(pid),
             ),
             match_score = round(scores[pid], 2),
             matched_in  = list(dict.fromkeys(matched_in[pid])),  # deduplicate, preserve order

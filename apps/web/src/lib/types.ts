@@ -25,6 +25,7 @@ export interface TopPaper {
   presentation_type: string | null;
   cluster_id: number | null;
   degree_centrality: number;
+  primary_category: string | null;
 }
 
 export interface StatsResponse {
@@ -55,6 +56,7 @@ export interface PaperSummary {
   cluster_id: number | null;
   degree_centrality: number;
   top_techniques: string[];
+  primary_category: string | null;
 }
 
 export interface PapersResponse {
@@ -72,7 +74,7 @@ export interface SearchRequest {
     cluster?: number;
     technique?: string;
   };
-  sort?: "relevance" | "citations" | "centrality" | "date";
+  sort?: "relevance" | "citations" | "citations_asc" | "centrality" | "date" | "oldest" | "title";
   page?: number;
   per_page?: number;
 }

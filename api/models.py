@@ -98,6 +98,8 @@ class PaperSummary(BaseModel):
     degree_centrality:        float           = 0.0
     # Top 3 canonical technique names
     top_techniques:           list[str]       = Field(default_factory=list)
+    # Primary research category (highest-confidence paper_categories row)
+    primary_category:         Optional[str]   = None
 
 
 # ── Paper detail ──────────────────────────────────────────────────────────────
@@ -166,6 +168,7 @@ class TopPaper(BaseModel):
     presentation_type:  Optional[str] = None
     cluster_id:         Optional[int] = None
     degree_centrality:  float         = 0.0
+    primary_category:   Optional[str] = None
 
 
 class StatsResponse(BaseModel):

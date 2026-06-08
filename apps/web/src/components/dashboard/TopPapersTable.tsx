@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { TopPaper } from "@/lib/types";
-import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -21,9 +21,9 @@ export function TopPapersTable({ papers }: Props) {
               <tr className="border-b bg-muted/50">
                 <th className="px-4 py-3 text-left font-medium text-muted-foreground w-10">#</th>
                 <th className="px-4 py-3 text-left font-medium text-muted-foreground">Title</th>
+                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Category</th>
                 <th className="px-4 py-3 text-left font-medium text-muted-foreground">Venue</th>
                 <th className="px-4 py-3 text-right font-medium text-muted-foreground">Citations</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Cluster</th>
               </tr>
             </thead>
             <tbody>
@@ -38,26 +38,17 @@ export function TopPapersTable({ papers }: Props) {
                       {p.title}
                     </Link>
                   </td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <CategoryBadge
+                      category={p.primary_category}
+                      clusterId={p.cluster_id}
+                    />
+                  </td>
                   <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
                     {p.conference && p.year ? `${p.conference} ${p.year}` : "—"}
                   </td>
                   <td className="px-4 py-3 text-right font-mono">
                     {p.citation_count.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-3">
-                    {p.cluster_id !== null ? (
-                      <span
-                        className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium text-white"
-                        style={{
-                          backgroundColor:
-                            CLUSTER_COLOURS[p.cluster_id] ?? "#6b7280",
-                        }}
-                      >
-                        {p.cluster_id}
-                      </span>
-                    ) : (
-                      <Badge variant="secondary">—</Badge>
-                    )}
                   </td>
                 </tr>
               ))}

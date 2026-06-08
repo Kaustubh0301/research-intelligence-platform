@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { CLUSTER_COLOURS } from "@/lib/constants";
 import type { ChatSource } from "@/lib/types";
 import { ArrowUpRight, TrendingUp } from "lucide-react";
@@ -21,9 +22,15 @@ export function SourceCard({ source, index }: Props) {
           <span className="text-xs font-mono text-muted-foreground mt-0.5 shrink-0">
             [{index}]
           </span>
-          <p className="text-sm font-medium leading-snug line-clamp-2 flex-1">
-            {source.title}
-          </p>
+          <div className="flex-1 min-w-0 space-y-1">
+            <p className="text-sm font-medium leading-snug line-clamp-2">
+              {source.title}
+            </p>
+            <CategoryBadge
+              category={source.categories[0] ?? null}
+              clusterId={source.cluster_id}
+            />
+          </div>
         </div>
       </CardHeader>
       <CardContent className="px-3 pb-3 space-y-2">

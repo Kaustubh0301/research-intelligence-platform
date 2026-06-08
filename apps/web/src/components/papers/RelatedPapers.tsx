@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TrendingUp } from "lucide-react";
 import type { RelatedPaperEntry } from "@/lib/types";
 import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CategoryBadge } from "@/components/ui/CategoryBadge";
 
 const MAX_WEIGHT = 10; // normalise weight bar against this ceiling
 
@@ -67,12 +68,16 @@ export function RelatedPapers({ related }: Props) {
               />
 
               <div className="relative space-y-2">
-                {/* Title + weight */}
+                {/* Title + category + weight */}
                 <div className="flex items-start gap-2">
                   <p className="flex-1 text-sm font-medium leading-snug group-hover:text-primary transition-colors line-clamp-2">
                     {paper.title}
                   </p>
-                  <div className="flex-shrink-0 pt-0.5">
+                  <div className="flex-shrink-0 flex items-center gap-1.5 pt-0.5">
+                    <CategoryBadge
+                      category={paper.primary_category}
+                      clusterId={paper.cluster_id}
+                    />
                     <WeightBar weight={weight} />
                   </div>
                 </div>

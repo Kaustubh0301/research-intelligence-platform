@@ -19,6 +19,7 @@ from api.deps import get_db
 from api.helpers import (
     base_paper_query,
     build_paper_detail,
+    fetch_primary_categories_batch,
     fetch_top_techniques_batch,
     json_list,
     paper_summary,
@@ -60,7 +61,7 @@ def list_papers(
     technique:         Optional[str]  = Query(None, description="Filter by canonical technique name"),
     min_citations:     Optional[int]  = Query(None, ge=0),
     presentation_type: Optional[str]  = Query(None),
-    sort:              str            = Query("citations", description="citations | centrality | date | title"),
+    sort:              str            = Query("citations", description="citations | citations_asc | centrality | date | oldest | title"),
     page:              int            = Query(1, ge=1),
     per_page:          int            = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
@@ -106,10 +107,12 @@ def list_papers(
 
     # ── Sort ──────────────────────────────────────────────────────────────────
     sort_map = {
-        "citations":  Paper.citation_count.desc(),
-        "centrality": PaperGraphMetric.degree_centrality.desc(),
-        "date":       Paper.year.desc(),
-        "title":      Paper.title.asc(),
+        "citations":      Paper.citation_count.desc(),
+        "citations_asc":  Paper.citation_count.asc(),
+        "centrality":     PaperGraphMetric.degree_centrality.desc(),
+        "date":           Paper.year.desc(),
+        "oldest":         Paper.year.asc(),
+        "title":          Paper.title.asc(),
     }
     q = q.order_by(sort_map.get(sort, Paper.citation_count.desc()))
 
@@ -119,16 +122,18 @@ def list_papers(
 
     rows = db.execute(q).all()
 
-    # ── Batch-fetch top techniques ────────────────────────────────────────────
+    # ── Batch-fetch techniques + primary categories ───────────────────────────
     paper_ids = [row[0].id for row in rows]  # row = (Paper, conf_short, ed_year, PaperGraphMetric)
-    techniques_by_paper = fetch_top_techniques_batch(db, paper_ids)
+    techniques_by_paper  = fetch_top_techniques_batch(db, paper_ids)
+    categories_by_paper  = fetch_primary_categories_batch(db, paper_ids)
 
     results = [
         paper_summary(
-            paper       = row[0],
-            conf_short  = row[1],
-            pgm         = row[3],
-            top_techniques = techniques_by_paper.get(row[0].id, []),
+            paper            = row[0],
+            conf_short       = row[1],
+            pgm              = row[3],
+            top_techniques   = techniques_by_paper.get(row[0].id, []),
+            primary_category = categories_by_paper.get(row[0].id),
         )
         for row in rows
     ]

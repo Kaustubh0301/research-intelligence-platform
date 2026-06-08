@@ -6,6 +6,7 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { SlidersHorizontal, X, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { api, queryKeys } from "@/lib/api";
+import type { SearchRequest } from "@/lib/types";
 import { SearchBar } from "./SearchBar";
 import { FilterPanel } from "./FilterPanel";
 import { PaperCard } from "./PaperCard";
@@ -19,11 +20,13 @@ import { cn } from "@/lib/utils";
 const PER_PAGE = 20;
 
 const SORT_OPTIONS = [
-  { value: "citations", label: "Most cited" },
-  { value: "centrality", label: "Most central" },
-  { value: "date", label: "Newest" },
-  { value: "title", label: "Title A–Z" },
-  { value: "relevance", label: "Relevance" },
+  { value: "citations",     label: "Citations ↓" },
+  { value: "citations_asc", label: "Citations ↑" },
+  { value: "date",          label: "Newest year" },
+  { value: "oldest",        label: "Oldest year" },
+  { value: "centrality",    label: "Most connected" },
+  { value: "title",         label: "Alphabetical" },
+  { value: "relevance",     label: "Relevance" },
 ];
 
 // ── Active filter chips ──────────────────────────────────────────────────────
@@ -166,7 +169,7 @@ export function PaperSearchClient() {
       api.search({
         query: q,
         filters,
-        sort: sort as "relevance" | "citations" | "centrality" | "date",
+        sort: sort as SearchRequest["sort"],
         page,
         per_page: PER_PAGE,
       }),

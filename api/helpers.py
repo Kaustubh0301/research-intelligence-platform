@@ -145,6 +145,7 @@ def paper_summary(
     conf_short: Optional[str],
     pgm: Optional[PaperGraphMetric],
     top_techniques: Optional[list[str]] = None,
+    primary_category: Optional[str] = None,
 ) -> PaperSummary:
     abstract = paper.abstract or ""
     return PaperSummary(
@@ -164,6 +165,7 @@ def paper_summary(
         cluster_id                 = pgm.cluster_id if pgm else None,
         degree_centrality          = round(pgm.degree_centrality, 6) if pgm else 0.0,
         top_techniques             = top_techniques or [],
+        primary_category           = primary_category,
     )
 
 
@@ -271,6 +273,38 @@ def build_paper_detail(
         analysis                   = analysis,
         graph_metrics              = _graph_metrics(pgm),
     )
+
+
+# ── Batch primary-category fetch ─────────────────────────────────────────────
+
+def fetch_primary_categories_batch(
+    session: Session,
+    paper_ids: list[str],
+) -> dict[str, str]:
+    """
+    Return a map of paper_id → primary category name (highest-confidence row).
+    Uses a single query; returns the canonical_name when set, else name.
+    Papers with no category row are absent from the result dict.
+    """
+    if not paper_ids:
+        return {}
+
+    rows = session.execute(
+        select(
+            PaperCategory.paper_id,
+            PaperCategory.canonical_name,
+            PaperCategory.name,
+            PaperCategory.confidence,
+        )
+        .where(PaperCategory.paper_id.in_(paper_ids))
+        .order_by(PaperCategory.paper_id, PaperCategory.confidence.desc())
+    ).all()
+
+    result: dict[str, str] = {}
+    for pid, canonical, name, _conf in rows:
+        if pid not in result:          # keep only the highest-confidence row
+            result[pid] = canonical or name
+    return result
 
 
 # ── Batch technique fetch ─────────────────────────────────────────────────────

@@ -19,11 +19,13 @@ from api.models import (
     TechniqueStat,
     TopPaper,
 )
+from api.helpers import fetch_primary_categories_batch
 from db.models import (
     Conference,
     ConferenceEdition,
     EntityRelationship,
     Paper,
+    PaperCategory,
     PaperGraphMetric,
     PaperRelationship,
     PaperTechnique,
@@ -117,6 +119,9 @@ def get_stats(db: Session = Depends(get_db)) -> StatsResponse:
         .limit(10)
     ).all()
 
+    top_paper_ids = [row.id for row in top_paper_rows]
+    categories_by_paper = fetch_primary_categories_batch(db, top_paper_ids)
+
     top_papers = [
         TopPaper(
             id                = row.id,
@@ -127,6 +132,7 @@ def get_stats(db: Session = Depends(get_db)) -> StatsResponse:
             presentation_type = row.presentation_type,
             cluster_id        = row.cluster_id,
             degree_centrality = round(row.degree_centrality or 0.0, 4),
+            primary_category  = categories_by_paper.get(row.id),
         )
         for row in top_paper_rows
     ]
