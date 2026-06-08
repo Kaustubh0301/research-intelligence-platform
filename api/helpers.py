@@ -33,6 +33,7 @@ from api.models import (
     AuthorOut,
     CategoryOut,
     DatasetOut,
+    ExperimentalFinding,
     GraphMetrics,
     MethodologyOut,
     PaperDetail,
@@ -55,6 +56,31 @@ def json_list(raw: Optional[str]) -> list[str]:
         return val if isinstance(val, list) else []
     except (json.JSONDecodeError, TypeError):
         return []
+
+
+def parse_findings(raw: Optional[str]) -> list[ExperimentalFinding]:
+    """
+    Parse JSON array of 'benchmark :: metric :: scores' strings into
+    ExperimentalFinding objects.  Gracefully handles missing parts.
+    """
+    items = json_list(raw)
+    findings: list[ExperimentalFinding] = []
+    for item in items:
+        if not isinstance(item, str):
+            continue
+        parts = item.split(" :: ", 2)
+        if len(parts) == 3:
+            benchmark, metric, scores = parts
+        elif len(parts) == 2:
+            benchmark, metric, scores = parts[0], parts[1], ""
+        else:
+            benchmark, metric, scores = item, "", ""
+        findings.append(ExperimentalFinding(
+            benchmark=benchmark.strip(),
+            metric=metric.strip(),
+            scores=scores.strip(),
+        ))
+    return findings
 
 
 def json_names(raw: Optional[str]) -> list[str]:
@@ -198,9 +224,16 @@ def build_paper_detail(
     analysis = None
     if analysis_row:
         analysis = AnalysisOut(
-            summary     = analysis_row.summary,
+            # V2 fields
+            summary                    = analysis_row.summary,
+            methodology                = analysis_row.methodology,
+            experimental_findings      = parse_findings(analysis_row.experimental_findings),
+            strengths                  = json_list(analysis_row.strengths),
+            limitations                = json_list(analysis_row.limitations),
+            practical_applications     = json_list(analysis_row.practical_applications),
+            future_research_directions = json_list(analysis_row.future_research_directions),
+            # V1 legacy fields
             advantages  = json_list(analysis_row.advantages),
-            limitations = json_list(analysis_row.limitations),
             future_work = json_list(analysis_row.future_work),
             use_cases   = json_list(analysis_row.use_cases),
             model       = analysis_row.model,

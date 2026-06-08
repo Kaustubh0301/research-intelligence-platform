@@ -123,10 +123,23 @@ export interface PaperMethodology {
   name: string;
 }
 
+export interface ExperimentalFinding {
+  benchmark: string;
+  metric: string;
+  scores: string;
+}
+
 export interface PaperAnalysis {
+  // V2 fields
   summary: string | null;
-  advantages: string[];
+  methodology: string | null;
+  experimental_findings: ExperimentalFinding[];
+  strengths: string[];
   limitations: string[];
+  practical_applications: string[];
+  future_research_directions: string[];
+  // V1 legacy fields (kept for backward compat)
+  advantages: string[];
   future_work: string[];
   use_cases: string[];
   model: string | null;

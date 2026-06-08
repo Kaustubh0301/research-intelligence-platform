@@ -53,13 +53,27 @@ class MethodologyOut(BaseModel):
     name: str
 
 
+class ExperimentalFinding(BaseModel):
+    """Single structured result triple parsed from 'benchmark :: metric :: scores'."""
+    benchmark: str
+    metric:    str
+    scores:    str
+
+
 class AnalysisOut(BaseModel):
-    summary:     Optional[str]  = None
-    advantages:  list[str]      = Field(default_factory=list)
-    limitations: list[str]      = Field(default_factory=list)
-    future_work: list[str]      = Field(default_factory=list)
-    use_cases:   list[str]      = Field(default_factory=list)
-    model:       Optional[str]  = None
+    # V2 fields
+    summary:                    Optional[str]           = None
+    methodology:                Optional[str]           = None
+    experimental_findings:      list[ExperimentalFinding] = Field(default_factory=list)
+    strengths:                  list[str]               = Field(default_factory=list)
+    limitations:                list[str]               = Field(default_factory=list)
+    practical_applications:     list[str]               = Field(default_factory=list)
+    future_research_directions: list[str]               = Field(default_factory=list)
+    # V1 legacy fields — kept for backward compatibility
+    advantages:  list[str]  = Field(default_factory=list)
+    future_work: list[str]  = Field(default_factory=list)
+    use_cases:   list[str]  = Field(default_factory=list)
+    model:       Optional[str] = None
 
 
 # ── Paper list item ───────────────────────────────────────────────────────────
