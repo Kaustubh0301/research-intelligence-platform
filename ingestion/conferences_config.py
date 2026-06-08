@@ -39,7 +39,7 @@ CONFERENCES: dict[str, dict] = {
         "editions": {
             2024: {
                 "openreview_id": "ICLR.cc/2024/Conference",
-                "invitation":    "ICLR.cc/2024/Conference/-/Blind_Submission",
+                "invitation":    "ICLR.cc/2024/Conference/-/Submission",
                 "location":      "Vienna, Austria",
             },
             2025: {

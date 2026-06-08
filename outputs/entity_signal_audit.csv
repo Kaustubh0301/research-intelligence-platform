@@ -1,37 +1,34 @@
 canonical_name,tier,paper_count,pct_of_papers,graph_degree_contrib
 Large Language Models,Core,9,9.0,36
-Large language models (LLMs),Core,7,7.0,21
+Multilayer perceptrons,Core,7,7.0,21
 Transformers,Core,7,7.0,21
 Diffusion Models,Core,6,6.0,15
+Chain-of-Thought,Core,5,5.0,10
+Graph convolutional network,Core,5,5.0,10
+Stochastic gradient descent,Core,5,5.0,10
 AdamW optimizer,Shared,4,4.0,6
 GPT-4,Shared,4,4.0,6
-Graph convolutional network,Shared,4,4.0,6
 In-context learning,Shared,4,4.0,6
+LoRA,Shared,4,4.0,6
 Proximal Policy Optimization,Shared,4,4.0,6
-Stochastic gradient descent,Shared,4,4.0,6
-Chain-of-Thought,Shared,3,3.0,3
-Chain-of-Thought (CoT),Shared,3,3.0,3
+ResNet,Shared,4,4.0,6
 Chain-of-Thought prompting,Shared,3,3.0,3
+Direct Preference Optimization,Shared,3,3.0,3
 Gradient descent,Shared,3,3.0,3
 Graph Neural Networks,Shared,3,3.0,3
 Llama-2,Shared,3,3.0,3
-LoRA,Shared,3,3.0,3
+Normalizing flows,Shared,3,3.0,3
 Optimal transport,Shared,3,3.0,3
 Principal component analysis (PCA),Shared,3,3.0,3
 Reinforcement learning,Shared,3,3.0,3
-ResNet,Shared,3,3.0,3
 Autoencoders,Shared,2,2.0,1
-Classifier-free guidance,Shared,2,2.0,1
 CodeLlama,Shared,2,2.0,1
 Convolutional neural network (CNN),Shared,2,2.0,1
 Cross-entropy loss,Shared,2,2.0,1
 Deep Reinforcement Learning,Shared,2,2.0,1
-Direct Preference Optimization,Shared,2,2.0,1
-Direct Preference Optimization (DPO),Shared,2,2.0,1
-Direct preference optimization,Shared,2,2.0,1
+Dynamic programming,Shared,2,2.0,1
 Empirical risk minimization,Shared,2,2.0,1
 Generative models,Shared,2,2.0,1
-Graph Convolutional Networks,Shared,2,2.0,1
 LLaMA,Shared,2,2.0,1
 Language models,Shared,2,2.0,1
 Latent diffusion models,Shared,2,2.0,1
@@ -41,18 +38,16 @@ Markov Decision Process,Shared,2,2.0,1
 Mistral-7B,Shared,2,2.0,1
 Monte Carlo Tree Search,Shared,2,2.0,1
 Multi-Agent Reinforcement Learning,Shared,2,2.0,1
-Multilayer perceptron (MLP),Shared,2,2.0,1
-Multilayer perceptrons,Shared,2,2.0,1
 Neural networks,Shared,2,2.0,1
-Normalizing flows,Shared,2,2.0,1
-SGD,Shared,2,2.0,1
 Sinkhorn algorithm,Shared,2,2.0,1
 Stable Diffusion,Shared,2,2.0,1
+Supervised fine-tuning,Shared,2,2.0,1
 Supervised learning,Shared,2,2.0,1
 Taylor expansion,Shared,2,2.0,1
 Transformer architecture,Shared,2,2.0,1
 U-Net,Shared,2,2.0,1
 Vision Transformers,Shared,2,2.0,1
+classifier-free guidance,Shared,2,2.0,1
 k-means++,Shared,2,2.0,1
 $\Phi$-equilibria,Singleton,1,1.0,0
 $\Phi$-equilibrium,Singleton,1,1.0,0
@@ -110,7 +105,6 @@ Augmented Clarkson,Singleton,1,1.0,0
 Augmented Clarkson algorithm,Singleton,1,1.0,0
 AutoAttack,Singleton,1,1.0,0
 AutoDiff,Singleton,1,1.0,0
-Autoencoder,Singleton,1,1.0,0
 Autoregressive image diffusion (AID),Singleton,1,1.0,0
 Autoregressive image diffusion model,Singleton,1,1.0,0
 Autoregressive model,Singleton,1,1.0,0
@@ -145,7 +139,6 @@ Blind-prediction setting,Singleton,1,1.0,0
 Block-martingale small-ball condition,Singleton,1,1.0,0
 Block-martingale-small-ball condition,Singleton,1,1.0,0
 Butterfly Orthogonal Fine-Tuning,Singleton,1,1.0,0
-Butterfly Orthogonal Fine-Tuning (BOFT),Singleton,1,1.0,0
 C-bound,Singleton,1,1.0,0
 CASP,Singleton,1,1.0,0
 CEBRA,Singleton,1,1.0,0
@@ -169,7 +162,6 @@ CatBoost,Singleton,1,1.0,0
 Causal attention module,Singleton,1,1.0,0
 Causal backdoor adjustment,Singleton,1,1.0,0
 Cayley parametrization,Singleton,1,1.0,0
-Chain-of-Thought (CoT) prompting,Singleton,1,1.0,0
 Chat Models,Singleton,1,1.0,0
 Chebyshev-Cantelli inequality,Singleton,1,1.0,0
 Chi-Square independence test,Singleton,1,1.0,0
@@ -180,7 +172,6 @@ Claude 3 Opus,Singleton,1,1.0,0
 Claude Sonnet 3.5,Singleton,1,1.0,0
 Clustering,Singleton,1,1.0,0
 Coarse-grained Sparsity,Singleton,1,1.0,0
-Coarse-grained Sparsity (CSparse),Singleton,1,1.0,0
 Code Llama,Singleton,1,1.0,0
 CodeLlama-7b,Singleton,1,1.0,0
 Comp-sum losses,Singleton,1,1.0,0
@@ -201,27 +192,22 @@ Consistency Models,Singleton,1,1.0,0
 Constrained diffusion models,Singleton,1,1.0,0
 Constrained losses,Singleton,1,1.0,0
 Contextual Sparsity,Singleton,1,1.0,0
-Contextual Sparsity (CS),Singleton,1,1.0,0
 Contextual reasoning primitives,Singleton,1,1.0,0
 Continual learning,Singleton,1,1.0,0
 Control flow graph (CFG),Singleton,1,1.0,0
 ConvNeXt-V2 Nano,Singleton,1,1.0,0
 Convergent cross mapping,Singleton,1,1.0,0
-Convergent cross mapping (CCM),Singleton,1,1.0,0
 Convolution-based attentions,Singleton,1,1.0,0
-Convolutional neural networks,Singleton,1,1.0,0
 Coordinate mirror descent,Singleton,1,1.0,0
 Core-sets,Singleton,1,1.0,0
 Cost-robust contracts,Singleton,1,1.0,0
 Counterfactual Clamping Attack,Singleton,1,1.0,0
-Counterfactual Clamping Attack (CCA),Singleton,1,1.0,0
 Counterfactual Clamping loss function,Singleton,1,1.0,0
 Counterfactual explanations,Singleton,1,1.0,0
 Counterfactual interventions,Singleton,1,1.0,0
 Counterintuitive exploration scheme,Singleton,1,1.0,0
 Covariance Matrix Adaptation,Singleton,1,1.0,0
 Cross-Layer Attention,Singleton,1,1.0,0
-Cross-Layer Attention (CLA),Singleton,1,1.0,0
 Cross-view contrastive knowledge distillation,Singleton,1,1.0,0
 Cryptographic techniques,Singleton,1,1.0,0
 Cryptographic transformer circuits,Singleton,1,1.0,0
@@ -274,7 +260,6 @@ Discrimination task,Singleton,1,1.0,0
 Disentangled control conditions,Singleton,1,1.0,0
 Disentanglement loss,Singleton,1,1.0,0
 Distributed Alignment Search,Singleton,1,1.0,0
-Distributed Alignment Search (DAS),Singleton,1,1.0,0
 Distributed Data Parallel (DDP),Singleton,1,1.0,0
 Distributed Lion,Singleton,1,1.0,0
 Distributed Lion-Avg,Singleton,1,1.0,0
@@ -284,11 +269,9 @@ Domain Randomisation,Singleton,1,1.0,0
 Dominating pairs,Singleton,1,1.0,0
 Double GSOFT,Singleton,1,1.0,0
 Double-Ended Synthesis Planning,Singleton,1,1.0,0
-Double-Ended Synthesis Planning (DESP),Singleton,1,1.0,0
 Dreambooth,Singleton,1,1.0,0
 Dual training algorithm,Singleton,1,1.0,0
 Dynamic Rescaling,Singleton,1,1.0,0
-Dynamic programming,Singleton,1,1.0,0
 Dynamic programming Pareto front algorithm,Singleton,1,1.0,0
 E-processes,Singleton,1,1.0,0
 E2GN2,Singleton,1,1.0,0
@@ -301,7 +284,6 @@ Energy score,Singleton,1,1.0,0
 Ensembling,Singleton,1,1.0,0
 Equivariant Graph Neural Networks,Singleton,1,1.0,0
 Event-based Graph Spatiotemporal Sensitive Transformer,Singleton,1,1.0,0
-Event-based Graph Spatiotemporal Sensitive Transformer (EGSST),Singleton,1,1.0,0
 Evidence lower bound,Singleton,1,1.0,0
 Evidential learning,Singleton,1,1.0,0
 Exact solution for training dynamics of JEPA and MAE,Singleton,1,1.0,0
@@ -322,13 +304,11 @@ Factor Relaxation with Latent Coupling,Singleton,1,1.0,0
 Factor Relaxation with Latent Coupling algorithm,Singleton,1,1.0,0
 FactorizePhys,Singleton,1,1.0,0
 Factorized Self-Attention Module,Singleton,1,1.0,0
-Factorized Self-Attention Module (FSAM),Singleton,1,1.0,0
 FastMRI dataset,Singleton,1,1.0,0
 Fbeta-measure loss,Singleton,1,1.0,0
 Feature attribution,Singleton,1,1.0,0
 Fictitious play,Singleton,1,1.0,0
 Fine-grained Sparsity,Singleton,1,1.0,0
-Fine-grained Sparsity (FSparse),Singleton,1,1.0,0
 Fine-grained non-asymptotic analysis,Singleton,1,1.0,0
 Fine-tuning,Singleton,1,1.0,0
 Fixed-point forward gradients training,Singleton,1,1.0,0
@@ -361,7 +341,6 @@ GSOFT (GS Orthogonal Fine-Tuning),Singleton,1,1.0,0
 Gauss-Newton matrix,Singleton,1,1.0,0
 Gaussian Processes,Singleton,1,1.0,0
 Gaussian kernel ridge regression,Singleton,1,1.0,0
-Gaussian kernel ridge regression (KRR),Singleton,1,1.0,0
 Gaussian mechanism,Singleton,1,1.0,0
 Gaussian process regression (GPR),Singleton,1,1.0,0
 Gaussian universality ansatz,Singleton,1,1.0,0
@@ -380,13 +359,11 @@ Gradient Dropping,Singleton,1,1.0,0
 Gradient Noise Scale (GNS),Singleton,1,1.0,0
 Gradient boosting,Singleton,1,1.0,0
 Gradient clipping,Singleton,1,1.0,0
-Gradient noise scale,Singleton,1,1.0,0
 Gradient-boosted decision trees,Singleton,1,1.0,0
 Gradual stacking,Singleton,1,1.0,0
 Graph Attention Network (GAT),Singleton,1,1.0,0
 Graph Attention Networks,Singleton,1,1.0,0
 Graph Laplacian,Singleton,1,1.0,0
-Graph neural networks,Singleton,1,1.0,0
 Graph-based attentions,Singleton,1,1.0,0
 Graph-based post-processing algorithm,Singleton,1,1.0,0
 GraphSage,Singleton,1,1.0,0
@@ -402,7 +379,6 @@ Gromov-Wasserstein OT,Singleton,1,1.0,0
 Group-and-Shuffle (GS) matrices,Singleton,1,1.0,0
 Group-and-Shuffle matrices,Singleton,1,1.0,0
 Grouped-Query Attention,Singleton,1,1.0,0
-Grouped-Query Attention (GQA),Singleton,1,1.0,0
 Gumbel-Softmax,Singleton,1,1.0,0
 H-consistency bounds,Singleton,1,1.0,0
 H3 architecture,Singleton,1,1.0,0
@@ -432,7 +408,6 @@ Integral Probability Metric (IPM),Singleton,1,1.0,0
 Invariant Function Extended Feature Matrix,Singleton,1,1.0,0
 Iterative self-reflection feedback loop,Singleton,1,1.0,0
 Iteratively reweighted least squares,Singleton,1,1.0,0
-Iteratively reweighted least squares (IRLS),Singleton,1,1.0,0
 Iteratively reweighted least squares variant,Singleton,1,1.0,0
 JB-CO-Task,Singleton,1,1.0,0
 JB-CO-Text,Singleton,1,1.0,0
@@ -457,7 +432,6 @@ LZW tokenizer,Singleton,1,1.0,0
 Label-specific representation learning,Singleton,1,1.0,0
 Lagrangian multipliers,Singleton,1,1.0,0
 Latent Preference Induction,Singleton,1,1.0,0
-Latent Preference Induction (LPI),Singleton,1,1.0,0
 Latent adversarial training (LAT),Singleton,1,1.0,0
 Latent coupling (LC) factorization,Singleton,1,1.0,0
 Latent coupling factorization,Singleton,1,1.0,0
@@ -478,7 +452,6 @@ LieGAN,Singleton,1,1.0,0
 LightGBM,Singleton,1,1.0,0
 Lindeberg approach,Singleton,1,1.0,0
 Linear Vision Transformer,Singleton,1,1.0,0
-Linear Vision Transformer (LViT),Singleton,1,1.0,0
 Linear attention,Singleton,1,1.0,0
 Linear function approximation,Singleton,1,1.0,0
 Linear regression,Singleton,1,1.0,0
@@ -497,9 +470,7 @@ Logit Pairing,Singleton,1,1.0,0
 Logit margins,Singleton,1,1.0,0
 Looped models,Singleton,1,1.0,0
 Loss upweighting,Singleton,1,1.0,0
-Low Rank Adaptation (LoRA),Singleton,1,1.0,0
 Low-Rank Matrix Completion Approximation,Singleton,1,1.0,0
-Low-rank adaptation,Singleton,1,1.0,0
 MART,Singleton,1,1.0,0
 MIDAS,Singleton,1,1.0,0
 MIENF estimator,Singleton,1,1.0,0
@@ -539,7 +510,6 @@ MetricX,Singleton,1,1.0,0
 Metropolis sampling,Singleton,1,1.0,0
 Mini-batch upsampling,Singleton,1,1.0,0
 Minimal Subgraph Propagator,Singleton,1,1.0,0
-Minimal Subgraph Propagator (MSP),Singleton,1,1.0,0
 Minimum Bayes Risk decoding,Singleton,1,1.0,0
 Minimum Cost Counterfactuals (MCCF),Singleton,1,1.0,0
 Minimum norm interpolating solutions,Singleton,1,1.0,0
@@ -554,27 +524,20 @@ Monarch matrices,Singleton,1,1.0,0
 Monte Carlo integration,Singleton,1,1.0,0
 Monte Carlo sample,Singleton,1,1.0,0
 Monte Carlo sampling,Singleton,1,1.0,0
-Monte-Carlo Tree Search,Singleton,1,1.0,0
 Multi-Group Optimized Proportional Retrieval (MOPR),Singleton,1,1.0,0
 Multi-Group Optimized Proportional Retrieval (MOPR) algorithm,Singleton,1,1.0,0
 Multi-Group Proportional Representation,Singleton,1,1.0,0
 Multi-Group Proportional Representation (MPR) metric,Singleton,1,1.0,0
 Multi-Head Attention,Singleton,1,1.0,0
-Multi-Head Attention (MHA),Singleton,1,1.0,0
-Multi-Layer Perceptrons,Singleton,1,1.0,0
 Multi-Query Attention,Singleton,1,1.0,0
-Multi-Query Attention (MQA),Singleton,1,1.0,0
 Multi-label comp-sum losses,Singleton,1,1.0,0
 Multi-label constrained losses,Singleton,1,1.0,0
 Multi-label logistic loss,Singleton,1,1.0,0
-Multi-layer perceptron (MLP),Singleton,1,1.0,0
-Multi-layer perceptrons (MLP),Singleton,1,1.0,0
 Multi-task learning,Singleton,1,1.0,0
 Multiclass SVM,Singleton,1,1.0,0
 Multiclass exponential tail property,Singleton,1,1.0,0
 Multiclass extension of the exponential tail property,Singleton,1,1.0,0
 Multihead Attention (MHA),Singleton,1,1.0,0
-Multilayer perceptron,Singleton,1,1.0,0
 Multirocket transform,Singleton,1,1.0,0
 Mutual fairness,Singleton,1,1.0,0
 Mutual information estimation,Singleton,1,1.0,0
@@ -590,19 +553,14 @@ Negation normal forms (NNF),Singleton,1,1.0,0
 Nested feature selection regime,Singleton,1,1.0,0
 Net augmented graph (NAG),Singleton,1,1.0,0
 Neural Embeddings Rank,Singleton,1,1.0,0
-Neural Embeddings Rank (NER),Singleton,1,1.0,0
 Neural ODEs,Singleton,1,1.0,0
 Neural Tangent Ensemble,Singleton,1,1.0,0
-Neural Tangent Ensemble (NTE),Singleton,1,1.0,0
 Neural Tangent Kernel,Singleton,1,1.0,0
-Neural Tangent Kernel (NTK),Singleton,1,1.0,0
 Neural operators,Singleton,1,1.0,0
-Neural operators (NOs),Singleton,1,1.0,0
 Neural polarization law,Singleton,1,1.0,0
 Neural tangent experts,Singleton,1,1.0,0
 NeuralSteiner,Singleton,1,1.0,0
 Next-token prediction,Singleton,1,1.0,0
-Next-token prediction (NTP),Singleton,1,1.0,0
 Noisy Reward Machine Environment,Singleton,1,1.0,0
 Noisy replicate padding,Singleton,1,1.0,0
 Non-asymptotic convergence rates,Singleton,1,1.0,0
@@ -610,10 +568,8 @@ Non-convex rank minimization,Singleton,1,1.0,0
 Non-linear perceptron,Singleton,1,1.0,0
 Nonlinear Modeling Error matrix,Singleton,1,1.0,0
 Nonlocal Attention Operator,Singleton,1,1.0,0
-Nonlocal Attention Operator (NAO),Singleton,1,1.0,0
 Nonnegative matrix factorization,Singleton,1,1.0,0
 Normalized gradient descent,Singleton,1,1.0,0
-Normalizing flow,Singleton,1,1.0,0
 Normalizing flows based mutual information estimators,Singleton,1,1.0,0
 Normative model for spatial representation,Singleton,1,1.0,0
 Normative model for spatial representation using residue number system,Singleton,1,1.0,0
@@ -626,16 +582,13 @@ Online Gradient Descent,Singleton,1,1.0,0
 Optimal composite hypothesis tests,Singleton,1,1.0,0
 Optimistic Gradient,Singleton,1,1.0,0
 Optimization with Trace Oracle,Singleton,1,1.0,0
-Optimization with Trace Oracle (OPTO),Singleton,1,1.0,0
 Option-level MCTS formulation,Singleton,1,1.0,0
 OptoPrime,Singleton,1,1.0,0
 Orthogonal Fine-Tuning,Singleton,1,1.0,0
-Orthogonal Fine-Tuning (OFT),Singleton,1,1.0,0
 Orthogonal Procrustes analysis,Singleton,1,1.0,0
 Orthogonal convolutions,Singleton,1,1.0,0
 Orthogonal finetuning,Singleton,1,1.0,0
 Outcome Reward Model,Singleton,1,1.0,0
-Outcome reward model (ORM),Singleton,1,1.0,0
 Output-sensitive algorithm,Singleton,1,1.0,0
 Output-sensitive cell enumeration,Singleton,1,1.0,0
 Output-sensitive partition search,Singleton,1,1.0,0
@@ -648,7 +601,6 @@ PC algorithm,Singleton,1,1.0,0
 PHATE,Singleton,1,1.0,0
 PMBR,Singleton,1,1.0,0
 PMBR decoding,Singleton,1,1.0,0
-PPO,Singleton,1,1.0,0
 PRELUDE,Singleton,1,1.0,0
 PRELUDE framework,Singleton,1,1.0,0
 PaLM8B,Singleton,1,1.0,0
@@ -685,7 +637,6 @@ Pretrained models,Singleton,1,1.0,0
 Pretraining,Singleton,1,1.0,0
 Pretraining and finetuning,Singleton,1,1.0,0
 Pretraining and finetuning (PT+FT),Singleton,1,1.0,0
-Principal Component Analysis,Singleton,1,1.0,0
 Principal-agent game,Singleton,1,1.0,0
 Prioritised Level Replay,Singleton,1,1.0,0
 Privacy loss random variables (PLRVs),Singleton,1,1.0,0
@@ -694,7 +645,6 @@ Probabilistic answer set programming inference,Singleton,1,1.0,0
 Probabilistic circuits,Singleton,1,1.0,0
 Probabilistic logic programming,Singleton,1,1.0,0
 Process Reward Model,Singleton,1,1.0,0
-Process reward model (PRM),Singleton,1,1.0,0
 Progressive stacking,Singleton,1,1.0,0
 ProtoNets,Singleton,1,1.0,0
 Proxy-based sparse expert selection and pooling,Singleton,1,1.0,0
@@ -712,7 +662,6 @@ Quantized assignment,Singleton,1,1.0,0
 Quantized forward gradient learning,Singleton,1,1.0,0
 Quantized training,Singleton,1,1.0,0
 Quasi-Bayesian Vine,Singleton,1,1.0,0
-Quasi-Bayesian Vine (QB-Vine),Singleton,1,1.0,0
 Quasi-Bayesian methods,Singleton,1,1.0,0
 REINFORCE,Singleton,1,1.0,0
 REINFORCE policy-gradient rule,Singleton,1,1.0,0
@@ -733,9 +682,7 @@ Reasoning primitives,Singleton,1,1.0,0
 Reconstruction objective,Singleton,1,1.0,0
 Reconstruction task,Singleton,1,1.0,0
 Rectilinear Steiner tree generation,Singleton,1,1.0,0
-Recurrent PPO,Singleton,1,1.0,0
 Recurrent crisscross attention (RCCA),Singleton,1,1.0,0
-Recurrent neural network (RNN),Singleton,1,1.0,0
 Recurrent neural networks,Singleton,1,1.0,0
 Recursive Bayesian Predictive (R-BP),Singleton,1,1.0,0
 Recursive Value Function Search,Singleton,1,1.0,0
@@ -746,11 +693,8 @@ Relational match-to-sample,Singleton,1,1.0,0
 Relational match-to-sample (RMTS) task,Singleton,1,1.0,0
 Relative Gradients Balancing,Singleton,1,1.0,0
 ResNet50,Singleton,1,1.0,0
-ResNets,Singleton,1,1.0,0
-Residual Network,Singleton,1,1.0,0
 Residual Quantization,Singleton,1,1.0,0
 Residue number system,Singleton,1,1.0,0
-Residue number system (RNS),Singleton,1,1.0,0
 Restricted isometry property (RIP),Singleton,1,1.0,0
 Restricted isometry property on a tangent space,Singleton,1,1.0,0
 RetinaFace,Singleton,1,1.0,0
@@ -762,7 +706,6 @@ Riemannian stochastic gradient descent,Singleton,1,1.0,0
 Risk controlling prediction set (RCPS),Singleton,1,1.0,0
 RobustScaler,Singleton,1,1.0,0
 Rotary Positional Embedding,Singleton,1,1.0,0
-Rotary Positional Embedding (RoPE),Singleton,1,1.0,0
 Rotary position embeddings,Singleton,1,1.0,0
 Rule-based reasoning,Singleton,1,1.0,0
 SAFEOPT,Singleton,1,1.0,0
@@ -808,18 +751,14 @@ Singular value decomposition,Singleton,1,1.0,0
 Sinkhorn Policy Iteration,Singleton,1,1.0,0
 Sinkhorn Value Iteration,Singleton,1,1.0,0
 Skew orthogonal convolution (SOC),Singleton,1,1.0,0
-Skill-Mix,Singleton,1,1.0,0
-Skill-Mix evaluation,Singleton,1,1.0,0
 Sklar's theorem,Singleton,1,1.0,0
 Sklar’s theorem,Singleton,1,1.0,0
 Slither,Singleton,1,1.0,0
-Smoothie,Singleton,1,1.0,0
 Sparse expert selection,Singleton,1,1.0,0
 Spatial meaningfulness,Singleton,1,1.0,0
 Spatial meaningfulness framework,Singleton,1,1.0,0
 Spatio-temporal kernel,Singleton,1,1.0,0
 Spatiotemporal Sensitivity Module,Singleton,1,1.0,0
-Spatiotemporal Sensitivity Module (SSM),Singleton,1,1.0,0
 Spectral graph theory,Singleton,1,1.0,0
 Speculative Decoding,Singleton,1,1.0,0
 Splines,Singleton,1,1.0,0
@@ -827,11 +766,9 @@ Stable Diffusion Ultra,Singleton,1,1.0,0
 Standard contract theory,Singleton,1,1.0,0
 State merge,Singleton,1,1.0,0
 Static single assignment,Singleton,1,1.0,0
-Static single assignment (SSA),Singleton,1,1.0,0
 Statistical hypothesis testing,Singleton,1,1.0,0
 Stochastic Amortization with noisy labels,Singleton,1,1.0,0
 Stochastic Seedset Selection Descent,Singleton,1,1.0,0
-Stochastic Seedset Selection Descent (S3D),Singleton,1,1.0,0
 Stochastic amortization,Singleton,1,1.0,0
 Stochastic mirror descent,Singleton,1,1.0,0
 Stochastic processes,Singleton,1,1.0,0
@@ -844,10 +781,6 @@ Structured orthogonal parametrization,Singleton,1,1.0,0
 Sum-product networks,Singleton,1,1.0,0
 Supervised Safety Fine-Tuning,Singleton,1,1.0,0
 Supervised contrastive loss,Singleton,1,1.0,0
-Supervised fine-tuning,Singleton,1,1.0,0
-Supervised fine-tuning (SFT),Singleton,1,1.0,0
-Supervised finetuning,Singleton,1,1.0,0
-Supervised safety fine-tuning,Singleton,1,1.0,0
 Surrogate model training,Singleton,1,1.0,0
 SwiGLU,Singleton,1,1.0,0
 Synatra,Singleton,1,1.0,0
@@ -863,7 +796,6 @@ Tangent Space Causal Inference,Singleton,1,1.0,0
 Task-feature alignment data model,Singleton,1,1.0,0
 Task-structured RL algorithms,Singleton,1,1.0,0
 Temporal Activation Controller,Singleton,1,1.0,0
-Temporal Activation Controller (TAC),Singleton,1,1.0,0
 Temporal Dependency Modelling,Singleton,1,1.0,0
 Temporal Shift Module (TSM),Singleton,1,1.0,0
 Temporally asymmetric generalization of Oja's rule,Singleton,1,1.0,0
@@ -923,14 +855,12 @@ Video diffusion model,Singleton,1,1.0,0
 Vietoris-Rips filtration,Singleton,1,1.0,0
 Ville's inequality,Singleton,1,1.0,0
 Vine copulas,Singleton,1,1.0,0
-Vision Transformers (ViTs),Singleton,1,1.0,0
 Vision-Language Models,Singleton,1,1.0,0
 Visual search,Singleton,1,1.0,0
 Visual-prompt tuning,Singleton,1,1.0,0
 Wasserstein,Singleton,1,1.0,0
 Wasserstein OT,Singleton,1,1.0,0
 Wasserstein gradient boosting,Singleton,1,1.0,0
-Wasserstein gradient boosting (WGBoost),Singleton,1,1.0,0
 Wasserstein gradient flows,Singleton,1,1.0,0
 Wasserstein-boosted evidential learning (WEvidential),Singleton,1,1.0,0
 Watts-Strogatz model,Singleton,1,1.0,0
@@ -944,15 +874,12 @@ WizardMath,Singleton,1,1.0,0
 X-support compatibility,Singleton,1,1.0,0
 XGBoost,Singleton,1,1.0,0
 active labeling framework,Singleton,1,1.0,0
-adaptive branching,Singleton,1,1.0,0
 adaptive gradient methods,Singleton,1,1.0,0
 adversarial evaluation procedure,Singleton,1,1.0,0
 adversarial suffixes,Singleton,1,1.0,0
-adversarial training,Singleton,1,1.0,0
 adversarial training strategies,Singleton,1,1.0,0
 algorithm enhancements for memory footprint reduction,Singleton,1,1.0,0
 all-mpnet-base-v2,Singleton,1,1.0,0
-alternating optimization,Singleton,1,1.0,0
 alternative parameterization of low-rank problem,Singleton,1,1.0,0
 ancestral sampling,Singleton,1,1.0,0
 assignment-then-diffusion,Singleton,1,1.0,0
@@ -960,47 +887,31 @@ assignment-then-diffusion training strategy,Singleton,1,1.0,0
 auditing algorithms,Singleton,1,1.0,0
 basis for equivariant operations,Singleton,1,1.0,0
 bidirectional graph search,Singleton,1,1.0,0
-binary relevance surrogate,Singleton,1,1.0,0
-bisimulation metrics,Singleton,1,1.0,0
 character-level tokenizer,Singleton,1,1.0,0
 class-balanced subset,Singleton,1,1.0,0
 composite hypothesis tests,Singleton,1,1.0,0
-concept space framework,Singleton,1,1.0,0
 consistent binary relevance surrogate,Singleton,1,1.0,0
-counterfactual explanations,Singleton,1,1.0,0
-cross-view contrastive knowledge distillation,Singleton,1,1.0,0
 dPCA,Singleton,1,1.0,0
-deep gradient compression,Singleton,1,1.0,0
 discounted occupancy couplings,Singleton,1,1.0,0
 disentangled conditioning mechanism,Singleton,1,1.0,0
 disentangled semantic and low-level conditioning mechanism,Singleton,1,1.0,0
 double integral operator,Singleton,1,1.0,0
-dual training algorithm,Singleton,1,1.0,0
-dynamic programming,Singleton,1,1.0,0
 dynamic propagation models,Singleton,1,1.0,0
-dynamic rescaling,Singleton,1,1.0,0
 dynamic rescaling of network parameters and gradients,Singleton,1,1.0,0
-efficient method of moments,Singleton,1,1.0,0
 efficient uncoupled learning algorithm,Singleton,1,1.0,0
 encrypted LM backdoor,Singleton,1,1.0,0
 equivariant basis from graph Laplacian,Singleton,1,1.0,0
 f-DP,Singleton,1,1.0,0
 feed-forward layer,Singleton,1,1.0,0
-few-shot CoT,Singleton,1,1.0,0
 fixed-point forward gradients,Singleton,1,1.0,0
 flow algorithms on graphs,Singleton,1,1.0,0
 flow equations describing learning,Singleton,1,1.0,0
 formal verification,Singleton,1,1.0,0
-forward gradients,Singleton,1,1.0,0
 game theory,Singleton,1,1.0,0
 generalization bounds,Singleton,1,1.0,0
-goal-conditioned cost network,Singleton,1,1.0,0
-gradient boosting,Singleton,1,1.0,0
 gradient penalties,Singleton,1,1.0,0
-graph Laplacian,Singleton,1,1.0,0
 graph structure,Singleton,1,1.0,0
 graph-based learning framework,Singleton,1,1.0,0
-greedy coordinate gradient,Singleton,1,1.0,0
 higher order graph neural networks,Singleton,1,1.0,0
 inhibitory plasticity,Singleton,1,1.0,0
 inhibitory plasticity rule,Singleton,1,1.0,0
@@ -1013,28 +924,20 @@ k-medoids,Singleton,1,1.0,0
 k-nearest neighbors (kNN) decoder,Singleton,1,1.0,0
 k-nearest neighbors regression,Singleton,1,1.0,0
 kth-order Markov processes,Singleton,1,1.0,0
-latent adversarial training,Singleton,1,1.0,0
 latent interventions,Singleton,1,1.0,0
 linear models,Singleton,1,1.0,0
 linear program,Singleton,1,1.0,0
-local simulator access,Singleton,1,1.0,0
-machine unlearning,Singleton,1,1.0,0
 mechanistic interpretability,Singleton,1,1.0,0
 message passing,Singleton,1,1.0,0
-meta-learning,Singleton,1,1.0,0
 meta-tuned default parameters,Singleton,1,1.0,0
 method directly training on scenarios with high learnability,Singleton,1,1.0,0
 minGPT,Singleton,1,1.0,0
-minimum norm interpolating solutions,Singleton,1,1.0,0
 mixture class-balancing method,Singleton,1,1.0,0
 mixture method,Singleton,1,1.0,0
 mmDiT,Singleton,1,1.0,0
 modular arithmetic dataset,Singleton,1,1.0,0
-moment matching distillation,Singleton,1,1.0,0
-multilayer perceptron,Singleton,1,1.0,0
 multimodal language models,Singleton,1,1.0,0
 multivariate Gaussian,Singleton,1,1.0,0
-mutual fairness,Singleton,1,1.0,0
 mutual fairness metric,Singleton,1,1.0,0
 nMCTS,Singleton,1,1.0,0
 nearly-linear time algorithm,Singleton,1,1.0,0
@@ -1046,69 +949,49 @@ noisy replicate padding mechanism,Singleton,1,1.0,0
 normal-form games,Singleton,1,1.0,0
 normalization layers,Singleton,1,1.0,0
 novel scene description benchmark,Singleton,1,1.0,0
-numerical estimation,Singleton,1,1.0,0
-one-step retrosynthesis models,Singleton,1,1.0,0
 online reinforcement learning,Singleton,1,1.0,0
 optimal transport distances,Singleton,1,1.0,0
 optimal transport theory,Singleton,1,1.0,0
 option-level formulation,Singleton,1,1.0,0
-parameter-space moment matching,Singleton,1,1.0,0
 password-locked backdoor,Singleton,1,1.0,0
 pay-per-token pricing,Singleton,1,1.0,0
 piVAE,Singleton,1,1.0,0
-polarization,Singleton,1,1.0,0
 polytope theory,Singleton,1,1.0,0
 program search,Singleton,1,1.0,0
 program synthesis,Singleton,1,1.0,0
 proportionally fair clustering,Singleton,1,1.0,0
 pseudo-margin learning,Singleton,1,1.0,0
 pseudo-margin learning scheme,Singleton,1,1.0,0
-pseudo-programs,Singleton,1,1.0,0
-python sympy,Singleton,1,1.0,0
 quantized assignment strategy,Singleton,1,1.0,0
 random forest,Singleton,1,1.0,0
 randomized online learning algorithm for finite Phi-regret,Singleton,1,1.0,0
-ranking algorithm,Singleton,1,1.0,0
 red-teaming,Singleton,1,1.0,0
 reinforcement learning-based centralized dynamic planning framework,Singleton,1,1.0,0
 relational match-to-sample task,Singleton,1,1.0,0
 remote photoplethysmography,Singleton,1,1.0,0
 risk controlling prediction sets,Singleton,1,1.0,0
-satisficing paths,Singleton,1,1.0,0
 scaled noise schedule,Singleton,1,1.0,0
 seed-selection algorithm,Singleton,1,1.0,0
 self-attention module,Singleton,1,1.0,0
-short-flat decomposition framework,Singleton,1,1.0,0
 sign operator,Singleton,1,1.0,0
-spectral graph theory,Singleton,1,1.0,0
-state merge,Singleton,1,1.0,0
-stochastic-process approach,Singleton,1,1.0,0
 subsampled Gaussian mechanism,Singleton,1,1.0,0
 suite of RL algorithms,Singleton,1,1.0,0
-synthetic data generation framework,Singleton,1,1.0,0
 t-SNE,Singleton,1,1.0,0
 task prioritisation metrics,Singleton,1,1.0,0
 teacher-student models,Singleton,1,1.0,0
-temporally asymmetric generalization of Oja's rule,Singleton,1,1.0,0
 ternary gradients,Singleton,1,1.0,0
 text-to-image models,Singleton,1,1.0,0
 tool-augmented ORM,Singleton,1,1.0,0
 topological data analysis,Singleton,1,1.0,0
-transfer learning,Singleton,1,1.0,0
 tree-based evidential learning,Singleton,1,1.0,0
 tridiag-N-MIENF,Singleton,1,1.0,0
-two-stage training algorithm,Singleton,1,1.0,0
 uncoupled learning algorithm,Singleton,1,1.0,0
 universal stochastic gradient methods,Singleton,1,1.0,0
-value function approximation,Singleton,1,1.0,0
 vanilla Sinkhorn,Singleton,1,1.0,0
-variational score distillation,Singleton,1,1.0,0
 view decoupling,Singleton,1,1.0,0
 vision language models,Singleton,1,1.0,0
-visual search,Singleton,1,1.0,0
 w2w inversion,Singleton,1,1.0,0
 weak supervision,Singleton,1,1.0,0
-weight noise,Singleton,1,1.0,0
 weight rescaling,Singleton,1,1.0,0
 weights2weights (w2w) space,Singleton,1,1.0,0
 weights2weights subspace,Singleton,1,1.0,0

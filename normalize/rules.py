@@ -33,7 +33,7 @@ from typing import Optional
 _ALIAS_DIR = Path(__file__).parent
 
 # Strip trailing parenthetical acronym: "Foo (BAR)" → "Foo", "(ABC-123)" etc.
-_PAREN_ACRONYM_RE = re.compile(r"\s*\([A-Z][A-Z0-9\-]+\)\s*$")
+_PAREN_ACRONYM_RE = re.compile(r"\s*\([A-Z][A-Za-z0-9\-]+\)\s*$")
 
 # Strip citation markers that sometimes bleed into extracted names: [1], [1,2]
 _CITE_RE = re.compile(r"\s*\[\d+(?:[,\s]\d+)*\]\s*")
@@ -112,7 +112,8 @@ def case_fold_canonical(names_with_counts: list[tuple[str, int]]) -> dict[str, s
     """
     groups: dict[str, list[tuple[str, int]]] = defaultdict(list)
     for name, count in names_with_counts:
-        groups[name.lower()].append((name, count))
+        key = _PAREN_ACRONYM_RE.sub("", name).strip().lower()
+        groups[key].append((name, count))
 
     result: dict[str, str] = {}
     for variants in groups.values():

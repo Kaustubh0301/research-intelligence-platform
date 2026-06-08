@@ -168,5 +168,44 @@
   "unsupervised routing":         "Unsupervised routing",
   "vector-contraction inequality": "Vector-contraction inequality",
   "weight orthogonalization":     "Weight orthogonalization",
-  "generative models":            "Generative models"
+  "generative models":            "Generative models",
+
+  "=== GROUP: Common abbreviations (Phase 0 additions) ===": null,
+  "sgd":                               "Stochastic gradient descent",
+  "ppo":                               "Proximal Policy Optimization",
+  "proximal policy optimization":      "Proximal Policy Optimization",
+  "recurrent ppo":                     "Proximal Policy Optimization",
+  "low rank adaptation":               "LoRA",
+  "low-rank adaptation":               "LoRA",
+  "low rank adaptation (lora)":        "LoRA",
+  "resnets":                           "ResNet",
+  "residual network":                  "ResNet",
+  "resnet":                            "ResNet",
+  "monte-carlo tree search":           "Monte Carlo Tree Search",
+  "autoencoder":                       "Autoencoders",
+  "convolutional neural networks":     "Convolutional neural network (CNN)",
+  "graph neural networks":             "Graph Neural Networks",
+  "graph convolutional networks":      "Graph convolutional network",
+
+  "=== GROUP: DPO unification ===": null,
+  "direct preference optimization":        "Direct Preference Optimization",
+  "direct preference optimization (dpo)":  "Direct Preference Optimization",
+
+  "=== GROUP: Chain-of-Thought unification ===": null,
+  "chain-of-thought (cot)":            "Chain-of-Thought",
+  "chain-of-thought prompting":        "Chain-of-Thought prompting",
+  "chain-of-thought (cot) prompting":  "Chain-of-Thought prompting",
+  "few-shot cot":                      "Chain-of-Thought",
+
+  "=== GROUP: Supervised fine-tuning unification ===": null,
+  "supervised finetuning":             "Supervised fine-tuning",
+  "supervised fine-tuning (sft)":      "Supervised fine-tuning",
+
+  "=== GROUP: Singular/plural technique names (Phase 0 additions) ===": null,
+  "multilayer perceptron":             "Multilayer perceptrons",
+  "multi-layer perceptrons":           "Multilayer perceptrons",
+  "multi-layer perceptron (mlp)":      "Multilayer perceptrons",
+  "normalizing flow":                  "Normalizing flows",
+  "recurrent neural network":          "Recurrent neural networks",
+  "recurrent neural network (rnn)":    "Recurrent neural networks"
 }

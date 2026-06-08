@@ -52,8 +52,13 @@ def _infer_presentation_type(venue: str) -> str:
 
 
 def _is_accepted(venue: str) -> bool:
-    """Reject notes where the venue still says 'Submitted to …'."""
-    return "submitted" not in venue.lower() and bool(venue.strip())
+    """Accept only notes with a venue that indicates acceptance (poster/oral/spotlight).
+    Rejects: submitted, withdrawn, desk rejected."""
+    v = venue.lower().strip()
+    if not v:
+        return False
+    _REJECT_TERMS = ("submitted", "withdrawn", "desk rejected", "rejected")
+    return not any(term in v for term in _REJECT_TERMS)
 
 
 def fetch_papers(

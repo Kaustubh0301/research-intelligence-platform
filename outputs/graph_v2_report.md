@@ -6,8 +6,8 @@
 
 | Metric | V1 | V2 | Δ |
 | --- | --- | --- | --- |
-| Paper edges | 2916 | 2916 | +0 |
-| Average edge weight | 1.625 | 1.625 | +0.00 |
+| Paper edges | 2916 | 2929 | +13 ▲ |
+| Average edge weight | 1.625 | 1.607 | -0.02 ▼ |
 | Max edge weight | 15.0 | 15.0 | +0.0 |
 | Clusters | 3 | 3 | +0 |
 | Isolated papers | 0 | 0 | +0 |
@@ -16,11 +16,11 @@
 
 | Weight Range | V1 edges | V2 edges | Δ |
 | --- | --- | --- | --- |
-| 0–1 | 0 | 0 | +0 |
-| 1–2 | 1909 | 1909 | +0 |
-| 2–4 | 843 | 843 | +0 |
-| 4–8 | 140 | 140 | +0 |
-| 8+ | 24 | 24 | +0 |
+| 0–1 | 0 | 15 | +15 |
+| 1–2 | 1909 | 1917 | +8 |
+| 2–4 | 843 | 846 | +3 |
+| 4–8 | 140 | 128 | -12 |
+| 8+ | 24 | 23 | -1 |
 
 > IDF weighting redistributes technique edges downward for GENERIC entities (LLMs, Transformers) and upward for SPECIALIZED entities. Expect a shift from higher buckets toward mid-range.
 
@@ -30,7 +30,7 @@ Technique, dataset, and category scores stored per edge. Methodology score not s
 
 | Score Component | Sum across all edges | Mean per edge |
 | --- | --- | --- |
-| Technique (IDF-weighted) | 65.25 | 6.525 |
+| Technique (IDF-weighted) | 63.75 | 6.375 |
 | Dataset (flat ×2) | 14.00 | 1.400 |
 | Category (flat ×1) | 21.00 | 2.100 |
 
@@ -82,29 +82,18 @@ Technique, dataset, and category scores stored per edge. Methodology score not s
 - Shared categories: Theory
 
 
-**5. weight = 11.00**  (technique=6.00 / dataset=0.00 / category=2.00)
-
-- A: LACIE: Listener-Aware Finetuning for Calibration in Large Language Models
-
-- B: A Critical Evaluation of AI Feedback for Aligning Large Language Models
-
-- Shared techniques: Direct Preference Optimization (DPO)
-
-- Shared categories: LLM, Safety
-
-
-**6. weight = 11.00**  (technique=6.00 / dataset=2.00 / category=3.00)
+**5. weight = 11.00**  (technique=6.00 / dataset=2.00 / category=3.00)
 
 - A: Multistep Distillation of Diffusion Models via Moment Matching
 
 - B: On improved Conditioning Mechanisms and Pre-training Strategies for Diffusion Models
 
-- Shared techniques: Classifier-free guidance
+- Shared techniques: classifier-free guidance
 
 - Shared categories: Efficiency, Generative, Vision
 
 
-**7. weight = 10.00**  (technique=6.00 / dataset=0.00 / category=3.00)
+**6. weight = 10.00**  (technique=6.00 / dataset=0.00 / category=3.00)
 
 - A: Learning to Reason via Program Generation, Emulation, and Search
 
@@ -115,7 +104,7 @@ Technique, dataset, and category scores stored per edge. Methodology score not s
 - Shared categories: Generative, LLM, NLP
 
 
-**8. weight = 9.75**  (technique=6.75 / dataset=0.00 / category=3.00)
+**7. weight = 9.75**  (technique=6.75 / dataset=0.00 / category=3.00)
 
 - A: Non-asymptotic Convergence of Training Transformers for Next-token Prediction
 
@@ -126,26 +115,37 @@ Technique, dataset, and category scores stored per edge. Methodology score not s
 - Shared categories: LLM, NLP, Theory
 
 
-**9. weight = 9.50**  (technique=7.50 / dataset=0.00 / category=2.00)
+**8. weight = 9.00**  (technique=6.00 / dataset=0.00 / category=2.00)
 
-- A: Aligning LLM Agents by Learning Latent Preference from User Edits
+- A: Inductive biases of multi-task learning and finetuning: multiple regimes of feature reuse
 
-- B: Toward Self-Improvement of LLMs via Imagination, Searching, and Criticizing
+- B: Beyond the Doors of Perception: Vision Transformers Represent Relations Between Objects
 
-- Shared techniques: Chain-of-Thought, Chain-of-Thought (CoT), Large Language Models, Large language models (LLMs)
+- Shared techniques: Vision Transformers
 
-- Shared categories: Agentic-AI, LLM
+- Shared categories: Theory, Vision
+
+
+**9. weight = 9.00**  (technique=6.00 / dataset=0.00 / category=2.00)
+
+- A: LACIE: Listener-Aware Finetuning for Calibration in Large Language Models
+
+- B: Can Models Learn Skill Composition from Examples?
+
+- Shared techniques: Mistral-7B
+
+- Shared categories: LLM, NLP
 
 
 **10. weight = 9.00**  (technique=6.00 / dataset=0.00 / category=2.00)
 
-- A: A Critical Evaluation of AI Feedback for Aligning Large Language Models
+- A: Limits of Transformer Language Models on Learning to Compose Algorithms
 
-- B: What Makes and Breaks Safety Fine-tuning? A Mechanistic Study
+- B: Learning to Reason via Program Generation, Emulation, and Search
 
-- Shared techniques: Direct preference optimization
+- Shared techniques: Chain-of-Thought prompting, GPT-4
 
-- Shared categories: LLM, Safety
+- Shared categories: LLM, NLP
 
 
 ## Top 10 Strongest Paper Pairs (V1, for comparison)
@@ -244,16 +244,16 @@ Technique, dataset, and category scores stored per edge. Methodology score not s
 
 | Rank | Paper (truncated) | V2 BC | V2 Cluster | V2 Neighbors |
 | --- | --- | --- | --- | --- |
-| 1 | Bisimulation Metrics are Optimal Transport Distances, and Ca | 0.0248 | 0 | 79 |
-| 2 | Normalization Layer Per-Example Gradients are Sufficient to  | 0.0192 | 2 | 89 |
-| 3 | Beyond the Doors of Perception: Vision Transformers Represen | 0.0178 | 1 | 81 |
-| 4 | On the Inductive Bias of Stacking Towards Improving Reasonin | 0.0172 | 2 | 87 |
-| 5 | Low-Rank Optimal Transport through Factor Relaxation with La | 0.0172 | 0 | 80 |
-| 6 | Fairness in Social Influence Maximization via Optimal Transp | 0.0157 | 0 | 72 |
-| 7 | Learning to grok: Emergence of in-context learning and skill | 0.0152 | 2 | 79 |
-| 8 | Safe Time-Varying Optimization based on Gaussian Processes w | 0.0150 | 0 | 68 |
-| 9 | Accelerating ERM for data-driven algorithm design using outp | 0.0148 | 0 | 74 |
-| 10 | Mutual Information Estimation via Normalizing Flows | 0.0148 | 0 | 71 |
+| 1 | Generalization Analysis for Label-Specific Representation Le | 0.0309 | 0 | 60 |
+| 2 | Multi-Group Proportional Representation in Retrieval | 0.0217 | 1 | 52 |
+| 3 | Bisimulation Metrics are Optimal Transport Distances, and Ca | 0.0211 | 0 | 79 |
+| 4 | Nonlocal Attention Operator: Materializing Hidden Knowledge  | 0.0173 | 1 | 75 |
+| 5 | Beyond the Doors of Perception: Vision Transformers Represen | 0.0163 | 1 | 81 |
+| 6 | Boosting Sample Efficiency and Generalization in Multi-agent | 0.0155 | 0 | 49 |
+| 7 | Normalization Layer Per-Example Gradients are Sufficient to  | 0.0155 | 2 | 89 |
+| 8 | Tangent Space Causal Inference: Leveraging Vector Fields for | 0.0154 | 0 | 60 |
+| 9 | Learning to grok: Emergence of in-context learning and skill | 0.0143 | 2 | 79 |
+| 10 | Mutual Information Estimation via Normalizing Flows | 0.0143 | 0 | 71 |
 
 ### V1 Centrality (for comparison)
 
@@ -274,22 +274,45 @@ Technique, dataset, and category scores stored per edge. Methodology score not s
 
 | Cluster ID | V1 size | V2 size |
 | --- | --- | --- |
-| 0 | 46 | 46 |
-| 1 | 30 | 30 |
-| 2 | 24 | 24 |
+| 0 | 46 | 44 |
+| 1 | 30 | 31 |
+| 2 | 24 | 25 |
 
 ## Interpretation
 
 **Centrality changes:**
 
-- Top-10 by betweenness centrality is identical between V1 and V2.
+Papers entering top-10 BC under V2 (not in V1 top-10):
+
+- Generalization Analysis for Label-Specific Representation Learning
+
+- Multi-Group Proportional Representation in Retrieval
+
+- Nonlocal Attention Operator: Materializing Hidden Knowledge Towards Interpretabl
+
+- Boosting Sample Efficiency and Generalization in Multi-agent Reinforcement Learn
+
+- Tangent Space Causal Inference: Leveraging Vector Fields for Causal Discovery in
+
+
+Papers leaving top-10 BC under V2:
+
+- On the Inductive Bias of Stacking Towards Improving Reasoning
+
+- Low-Rank Optimal Transport through Factor Relaxation with Latent Coupling
+
+- Fairness in Social Influence Maximization via Optimal Transport
+
+- Safe Time-Varying Optimization based on Gaussian Processes with Spatio-Temporal 
+
+- Accelerating ERM for data-driven algorithm design using output-sensitive techniq
 
 
 **Weight distribution shift:**
 
-- Edges with weight ≥ 4: 164 → 164 (+0)
-- Edges with weight < 2: 1909 → 1909 (+0)
-- Average weight: 1.625 → 1.625 (+0.000)
+- Edges with weight ≥ 4: 164 → 151 (-13)
+- Edges with weight < 2: 1909 → 1932 (+23)
+- Average weight: 1.625 → 1.607 (-0.018)
 
 
 **IDF formula applied:**
