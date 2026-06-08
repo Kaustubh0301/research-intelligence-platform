@@ -195,3 +195,44 @@ export interface TechniquesResponse {
   per_page: number;
   techniques: TechniqueItem[];
 }
+
+export interface GraphNode {
+  id: string;
+  title: string;
+  conference: string | null;
+  year: number | null;
+  citation_count: number;
+  cluster_id: number | null;
+  degree_centrality: number;
+  betweenness_centrality: number;
+}
+
+export interface GraphEdge {
+  source: string;
+  target: string;
+  weight: number;
+}
+
+export interface GraphMeta {
+  node_count: number;
+  edge_count: number;
+  min_weight: number;
+  max_weight: number;
+}
+
+export interface GraphResponse {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+  meta: GraphMeta;
+}
+
+export interface ClusterInfo {
+  cluster_id: number;
+  paper_count: number;
+  avg_degree: number;
+  avg_betweenness: number;
+}
+
+export interface ClustersResponse {
+  clusters: ClusterInfo[];
+}

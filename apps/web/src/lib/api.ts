@@ -6,6 +6,8 @@ import type {
   SearchRequest,
   SearchResponse,
   TechniquesResponse,
+  GraphResponse,
+  ClustersResponse,
 } from "./types";
 
 const BASE =
@@ -49,6 +51,14 @@ export const api = {
     apiFetch<TechniquesResponse>(
       `/techniques${q ? `?q=${encodeURIComponent(q)}&per_page=50` : "?per_page=50"}`
     ),
+
+  graph: (minWeight = 1.5, cluster?: number) => {
+    const p = new URLSearchParams({ min_weight: String(minWeight) });
+    if (cluster !== undefined) p.set("cluster", String(cluster));
+    return apiFetch<GraphResponse>(`/graph?${p.toString()}`);
+  },
+
+  graphClusters: () => apiFetch<ClustersResponse>("/graph/clusters"),
 };
 
 export const queryKeys = {
@@ -58,4 +68,7 @@ export const queryKeys = {
   paperRelated: (id: string) => ["paper", id, "related"] as const,
   search: (q: string, f: unknown) => ["search", q, f] as const,
   techniques: (q: string) => ["techniques", q] as const,
+  graph: (minWeight: number, cluster?: number) =>
+    ["graph", minWeight, cluster] as const,
+  graphClusters: ["graph", "clusters"] as const,
 };
