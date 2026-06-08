@@ -308,13 +308,45 @@ def parse_summary(
     answer: str,
     candidates: list[tuple[str, str]],
 ) -> list[ParsedSummary]:
+    """
+    Parse 'summary' prompt response.
+
+    V2: SUMMARY is multi-paragraph prose; collect all continuation lines until
+    the next recognised label or end of block.
+    V1 legacy: ADVANTAGE/LIMITATION/FUTURE_WORK may also be present; parsed if found.
+    """
+    # All labels that terminate a multi-line field
+    _ALL_LABELS = (
+        LABEL_SUMMARY, LABEL_ADVANTAGE, LABEL_LIMITATION, LABEL_FUTURE_WORK,
+        LABEL_INTRODUCES, LABEL_USES, LABEL_DATASET, LABEL_CATEGORIES,
+        LABEL_METHODOLOGY, LABEL_USE_CASE, LABEL_STRENGTH, LABEL_FINDING,
+        LABEL_APPLICATION, LABEL_DIRECTION, LABEL_PAPER,
+    )
+
     results = []
     for lines in _split_blocks(answer):
         raw_title = _raw_title_from_block(lines)
         pid, score = match_title(raw_title, candidates)
 
-        summary    = _strip_citations(_get_field(lines, LABEL_SUMMARY))
-        advantages = _parse_pipe_list(_get_field(lines, LABEL_ADVANTAGE))
+        # Collect multi-line SUMMARY prose
+        summary_lines: list[str] = []
+        in_summary = False
+        for ln in lines[1:]:
+            if ln.startswith(LABEL_SUMMARY + " ") or ln.strip() == LABEL_SUMMARY:
+                in_summary = True
+                val = ln[len(LABEL_SUMMARY):].strip()
+                if val and val.upper() != "NONE":
+                    summary_lines.append(val)
+            elif in_summary and not any(ln.startswith(lbl) for lbl in _ALL_LABELS):
+                summary_lines.append(ln)
+            else:
+                if in_summary:
+                    in_summary = False  # hit a new label, stop collecting
+
+        summary = _strip_citations(" ".join(summary_lines)).strip()
+
+        # V1 legacy fields — present in old synthesis rows, absent in V2
+        advantages  = _parse_pipe_list(_get_field(lines, LABEL_ADVANTAGE))
         limitations = _parse_pipe_list(_get_field(lines, LABEL_LIMITATION))
         future_work = _parse_pipe_list(_get_field(lines, LABEL_FUTURE_WORK))
 
