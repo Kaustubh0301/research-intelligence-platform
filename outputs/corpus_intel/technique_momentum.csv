@@ -1,0 +1,518 @@
+canonical_name,introduces_count,uses_count,momentum_score,total_papers,idf_score,idf_tier,momentum_label
+AID,1,0,1,1,4.6052,SPECIALIZED,Positive
+APIBench,1,0,1,1,4.6052,SPECIALIZED,Positive
+AST Sub-Tree Matching,1,0,1,1,4.6052,SPECIALIZED,Positive
+Abstract Syntax Tree sub-tree matching,1,0,1,1,4.6052,SPECIALIZED,Positive
+ActAnywhere,1,0,1,1,4.6052,SPECIALIZED,Positive
+Adversarial CVaR evaluation,1,0,1,1,4.6052,SPECIALIZED,Positive
+AlphaLLM,1,0,1,1,4.6052,SPECIALIZED,Positive
+Attack-aware noise calibration,1,0,1,1,4.6052,SPECIALIZED,Positive
+Autoregressive image diffusion model,1,0,1,1,4.6052,SPECIALIZED,Positive
+Bayesian approach for learning causal graphs with limited interventional samples,1,0,1,1,4.6052,SPECIALIZED,Positive
+Bayesian ensemble interpretation of neural networks,1,0,1,1,4.6052,SPECIALIZED,Positive
+CIPHER,1,0,1,1,4.6052,SPECIALIZED,Positive
+CLA2,1,0,1,1,4.6052,SPECIALIZED,Positive
+CLA3,1,0,1,1,4.6052,SPECIALIZED,Positive
+CLA4,1,0,1,1,4.6052,SPECIALIZED,Positive
+COGEX,1,0,1,1,4.6052,SPECIALIZED,Positive
+Class-balanced mixture method,1,0,1,1,4.6052,SPECIALIZED,Positive
+Compositional inference framework over semirings,1,0,1,1,4.6052,SPECIALIZED,Positive
+Conjunctive vector-binding operation,1,0,1,1,4.6052,SPECIALIZED,Positive
+Conservation law for feature reuse and sparsity,1,0,1,1,4.6052,SPECIALIZED,Positive
+Constrained diffusion models,1,0,1,1,4.6052,SPECIALIZED,Positive
+Cost-robust contracts,1,0,1,1,4.6052,SPECIALIZED,Positive
+Counterfactual Clamping Attack,1,0,1,1,4.6052,SPECIALIZED,Positive
+Cross-Layer Attention,1,0,1,1,4.6052,SPECIALIZED,Positive
+Cryptographic transformer circuits,1,0,1,1,4.6052,SPECIALIZED,Positive
+Custom kernel for per-example gradient norms,1,0,1,1,4.6052,SPECIALIZED,Positive
+DESP,1,0,1,1,4.6052,SPECIALIZED,Positive
+Differentiable training objective for error control,1,0,1,1,4.6052,SPECIALIZED,Positive
+Disagreement upper bound,1,0,1,1,4.6052,SPECIALIZED,Positive
+Distributed Lion,1,0,1,1,4.6052,SPECIALIZED,Positive
+Double-Ended Synthesis Planning,1,0,1,1,4.6052,SPECIALIZED,Positive
+E2GN2,1,0,1,1,4.6052,SPECIALIZED,Positive
+Event-based Graph Spatiotemporal Sensitive Transformer,1,0,1,1,4.6052,SPECIALIZED,Positive
+Execution graph,1,0,1,1,4.6052,SPECIALIZED,Positive
+Exploration-enhanced Equivariant Graph Neural Networks,1,0,1,1,4.6052,SPECIALIZED,Positive
+Factor Relaxation with Latent Coupling,1,0,1,1,4.6052,SPECIALIZED,Positive
+FactorizePhys,1,0,1,1,4.6052,SPECIALIZED,Positive
+Factorized Self-Attention Module,1,0,1,1,4.6052,SPECIALIZED,Positive
+Fine-grained non-asymptotic analysis,1,0,1,1,4.6052,SPECIALIZED,Positive
+Fixed-point forward gradients training,1,0,1,1,4.6052,SPECIALIZED,Positive
+Flow equations via a stochastic-process approach,1,0,1,1,4.6052,SPECIALIZED,Positive
+Framework for discovering continuous and discrete symmetry beyond the affine transformation group,1,0,1,1,4.6052,SPECIALIZED,Positive
+Gorilla,1,0,1,1,4.6052,SPECIALIZED,Positive
+Hybrid system combining LLMs and rule-based reasoning,1,0,1,1,4.6052,SPECIALIZED,Positive
+Imagination-searching-criticizing framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+Immiscible Diffusion,1,0,1,1,4.6052,SPECIALIZED,Positive
+Implicit bias analysis of deep linear models,1,0,1,1,4.6052,SPECIALIZED,Positive
+Input pre-processing technique,1,0,1,1,4.6052,SPECIALIZED,Positive
+Iterative self-reflection feedback loop,1,0,1,1,4.6052,SPECIALIZED,Positive
+Iteratively reweighted least squares variant,1,0,1,1,4.6052,SPECIALIZED,Positive
+JB-CO-Task,1,0,1,1,4.6052,SPECIALIZED,Positive
+JB-CO-Text,1,0,1,1,4.6052,SPECIALIZED,Positive
+JB-MisGen,1,0,1,1,4.6052,SPECIALIZED,Positive
+LACIE,1,0,1,1,4.6052,SPECIALIZED,Positive
+LACIE listener-aware finetuning method,1,0,1,1,4.6052,SPECIALIZED,Positive
+Latent Preference Induction,1,0,1,1,4.6052,SPECIALIZED,Positive
+Learnability-based training,1,0,1,1,4.6052,SPECIALIZED,Positive
+Listener-aware finetuning,1,0,1,1,4.6052,SPECIALIZED,Positive
+MIDAS,1,0,1,1,4.6052,SPECIALIZED,Positive
+MPR optimization algorithms,1,0,1,1,4.6052,SPECIALIZED,Positive
+Margin consistency,1,0,1,1,4.6052,SPECIALIZED,Positive
+Matrix completion for MBR approximation,1,0,1,1,4.6052,SPECIALIZED,Positive
+Matrix completion for MBR decoding,1,0,1,1,4.6052,SPECIALIZED,Positive
+Mechanistic analysis of grokking and algorithmic shifts in skill composition,1,0,1,1,4.6052,SPECIALIZED,Positive
+Mechanistic explanation for SFT vs LAIF,1,0,1,1,4.6052,SPECIALIZED,Positive
+Memory footprint reduction algorithms,1,0,1,1,4.6052,SPECIALIZED,Positive
+Method for learning group actions on the latent space,1,0,1,1,4.6052,SPECIALIZED,Positive
+Modular Regression,1,0,1,1,4.6052,SPECIALIZED,Positive
+Moment Matching Distillation,1,0,1,1,4.6052,SPECIALIZED,Positive
+Multi-Group Proportional Representation,1,0,1,1,4.6052,SPECIALIZED,Positive
+Multi-label comp-sum losses,1,0,1,1,4.6052,SPECIALIZED,Positive
+Multi-label constrained losses,1,0,1,1,4.6052,SPECIALIZED,Positive
+Multi-label logistic loss,1,0,1,1,4.6052,SPECIALIZED,Positive
+Multiclass extension of the exponential tail property,1,0,1,1,4.6052,SPECIALIZED,Positive
+NAO,1,0,1,1,4.6052,SPECIALIZED,Positive
+Named Entity Recognition,1,0,1,1,4.6052,SPECIALIZED,Positive
+Neural Embeddings Rank,1,0,1,1,4.6052,SPECIALIZED,Positive
+Neural polarization law,1,0,1,1,4.6052,SPECIALIZED,Positive
+Neural tangent experts,1,0,1,1,4.6052,SPECIALIZED,Positive
+NeuralSteiner,1,0,1,1,4.6052,SPECIALIZED,Positive
+Non-asymptotic convergence rates,1,0,1,1,4.6052,SPECIALIZED,Positive
+Nonlinear Modeling Error matrix,1,0,1,1,4.6052,SPECIALIZED,Positive
+Nonlocal Attention Operator,1,0,1,1,4.6052,SPECIALIZED,Positive
+Normalizing flows based mutual information estimators,1,0,1,1,4.6052,SPECIALIZED,Positive
+Normative model for spatial representation using residue number system,1,0,1,1,4.6052,SPECIALIZED,Positive
+OPTO,1,0,1,1,4.6052,SPECIALIZED,Positive
+Optimization with Trace Oracle,1,0,1,1,4.6052,SPECIALIZED,Positive
+OptoPrime,1,0,1,1,4.6052,SPECIALIZED,Positive
+Output-sensitive algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+PAC-Bayes bound for multiple errors,1,0,1,1,4.6052,SPECIALIZED,Positive
+PRELUDE,1,0,1,1,4.6052,SPECIALIZED,Positive
+Pareto front tracing algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+Pay-for-performance contract framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+Polynomial-time algorithm for fixed centers,1,0,1,1,4.6052,SPECIALIZED,Positive
+Proxy-based sparse expert selection and pooling,1,0,1,1,4.6052,SPECIALIZED,Positive
+ProxyFusion,1,0,1,1,4.6052,SPECIALIZED,Positive
+Pseudo-margin,1,0,1,1,4.6052,SPECIALIZED,Positive
+QB-Vine,1,0,1,1,4.6052,SPECIALIZED,Positive
+Quasi-Bayesian Vine,1,0,1,1,4.6052,SPECIALIZED,Positive
+RL-based centralized dynamic planning framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+Ratio Matching,1,0,1,1,4.6052,SPECIALIZED,Positive
+RealMLP,1,0,1,1,4.6052,SPECIALIZED,Positive
+Reasoning primitives,1,0,1,1,4.6052,SPECIALIZED,Positive
+Recursive Value Function Search,1,0,1,1,4.6052,SPECIALIZED,Positive
+Refusal direction extraction,1,0,1,1,4.6052,SPECIALIZED,Positive
+Restricted isometry property on a tangent space,1,0,1,1,4.6052,SPECIALIZED,Positive
+Retriever-Aware Training,1,0,1,1,4.6052,SPECIALIZED,Positive
+SIRIUS,1,0,1,1,4.6052,SPECIALIZED,Positive
+SIRIUS correction mechanism,1,0,1,1,4.6052,SPECIALIZED,Positive
+Scene description benchmark,1,0,1,1,4.6052,SPECIALIZED,Positive
+Schur Nets,1,0,1,1,4.6052,SPECIALIZED,Positive
+Semantic consistency,1,0,1,1,4.6052,SPECIALIZED,Positive
+Sensory-cognitive models utilizing naturalistic stimuli,1,0,1,1,4.6052,SPECIALIZED,Positive
+Sinkhorn Value Iteration,1,0,1,1,4.6052,SPECIALIZED,Positive
+Smoothie,1,0,1,1,4.6052,SPECIALIZED,Positive
+Spatial meaningfulness framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+Spatiotemporal Sensitivity Module,1,0,1,1,4.6052,SPECIALIZED,Positive
+Stochastic Amortization with noisy labels,1,0,1,1,4.6052,SPECIALIZED,Positive
+Strong meta-tuned default parameters,1,0,1,1,4.6052,SPECIALIZED,Positive
+Structured orthogonal parametrization,1,0,1,1,4.6052,SPECIALIZED,Positive
+Synatra,1,0,1,1,4.6052,SPECIALIZED,Positive
+Synthetic data generation framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+TVSAFEOPT,1,0,1,1,4.6052,SPECIALIZED,Positive
+Tangent Space Causal Inference,1,0,1,1,4.6052,SPECIALIZED,Positive
+Task-structured RL algorithms,1,0,1,1,4.6052,SPECIALIZED,Positive
+Temporal Activation Controller,1,0,1,1,4.6052,SPECIALIZED,Positive
+Theoretical analysis of gradient descent sample inefficiency,1,0,1,1,4.6052,SPECIALIZED,Positive
+Theoretical framework for tokenization under Markovian data,1,0,1,1,4.6052,SPECIALIZED,Positive
+Theory of pattern classes under discrete data streams,1,0,1,1,4.6052,SPECIALIZED,Positive
+Tool-augmented Outcome Reward Model,1,0,1,1,4.6052,SPECIALIZED,Positive
+Trace,1,0,1,1,4.6052,SPECIALIZED,Positive
+Trace library,1,0,1,1,4.6052,SPECIALIZED,Positive
+Tractability conditions for compositional queries,1,0,1,1,4.6052,SPECIALIZED,Positive
+Two-agent speaker-listener game,1,0,1,1,4.6052,SPECIALIZED,Positive
+Two-stage training algorithm for one-layer transformer,1,0,1,1,4.6052,SPECIALIZED,Positive
+Unelicitable backdoors,1,0,1,1,4.6052,SPECIALIZED,Positive
+Uniform sampling algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+Unifying class of structured matrices,1,0,1,1,4.6052,SPECIALIZED,Positive
+Vector-contraction inequality,1,0,1,1,4.6052,SPECIALIZED,Positive
+Wasserstein gradient boosting,1,0,1,1,4.6052,SPECIALIZED,Positive
+Weight orthogonalization,1,0,1,1,4.6052,SPECIALIZED,Positive
+Weight rescaling following pretraining,1,0,1,1,4.6052,SPECIALIZED,Positive
+active labeling framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+adaptive branching,1,0,1,1,4.6052,SPECIALIZED,Positive
+adaptive gradient methods,1,0,1,1,4.6052,SPECIALIZED,Positive
+adversarial evaluation procedure,1,0,1,1,4.6052,SPECIALIZED,Positive
+algorithm enhancements for memory footprint reduction,1,0,1,1,4.6052,SPECIALIZED,Positive
+alternating optimization,1,0,1,1,4.6052,SPECIALIZED,Positive
+alternative parameterization of low-rank problem,1,0,1,1,4.6052,SPECIALIZED,Positive
+assignment-then-diffusion,1,0,1,1,4.6052,SPECIALIZED,Positive
+assignment-then-diffusion training strategy,1,0,1,1,4.6052,SPECIALIZED,Positive
+auditing algorithms,1,0,1,1,4.6052,SPECIALIZED,Positive
+basis for equivariant operations,1,0,1,1,4.6052,SPECIALIZED,Positive
+bidirectional graph search,1,0,1,1,4.6052,SPECIALIZED,Positive
+concept space framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+cross-view contrastive knowledge distillation,1,0,1,1,4.6052,SPECIALIZED,Positive
+discounted occupancy couplings,1,0,1,1,4.6052,SPECIALIZED,Positive
+disentangled conditioning mechanism,1,0,1,1,4.6052,SPECIALIZED,Positive
+disentangled semantic and low-level conditioning mechanism,1,0,1,1,4.6052,SPECIALIZED,Positive
+dual training algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+dynamic rescaling,1,0,1,1,4.6052,SPECIALIZED,Positive
+dynamic rescaling of network parameters and gradients,1,0,1,1,4.6052,SPECIALIZED,Positive
+efficient uncoupled learning algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+equivariant basis from graph Laplacian,1,0,1,1,4.6052,SPECIALIZED,Positive
+flow equations describing learning,1,0,1,1,4.6052,SPECIALIZED,Positive
+generalization bounds,1,0,1,1,4.6052,SPECIALIZED,Positive
+goal-conditioned cost network,1,0,1,1,4.6052,SPECIALIZED,Positive
+graph-based learning framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+inhibitory plasticity,1,0,1,1,4.6052,SPECIALIZED,Positive
+inhibitory plasticity rule,1,0,1,1,4.6052,SPECIALIZED,Positive
+meta-tuned default parameters,1,0,1,1,4.6052,SPECIALIZED,Positive
+method directly training on scenarios with high learnability,1,0,1,1,4.6052,SPECIALIZED,Positive
+mixture method,1,0,1,1,4.6052,SPECIALIZED,Positive
+modular arithmetic dataset,1,0,1,1,4.6052,SPECIALIZED,Positive
+mutual fairness,1,0,1,1,4.6052,SPECIALIZED,Positive
+mutual fairness metric,1,0,1,1,4.6052,SPECIALIZED,Positive
+nMCTS,1,0,1,1,4.6052,SPECIALIZED,Positive
+nearly-linear time algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+new seed-selection algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+option-level formulation,1,0,1,1,4.6052,SPECIALIZED,Positive
+parameter-space moment matching,1,0,1,1,4.6052,SPECIALIZED,Positive
+polarization,1,0,1,1,4.6052,SPECIALIZED,Positive
+program search,1,0,1,1,4.6052,SPECIALIZED,Positive
+pseudo-programs,1,0,1,1,4.6052,SPECIALIZED,Positive
+quantized assignment strategy,1,0,1,1,4.6052,SPECIALIZED,Positive
+ranking algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+reinforcement learning-based centralized dynamic planning framework,1,0,1,1,4.6052,SPECIALIZED,Positive
+satisficing paths,1,0,1,1,4.6052,SPECIALIZED,Positive
+seed-selection algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+state merge,1,0,1,1,4.6052,SPECIALIZED,Positive
+suite of RL algorithms,1,0,1,1,4.6052,SPECIALIZED,Positive
+temporally asymmetric generalization of Oja's rule,1,0,1,1,4.6052,SPECIALIZED,Positive
+tool-augmented ORM,1,0,1,1,4.6052,SPECIALIZED,Positive
+two-stage training algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+uncoupled learning algorithm,1,0,1,1,4.6052,SPECIALIZED,Positive
+universal stochastic gradient methods,1,0,1,1,4.6052,SPECIALIZED,Positive
+view decoupling,1,0,1,1,4.6052,SPECIALIZED,Positive
+weight rescaling,1,0,1,1,4.6052,SPECIALIZED,Positive
+weights2weights subspace,1,0,1,1,4.6052,SPECIALIZED,Positive
+white-box jailbreak method,1,0,1,1,4.6052,SPECIALIZED,Positive
+ηMCTS,1,0,1,1,4.6052,SPECIALIZED,Positive
+Directional ablation,1,1,0,1,4.6052,SPECIALIZED,Neutral
+Latent variable graphical models,1,1,0,1,4.6052,SPECIALIZED,Neutral
+$\Phi$-equilibria,0,1,-1,1,4.6052,SPECIALIZED,Negative
+1-Lipschitz neural networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+2D-CNN,0,1,-1,1,4.6052,SPECIALIZED,Negative
+3D-CNN,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Abstract Syntax Tree,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Activation addition,0,1,-1,1,4.6052,SPECIALIZED,Negative
+AdaGrad stepsizes,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Adam,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Adaptive learning algorithms,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Adversarial training,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Algebraic circuits,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Alternating Least Squares algorithm,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Amortized models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Attention mechanism,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Attractor network,0,1,-1,1,4.6052,SPECIALIZED,Negative
+AutoDiff,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Autoencoders,0,1,-1,1,4.6052,SPECIALIZED,Negative
+BERT,0,1,-1,1,4.6052,SPECIALIZED,Negative
+BM25,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Backpropagation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Bayesian ensemble,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Bayesian optimization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Binary relevance surrogate,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Blender,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Blind-prediction framework,0,1,-1,1,4.6052,SPECIALIZED,Negative
+CASP,0,1,-1,1,4.6052,SPECIALIZED,Negative
+COMET,0,1,-1,1,4.6052,SPECIALIZED,Negative
+COMET metric,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Causal backdoor adjustment,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Chain-of-Thought prompting,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Chat Models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Claude Sonnet 3.5,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Clustering,0,1,-1,1,4.6052,SPECIALIZED,Negative
+CodeLlama,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Comp-sum losses,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Computational geometry tools,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Computer-aided synthesis planning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Conditional value at risk,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Consistency Models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Constrained losses,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Contextual Sparsity,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Continual learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Convergent cross mapping,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Convolutional neural networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Coordinate mirror descent,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Cryptographic techniques,0,1,-1,1,4.6052,SPECIALIZED,Negative
+DALL-E 3,0,1,-1,1,4.6052,SPECIALIZED,Negative
+DDIM,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Data valuation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Deep Reinforcement Learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Deep learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Deep linear models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Diagonal linear networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Difference-in-means,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Difference-in-means direction,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Differential privacy,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Dimensionality reduction,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Direct feature attribution,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Discrimination objective,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Document retriever,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Efficient Method of Moments,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Empirical risk minimization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Energy score,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Ensembling,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Equivariant Graph Neural Networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Explore-then-exploit,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Face feature fusion,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Face recognition,0,1,-1,1,4.6052,SPECIALIZED,Negative
+FastMRI dataset,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Feature attribution,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Fine-tuning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Foreground subject segmentation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Forward gradients,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Fractal dimension,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Fused Gromov-Wasserstein,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GATs,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GPT,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GPT-4,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GPT-4o,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GPT-4v,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GPT-Index,0,1,-1,1,4.6052,SPECIALIZED,Negative
+GRU,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gauss-Newton matrix,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gaussian Processes,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gaussian kernel ridge regression,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gaussian universality ansatz,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gemini,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gemini Ultra 1.5,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Generalized Method of Moments,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Google Muse,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Google Parti,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gradient noise scale,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gradient-boosted decision trees,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gradual stacking,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Graph Attention Networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Graph convolutional network,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Graph neural networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Graph-based post-processing algorithm,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Greedy Capture,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Gromov-Wasserstein,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Grouped-Query Attention,0,1,-1,1,4.6052,SPECIALIZED,Negative
+H3 architecture,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Hamming loss,0,1,-1,1,4.6052,SPECIALIZED,Negative
+In-context prompting,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Inference attacks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Input space margins,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Iteratively reweighted least squares,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Joint Embedding Predictive Architectures,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Kullback-Leibler divergence,0,1,-1,1,4.6052,SPECIALIZED,Negative
+LLaMA-7B,0,1,-1,1,4.6052,SPECIALIZED,Negative
+LSTM,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Label-specific representation learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Latent coupling factorization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Latent diffusion models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Latent variable models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+LayerNorm,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Learning from AI Feedback,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Least-squares estimation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Levenshtein edit distance,0,1,-1,1,4.6052,SPECIALIZED,Negative
+LieGAN,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Linear Vision Transformer,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Linear attention,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Linear regression decoder,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Lion optimizer,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Llama3-70B,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Llama3-8B,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Llava 1.5,0,1,-1,1,4.6052,SPECIALIZED,Negative
+LoRA,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Logit margins,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Looped models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Loss upweighting,0,1,-1,1,4.6052,SPECIALIZED,Negative
+MPE,0,1,-1,1,4.6052,SPECIALIZED,Negative
+MPNET,0,1,-1,1,4.6052,SPECIALIZED,Negative
+MRI reconstruction,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Machine unlearning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Majority vote aggregation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Marginal MAP,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Masked Auto Encoder,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Mini-batch upsampling,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Minimum Bayes Risk decoding,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Mistral-7B,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Multi-Head Attention,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Multi-Query Attention,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Multi-task learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Multilayer perceptrons,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Mutual information estimation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Neural operators,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Next-token prediction,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Non-convex rank minimization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Non-linear perceptron,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Nonnegative matrix factorization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Normalizing flows,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Oja's rule,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Online Gradient Descent,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Optimal composite hypothesis tests,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Orthogonal convolutions,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Orthogonal finetuning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+PAC-Bayes generalisation bounds,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Partially observable Markov decision processes,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Permutation Equivariant and Relative Margin-based losses,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Persistent homology dimension,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Pooling,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Pre-computed features,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Preconditioned gradient descent,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Preference optimization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Pretrained models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Pretraining,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Pretraining and finetuning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Probabilistic Context-free Grammars,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Probabilistic answer set programming inference,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Process Reward Model,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Proximal Policy Optimization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+PyTorch,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Quantized training,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Quasi-Bayesian methods,0,1,-1,1,4.6052,SPECIALIZED,Negative
+RMSNorm,0,1,-1,1,4.6052,SPECIALIZED,Negative
+ReLU networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Reconstruction objective,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Rectilinear Steiner tree generation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Recurrent neural networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Reinforcement learning from human feedback,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Relational match-to-sample,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Residue number system,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Retrieval augmented generation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Reward Machines,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Ridge regression,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Rotary Positional Embedding,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Rotary position embeddings,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Rule-based reasoning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+SAFEOPT,0,1,-1,1,4.6052,SPECIALIZED,Negative
+SMACv2,0,1,-1,1,4.6052,SPECIALIZED,Negative
+SVRG-type variance reduction,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Self-attention,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Self-distillation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Self-instruct,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Set-membership estimation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Sharpness-Aware Minimization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Single-hidden-layer ReLU networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Singular value decomposition,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Skill-Mix,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Skill-Mix evaluation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Sklar's theorem,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Sparse expert selection,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Spatio-temporal kernel,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Stable Diffusion,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Stable Diffusion Ultra,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Standard contract theory,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Stochastic processes,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Sum-product networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Supervised fine-tuning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Supervised learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Supervised safety fine-tuning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+SwiGLU,0,1,-1,1,4.6052,SPECIALIZED,Negative
+TabR,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Text-to-image diffusion models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Tokenization,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Uniform DAG sampling,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Unigram models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Unsupervised Environment Design,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Unsupervised routing,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Update-and-deploy framework,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Variational Score Distillation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Vector fields,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Video diffusion model,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Vine copulas,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Vision Transformers,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Wasserstein,0,1,-1,1,4.6052,SPECIALIZED,Negative
+adversarial suffixes,0,1,-1,1,4.6052,SPECIALIZED,Negative
+adversarial training strategies,0,1,-1,1,4.6052,SPECIALIZED,Negative
+ancestral sampling,0,1,-1,1,4.6052,SPECIALIZED,Negative
+bisimulation metrics,0,1,-1,1,4.6052,SPECIALIZED,Negative
+class-balanced subset,0,1,-1,1,4.6052,SPECIALIZED,Negative
+classifier-free guidance,0,1,-1,1,4.6052,SPECIALIZED,Negative
+composite hypothesis tests,0,1,-1,1,4.6052,SPECIALIZED,Negative
+consistent binary relevance surrogate,0,1,-1,1,4.6052,SPECIALIZED,Negative
+counterfactual explanations,0,1,-1,1,4.6052,SPECIALIZED,Negative
+deep gradient compression,0,1,-1,1,4.6052,SPECIALIZED,Negative
+double integral operator,0,1,-1,1,4.6052,SPECIALIZED,Negative
+dynamic programming,0,1,-1,1,4.6052,SPECIALIZED,Negative
+dynamic propagation models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+feed-forward layer,0,1,-1,1,4.6052,SPECIALIZED,Negative
+fixed-point forward gradients,0,1,-1,1,4.6052,SPECIALIZED,Negative
+flow algorithms on graphs,0,1,-1,1,4.6052,SPECIALIZED,Negative
+formal verification,0,1,-1,1,4.6052,SPECIALIZED,Negative
+game theory,0,1,-1,1,4.6052,SPECIALIZED,Negative
+gradient boosting,0,1,-1,1,4.6052,SPECIALIZED,Negative
+gradient penalties,0,1,-1,1,4.6052,SPECIALIZED,Negative
+graph Laplacian,0,1,-1,1,4.6052,SPECIALIZED,Negative
+graph structure,0,1,-1,1,4.6052,SPECIALIZED,Negative
+higher order graph neural networks,0,1,-1,1,4.6052,SPECIALIZED,Negative
+kth-order Markov processes,0,1,-1,1,4.6052,SPECIALIZED,Negative
+latent interventions,0,1,-1,1,4.6052,SPECIALIZED,Negative
+linear models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+linear program,0,1,-1,1,4.6052,SPECIALIZED,Negative
+local simulator access,0,1,-1,1,4.6052,SPECIALIZED,Negative
+mechanistic interpretability,0,1,-1,1,4.6052,SPECIALIZED,Negative
+message passing,0,1,-1,1,4.6052,SPECIALIZED,Negative
+meta-learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+minimum norm interpolating solutions,0,1,-1,1,4.6052,SPECIALIZED,Negative
+multilayer perceptron,0,1,-1,1,4.6052,SPECIALIZED,Negative
+multimodal language models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+neural network classifiers,0,1,-1,1,4.6052,SPECIALIZED,Negative
+no-regret learning procedures,0,1,-1,1,4.6052,SPECIALIZED,Negative
+normal-form games,0,1,-1,1,4.6052,SPECIALIZED,Negative
+normalization layers,0,1,-1,1,4.6052,SPECIALIZED,Negative
+numerical estimation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+one-step retrosynthesis models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+online reinforcement learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+optimal transport distances,0,1,-1,1,4.6052,SPECIALIZED,Negative
+optimal transport theory,0,1,-1,1,4.6052,SPECIALIZED,Negative
+pay-per-token pricing,0,1,-1,1,4.6052,SPECIALIZED,Negative
+polytope theory,0,1,-1,1,4.6052,SPECIALIZED,Negative
+program synthesis,0,1,-1,1,4.6052,SPECIALIZED,Negative
+proportionally fair clustering,0,1,-1,1,4.6052,SPECIALIZED,Negative
+python sympy,0,1,-1,1,4.6052,SPECIALIZED,Negative
+red-teaming,0,1,-1,1,4.6052,SPECIALIZED,Negative
+remote photoplethysmography,0,1,-1,1,4.6052,SPECIALIZED,Negative
+risk controlling prediction sets,0,1,-1,1,4.6052,SPECIALIZED,Negative
+self-attention module,0,1,-1,1,4.6052,SPECIALIZED,Negative
+short-flat decomposition framework,0,1,-1,1,4.6052,SPECIALIZED,Negative
+sign operator,0,1,-1,1,4.6052,SPECIALIZED,Negative
+spectral graph theory,0,1,-1,1,4.6052,SPECIALIZED,Negative
+stochastic-process approach,0,1,-1,1,4.6052,SPECIALIZED,Negative
+task prioritisation metrics,0,1,-1,1,4.6052,SPECIALIZED,Negative
+teacher-student models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+ternary gradients,0,1,-1,1,4.6052,SPECIALIZED,Negative
+text-to-image models,0,1,-1,1,4.6052,SPECIALIZED,Negative
+topological data analysis,0,1,-1,1,4.6052,SPECIALIZED,Negative
+transfer learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+tree-based evidential learning,0,1,-1,1,4.6052,SPECIALIZED,Negative
+value function approximation,0,1,-1,1,4.6052,SPECIALIZED,Negative
+vanilla Sinkhorn,0,1,-1,1,4.6052,SPECIALIZED,Negative
+visual search,0,1,-1,1,4.6052,SPECIALIZED,Negative
+weak supervision,0,1,-1,1,4.6052,SPECIALIZED,Negative
+weight noise,0,1,-1,1,4.6052,SPECIALIZED,Negative
+Chain-of-Thought,0,2,-2,2,3.912,SPECIALIZED,Negative
+Cross-entropy loss,0,2,-2,2,3.912,SPECIALIZED,Negative
+Direct preference optimization,0,2,-2,2,3.912,SPECIALIZED,Negative
+Generative models,0,2,-2,2,3.912,SPECIALIZED,Negative
+Gradient descent,0,2,-2,2,3.912,SPECIALIZED,Negative
+LLaMA,0,2,-2,2,3.912,SPECIALIZED,Negative
+Language models,0,2,-2,2,3.912,SPECIALIZED,Negative
+Markov Decision Process,0,2,-2,2,3.912,SPECIALIZED,Negative
+Monte Carlo Tree Search,0,2,-2,2,3.912,SPECIALIZED,Negative
+Multi-Agent Reinforcement Learning,0,2,-2,2,3.912,SPECIALIZED,Negative
+Neural networks,0,2,-2,2,3.912,SPECIALIZED,Negative
+Optimal transport,0,2,-2,2,3.912,SPECIALIZED,Negative
+Reinforcement learning,0,2,-2,2,3.912,SPECIALIZED,Negative
+Stochastic gradient descent,0,2,-2,2,3.912,SPECIALIZED,Negative
+AdamW optimizer,0,3,-3,3,3.5066,SHARED,Negative
+In-context learning,0,3,-3,3,3.5066,SHARED,Negative
+Diffusion Models,0,5,-5,5,2.9957,GENERIC,Negative
+Transformers,0,7,-7,7,2.6593,GENERIC,Negative
+Large Language Models,0,9,-9,9,2.4079,GENERIC,Negative

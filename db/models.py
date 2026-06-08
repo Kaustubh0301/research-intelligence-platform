@@ -199,12 +199,13 @@ class PaperDataset(Base):
     __tablename__ = "paper_datasets"
     __table_args__ = (UniqueConstraint("paper_id", "name"),)
 
-    id:          Mapped[str]      = mapped_column(UUID(as_uuid=False), primary_key=True, default=_uuid)
-    paper_id:    Mapped[str]      = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
-    name:        Mapped[str]      = mapped_column(Text, nullable=False)
-    description: Mapped[str|None] = mapped_column(Text)
-    task:        Mapped[str|None] = mapped_column(Text)
-    source:      Mapped[str]      = mapped_column(Text, default="auto")
+    id:             Mapped[str]      = mapped_column(UUID(as_uuid=False), primary_key=True, default=_uuid)
+    paper_id:       Mapped[str]      = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    name:           Mapped[str]      = mapped_column(Text, nullable=False)   # original extracted value
+    canonical_name: Mapped[str|None] = mapped_column(Text)                  # normalized form
+    description:    Mapped[str|None] = mapped_column(Text)
+    task:           Mapped[str|None] = mapped_column(Text)
+    source:         Mapped[str]      = mapped_column(Text, default="auto")
 
     def __repr__(self) -> str:
         return f"<PaperDataset {self.name!r} paper={self.paper_id}>"
@@ -249,9 +250,10 @@ class PaperCategory(Base):
 
     id:         Mapped[str]      = mapped_column(UUID(as_uuid=False), primary_key=True, default=_uuid)
     paper_id:   Mapped[str]      = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
-    name:       Mapped[str]      = mapped_column(Text, nullable=False)   # e.g. "Machine Learning"
-    confidence: Mapped[float]    = mapped_column(default=1.0)
-    source:     Mapped[str]      = mapped_column(Text, default="auto")   # "auto" | "manual"
+    name:           Mapped[str]      = mapped_column(Text, nullable=False)   # original extracted value
+    canonical_name: Mapped[str|None] = mapped_column(Text)                  # normalized form
+    confidence:     Mapped[float]    = mapped_column(default=1.0)
+    source:         Mapped[str]      = mapped_column(Text, default="auto")   # "auto" | "manual"
 
     def __repr__(self) -> str:
         return f"<PaperCategory {self.name!r} paper={self.paper_id}>"
@@ -267,8 +269,9 @@ class PaperTechnique(Base):
 
     id:       Mapped[str]      = mapped_column(UUID(as_uuid=False), primary_key=True, default=_uuid)
     paper_id: Mapped[str]      = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
-    name:     Mapped[str]      = mapped_column(Text, nullable=False)   # e.g. "LoRA", "Transformer"
-    role:     Mapped[str]      = mapped_column(
+    name:           Mapped[str]      = mapped_column(Text, nullable=False)   # original extracted value
+    canonical_name: Mapped[str|None] = mapped_column(Text)                  # normalized form
+    role:           Mapped[str]      = mapped_column(
         String(20),
         CheckConstraint("role IN ('introduces','uses','compares','critiques')"),
         default="uses",
@@ -308,7 +311,8 @@ class Notebook(Base):
     topic_slug:      Mapped[str]      = mapped_column(String(60), nullable=False)   # 'agentic-ai'
     topic_name:      Mapped[str]      = mapped_column(Text, nullable=False)         # human-readable
     instance_number: Mapped[int]      = mapped_column(SmallInteger, nullable=False, default=1)
-    notebooklm_url:  Mapped[str|None] = mapped_column(Text)                         # URL in NotebookLM
+    notebooklm_id:   Mapped[str|None] = mapped_column(String(64))                    # NotebookLM notebook UUID (used in API calls)
+    notebooklm_url:  Mapped[str|None] = mapped_column(Text)                         # browser URL in NotebookLM
     source_count:    Mapped[int]      = mapped_column(SmallInteger, nullable=False, default=0)
     max_sources:     Mapped[int]      = mapped_column(SmallInteger, nullable=False, default=45)
     status:          Mapped[str]      = mapped_column(
@@ -407,6 +411,97 @@ class NotebookPaperExtract(Base):
 
     def __repr__(self) -> str:
         return f"<NotebookPaperExtract paper={self.paper_id[:8]} type={self.extract_type} conf={self.confidence}>"
+
+
+# ──────────────────────────────────────────────────────────────
+# KNOWLEDGE GRAPH TABLES
+# ──────────────────────────────────────────────────────────────
+
+class PaperRelationship(Base):
+    """
+    Undirected weighted edge between two papers.
+    source_paper_id < target_paper_id (enforced by builder) to keep one row per pair.
+    weight = 3*|shared_techniques| + 2*|shared_datasets| + |shared_categories| + |shared_methodologies|
+    """
+    __tablename__ = "paper_relationships"
+    __table_args__ = (UniqueConstraint("source_paper_id", "target_paper_id"),)
+
+    id:                  Mapped[str]   = mapped_column(UUID(as_uuid=False), primary_key=True, default=_uuid)
+    source_paper_id:     Mapped[str]   = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    target_paper_id:     Mapped[str]   = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    shared_techniques:   Mapped[str|None] = mapped_column(Text)          # JSON array of canonical names
+    shared_datasets:     Mapped[str|None] = mapped_column(Text)          # JSON array
+    shared_categories:   Mapped[str|None] = mapped_column(Text)          # JSON array
+    shared_methodologies: Mapped[str|None] = mapped_column(Text)         # JSON array
+    weight:              Mapped[float] = mapped_column(default=0.0)      # final combined weight
+    # Graph v2 per-component diagnostics (NULL on rows written before migration 009)
+    technique_score:     Mapped[float|None] = mapped_column()            # IDF-weighted technique contribution
+    dataset_score:       Mapped[float|None] = mapped_column()            # flat dataset contribution
+    category_score:      Mapped[float|None] = mapped_column()            # flat category contribution
+    created_at:          Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+    source_paper: Mapped[Paper] = relationship(foreign_keys=[source_paper_id])
+    target_paper: Mapped[Paper] = relationship(foreign_keys=[target_paper_id])
+
+    def __repr__(self) -> str:
+        return f"<PaperRelationship {self.source_paper_id[:8]}↔{self.target_paper_id[:8]} w={self.weight}>"
+
+
+class EntityRelationship(Base):
+    """
+    Co-occurrence edge between two entities of the same type.
+    source_entity < target_entity (alphabetical, enforced by builder).
+    weight = number of papers where both entities appear together.
+    """
+    __tablename__ = "entity_relationships"
+    __table_args__ = (UniqueConstraint("source_entity", "target_entity", "entity_type"),)
+
+    id:                  Mapped[str]   = mapped_column(UUID(as_uuid=False), primary_key=True, default=_uuid)
+    source_entity:       Mapped[str]   = mapped_column(Text, nullable=False)
+    target_entity:       Mapped[str]   = mapped_column(Text, nullable=False)
+    entity_type:         Mapped[str]   = mapped_column(
+        String(20),
+        CheckConstraint("entity_type IN ('technique','dataset','category','methodology')"),
+        nullable=False,
+    )
+    co_occurrence_count: Mapped[int]   = mapped_column(default=1)
+    weight:              Mapped[float] = mapped_column(default=1.0)
+    created_at:          Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+    def __repr__(self) -> str:
+        return f"<EntityRelationship {self.source_entity[:20]}↔{self.target_entity[:20]} type={self.entity_type} w={self.weight}>"
+
+
+class PaperGraphMetric(Base):
+    """Per-paper graph analytics: centrality scores and cluster membership."""
+    __tablename__ = "paper_graph_metrics"
+
+    paper_id:              Mapped[str]        = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), primary_key=True)
+    degree_centrality:     Mapped[float]      = mapped_column(default=0.0)
+    betweenness_centrality: Mapped[float]     = mapped_column(default=0.0)
+    cluster_id:            Mapped[int|None]   = mapped_column()
+    neighbors_count:       Mapped[int]        = mapped_column(default=0)
+    total_edge_weight:     Mapped[float]      = mapped_column(default=0.0)
+    updated_at:            Mapped[datetime]   = mapped_column(DateTime(timezone=True), default=_now, onupdate=_now)
+
+    paper: Mapped[Paper] = relationship()
+
+    def __repr__(self) -> str:
+        return f"<PaperGraphMetric paper={self.paper_id[:8]} cluster={self.cluster_id} bc={self.betweenness_centrality:.3f}>"
+
+
+class TechniqueGraphMetric(Base):
+    """Per-canonical-technique graph analytics."""
+    __tablename__ = "technique_graph_metrics"
+
+    canonical_name:          Mapped[str]        = mapped_column(Text, primary_key=True)
+    usage_count:             Mapped[int]        = mapped_column(default=0)   # papers using this technique
+    connected_papers_count:  Mapped[int]        = mapped_column(default=0)   # papers reachable via shared technique edges
+    top_cooccurring:         Mapped[str|None]   = mapped_column(Text)        # JSON: [{name, count}, ...]
+    updated_at:              Mapped[datetime]   = mapped_column(DateTime(timezone=True), default=_now, onupdate=_now)
+
+    def __repr__(self) -> str:
+        return f"<TechniqueGraphMetric {self.canonical_name[:40]} usage={self.usage_count}>"
 
 
 # ──────────────────────────────────────────────────────────────

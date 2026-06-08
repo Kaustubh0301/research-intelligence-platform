@@ -31,3 +31,12 @@ tmp/
 
 pdfs/
 .claude/
+
+# Frontend
+node_modules/
+.next/
+
+# Generated backups
+*.backup_*
+*_backup_*.json
+

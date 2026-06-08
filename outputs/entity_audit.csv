@@ -1,0 +1,518 @@
+canonical_name,entity_type,unique_papers,total_rows,variant_count,is_singleton,normalization_issue,raw_variants
+Large Language Models,Unknown,9,11,4,False,True,LLMs | Large Language Models | Large language models | large language models
+Transformers,Unknown,7,11,7,False,True,GPT-like transformers | GPT-style transformers | Transformer language models | Transformer models | Transformers | transformer models | transformers
+Diffusion Models,Architecture,5,6,3,False,False,Diffusion Models | Diffusion models | diffusion models
+AdamW optimizer,Optimizer,3,3,2,False,False,AdamW | AdamW optimizer
+In-context learning,Technique,3,4,2,False,False,In-context learning | in-context learning
+Chain-of-Thought,Unknown,2,2,2,False,False,Chain-of-Thought | Chain-of-thought
+Cross-entropy loss,Metric,2,4,2,False,False,Cross-entropy loss | cross-entropy loss
+Direct preference optimization,Unknown,2,2,1,False,False,Direct preference optimization
+Generative models,Unknown,2,2,1,False,False,generative models
+Gradient descent,Optimizer,2,4,2,False,False,Gradient descent | gradient descent
+LLaMA,Model,2,2,1,False,False,LLaMA
+Language models,Unknown,2,2,2,False,False,Language models | language models
+Markov Decision Process,Unknown,2,2,2,False,False,Markov Decision Process | Markov decision process
+Monte Carlo Tree Search,Algorithm,2,3,2,False,False,MCTS | Monte Carlo Tree Search
+Multi-Agent Reinforcement Learning,Technique,2,3,3,False,False,MARL | Multi-Agent Reinforcement Learning | multi-agent reinforcement learning
+Neural networks,Unknown,2,2,2,False,False,Neural networks | neural networks
+Optimal transport,Algorithm,2,2,2,False,False,Optimal transport | optimal transport
+Reinforcement learning,Technique,2,3,2,False,False,Reinforcement learning | reinforcement learning
+Stochastic gradient descent,Optimizer,2,4,2,False,False,Stochastic gradient descent | stochastic gradient descent
+$\Phi$-equilibria,Unknown,1,1,1,True,False,$\Phi$-equilibria
+1-Lipschitz neural networks,Unknown,1,1,1,True,False,1-Lipschitz neural networks
+2D-CNN,Architecture,1,1,1,True,False,2D-CNN
+3D-CNN,Architecture,1,1,1,True,False,3D-CNN
+AID,Unknown,1,1,1,True,False,AID
+APIBench,Unknown,1,1,1,True,False,APIBench
+AST Sub-Tree Matching,Unknown,1,2,2,True,False,AST Sub-Tree Matching | AST sub-tree matching
+Abstract Syntax Tree,Unknown,1,1,1,True,False,Abstract Syntax Tree
+Abstract Syntax Tree sub-tree matching,Unknown,1,1,1,True,False,Abstract Syntax Tree sub-tree matching
+ActAnywhere,Unknown,1,1,1,True,False,ActAnywhere
+Activation addition,Unknown,1,2,2,True,False,Activation addition | activation addition
+AdaGrad stepsizes,Optimizer,1,1,1,True,False,AdaGrad stepsizes
+Adam,Optimizer,1,1,1,True,False,Adam
+Adaptive learning algorithms,Technique,1,1,1,True,False,Adaptive learning algorithms
+Adversarial CVaR evaluation,Unknown,1,1,1,True,False,Adversarial CVaR evaluation
+Adversarial training,Technique,1,1,1,True,False,Adversarial training
+Algebraic circuits,Unknown,1,1,1,True,False,Algebraic circuits
+AlphaLLM,Model,1,2,2,True,False,ALPHALLM | AlphaLLM
+Alternating Least Squares algorithm,Unknown,1,2,2,True,False,Alternating Least Squares (ALS) algorithm | Alternating Least Squares algorithm
+Amortized models,Unknown,1,1,1,True,False,Amortized models
+Attack-aware noise calibration,Unknown,1,2,2,True,False,Attack-aware noise calibration | attack-aware noise calibration
+Attention mechanism,Architecture,1,2,2,True,False,Attention mechanism | attention mechanism
+Attractor network,Unknown,1,1,1,True,False,Attractor network
+AutoDiff,Unknown,1,1,1,True,False,AutoDiff
+Autoencoders,Unknown,1,1,1,True,False,Autoencoders
+Autoregressive image diffusion model,Architecture,1,1,1,True,False,Autoregressive image diffusion model
+BERT,Model,1,1,1,True,False,BERT
+BM25,Unknown,1,1,1,True,False,BM25
+Backpropagation,Unknown,1,2,2,True,False,Backpropagation | backpropagation
+Bayesian approach for learning causal graphs with limited interventional samples,Technique,1,1,1,True,False,Bayesian approach for learning causal graphs with limited interventional samples
+Bayesian ensemble,Unknown,1,1,1,True,False,Bayesian ensemble
+Bayesian ensemble interpretation of neural networks,Unknown,1,1,1,True,False,Bayesian ensemble interpretation of neural networks
+Bayesian optimization,Unknown,1,1,1,True,False,Bayesian optimization
+Binary relevance surrogate,Unknown,1,1,1,True,False,Binary relevance surrogate
+Blender,Unknown,1,1,1,True,False,Blender
+Blind-prediction framework,Tool,1,1,1,True,False,Blind-prediction framework
+CASP,Unknown,1,1,1,True,False,CASP
+CIPHER,Unknown,1,1,1,True,False,CIPHER
+CLA2,Unknown,1,1,1,True,False,CLA2
+CLA3,Unknown,1,1,1,True,False,CLA3
+CLA4,Unknown,1,1,1,True,False,CLA4
+COGEX,Unknown,1,1,1,True,False,COGEX
+COMET,Unknown,1,1,1,True,False,COMET
+COMET metric,Metric,1,1,1,True,False,COMET metric
+Causal backdoor adjustment,Unknown,1,1,1,True,False,Causal backdoor adjustment
+Chain-of-Thought prompting,Unknown,1,1,1,True,False,Chain-of-Thought prompting
+Chat Models,Unknown,1,1,1,True,False,Chat Models
+Class-balanced mixture method,Unknown,1,1,1,True,False,Class-balanced mixture method
+Claude Sonnet 3.5,Unknown,1,1,1,True,False,Claude Sonnet 3.5
+Clustering,Unknown,1,1,1,True,False,Clustering
+CodeLlama,Unknown,1,1,1,True,False,CodeLlama
+Comp-sum losses,Unknown,1,2,2,True,False,Comp-sum losses | comp-sum losses
+Compositional inference framework over semirings,Tool,1,1,1,True,False,Compositional inference framework over semirings
+Computational geometry tools,Unknown,1,1,1,True,False,Computational geometry tools
+Computer-aided synthesis planning,Unknown,1,2,2,True,False,Computer-aided synthesis planning | computer-aided synthesis planning
+Conditional value at risk,Unknown,1,1,1,True,False,Conditional value at risk
+Conjunctive vector-binding operation,Unknown,1,1,1,True,False,Conjunctive vector-binding operation
+Conservation law for feature reuse and sparsity,Unknown,1,1,1,True,False,Conservation law for feature reuse and sparsity
+Consistency Models,Unknown,1,1,1,True,False,Consistency Models
+Constrained diffusion models,Architecture,1,1,1,True,False,constrained diffusion models
+Constrained losses,Unknown,1,2,2,True,False,Constrained losses | constrained losses
+Contextual Sparsity,Unknown,1,1,1,True,False,Contextual Sparsity
+Continual learning,Technique,1,1,1,True,False,Continual learning
+Convergent cross mapping,Unknown,1,1,1,True,False,Convergent cross mapping
+Convolutional neural networks,Unknown,1,1,1,True,False,Convolutional neural networks
+Coordinate mirror descent,Unknown,1,2,2,True,False,Coordinate mirror descent | coordinate mirror descent
+Cost-robust contracts,Unknown,1,2,2,True,False,Cost-robust contracts | cost-robust contracts
+Counterfactual Clamping Attack,Unknown,1,1,1,True,False,Counterfactual Clamping Attack
+Cross-Layer Attention,Unknown,1,1,1,True,False,Cross-Layer Attention
+Cryptographic techniques,Unknown,1,2,2,True,False,Cryptographic techniques | cryptographic techniques
+Cryptographic transformer circuits,Architecture,1,2,2,True,False,Cryptographic transformer circuits | cryptographic transformer circuits
+Custom kernel for per-example gradient norms,Unknown,1,2,2,True,False,Custom kernel to compute per-example gradient norms | custom kernel for per-example gradient norms
+DALL-E 3,Unknown,1,1,1,True,False,DALL-E 3
+DDIM,Unknown,1,1,1,True,False,DDIM
+DESP,Unknown,1,1,1,True,False,DESP
+Data valuation,Unknown,1,1,1,True,False,Data valuation
+Deep Reinforcement Learning,Technique,1,2,2,True,False,Deep RL | Deep reinforcement learning
+Deep learning,Technique,1,1,1,True,False,Deep learning
+Deep linear models,Unknown,1,1,1,True,False,Deep linear models
+Diagonal linear networks,Unknown,1,2,2,True,False,Diagonal linear networks | diagonal linear networks
+Difference-in-means,Unknown,1,2,2,True,False,Difference-in-means | difference-in-means
+Difference-in-means direction,Unknown,1,1,1,True,False,Difference-in-means direction
+Differentiable training objective for error control,Technique,1,1,1,True,False,Differentiable training objective for error control
+Differential privacy,Unknown,1,2,2,True,False,Differential privacy | differential privacy
+Dimensionality reduction,Unknown,1,1,1,True,False,Dimensionality reduction
+Direct feature attribution,Unknown,1,2,2,True,False,Direct feature attribution | direct feature attribution
+Directional ablation,Unknown,1,2,2,True,False,Directional ablation | directional ablation
+Disagreement upper bound,Unknown,1,1,1,True,False,Disagreement upper bound
+Discrimination objective,Unknown,1,1,1,True,False,Discrimination objective
+Distributed Lion,Unknown,1,1,1,True,False,Distributed Lion
+Document retriever,Unknown,1,1,1,True,False,Document retriever
+Double-Ended Synthesis Planning,Unknown,1,1,1,True,False,Double-Ended Synthesis Planning
+E2GN2,Unknown,1,1,1,True,False,E2GN2
+Efficient Method of Moments,Unknown,1,1,1,True,False,Efficient Method of Moments
+Empirical risk minimization,Unknown,1,2,2,True,False,Empirical Risk Minimization | Empirical risk minimization
+Energy score,Metric,1,1,1,True,False,Energy score
+Ensembling,Unknown,1,2,2,True,False,Ensembling | ensembling
+Equivariant Graph Neural Networks,Architecture,1,1,1,True,False,Equivariant Graph Neural Networks
+Event-based Graph Spatiotemporal Sensitive Transformer,Architecture,1,1,1,True,False,Event-based Graph Spatiotemporal Sensitive Transformer
+Execution graph,Unknown,1,1,1,True,False,Execution graph
+Exploration-enhanced Equivariant Graph Neural Networks,Architecture,1,1,1,True,False,Exploration-enhanced Equivariant Graph Neural Networks
+Explore-then-exploit,Unknown,1,1,1,True,False,Explore-then-exploit
+Face feature fusion,Unknown,1,1,1,True,False,Face feature fusion
+Face recognition,Unknown,1,1,1,True,False,Face recognition
+Factor Relaxation with Latent Coupling,Unknown,1,2,2,True,False,FRLC | Factor Relaxation with Latent Coupling
+FactorizePhys,Unknown,1,1,1,True,False,FactorizePhys
+Factorized Self-Attention Module,Architecture,1,1,1,True,False,Factorized Self-Attention Module
+FastMRI dataset,Dataset,1,1,1,True,False,FastMRI dataset
+Feature attribution,Unknown,1,1,1,True,False,Feature attribution
+Fine-grained non-asymptotic analysis,Unknown,1,1,1,True,False,Fine-grained non-asymptotic analysis
+Fine-tuning,Unknown,1,1,1,True,False,Fine-tuning
+Fixed-point forward gradients training,Technique,1,1,1,True,False,Fixed-point forward gradients training
+Flow equations via a stochastic-process approach,Unknown,1,1,1,True,False,Flow equations via a stochastic-process approach
+Foreground subject segmentation,Unknown,1,1,1,True,False,Foreground subject segmentation
+Forward gradients,Unknown,1,1,1,True,False,Forward gradients
+Fractal dimension,Unknown,1,2,2,True,False,Fractal dimension | fractal dimension
+Framework for discovering continuous and discrete symmetry beyond the affine transformation group,Tool,1,1,1,True,False,Framework for discovering continuous and discrete symmetry beyond the affine transformation group
+Fused Gromov-Wasserstein,Unknown,1,1,1,True,False,Fused Gromov-Wasserstein
+GATs,Unknown,1,1,1,True,False,GATs
+GPT,Model,1,1,1,True,False,GPT
+GPT-4,Model,1,1,1,True,False,GPT-4
+GPT-4o,Unknown,1,1,1,True,False,GPT-4o
+GPT-4v,Unknown,1,1,1,True,False,GPT-4v
+GPT-Index,Unknown,1,1,1,True,False,GPT-Index
+GRU,Architecture,1,1,1,True,False,GRU
+Gauss-Newton matrix,Unknown,1,1,1,True,False,Gauss-Newton matrix
+Gaussian Processes,Unknown,1,1,1,True,False,Gaussian Processes
+Gaussian kernel ridge regression,Unknown,1,1,1,True,False,Gaussian kernel ridge regression
+Gaussian universality ansatz,Unknown,1,1,1,True,False,Gaussian universality ansatz
+Gemini,Model,1,1,1,True,False,Gemini
+Gemini Ultra 1.5,Unknown,1,1,1,True,False,Gemini Ultra 1.5
+Generalized Method of Moments,Unknown,1,2,2,True,False,Generalized Method of Moments | generalized method of moments
+Google Muse,Unknown,1,1,1,True,False,Google Muse
+Google Parti,Unknown,1,1,1,True,False,Google Parti
+Gorilla,Model,1,1,1,True,False,Gorilla
+Gradient noise scale,Unknown,1,1,1,True,False,Gradient noise scale
+Gradient-boosted decision trees,Unknown,1,2,2,True,False,Gradient-boosted decision trees | gradient-boosted decision trees
+Gradual stacking,Unknown,1,1,1,True,False,Gradual stacking
+Graph Attention Networks,Unknown,1,1,1,True,False,Graph Attention Networks
+Graph convolutional network,Unknown,1,2,2,True,False,Graph convolutional network | graph convolutional network
+Graph neural networks,Architecture,1,1,1,True,False,Graph neural networks
+Graph-based post-processing algorithm,Unknown,1,1,1,True,False,Graph-based post-processing algorithm
+Greedy Capture,Algorithm,1,1,1,True,False,Greedy Capture
+Gromov-Wasserstein,Unknown,1,1,1,True,False,Gromov-Wasserstein
+Grouped-Query Attention,Unknown,1,1,1,True,False,Grouped-Query Attention
+H3 architecture,Unknown,1,2,2,True,False,H3 | H3 architecture
+Hamming loss,Unknown,1,1,1,True,False,Hamming loss
+Hybrid system combining LLMs and rule-based reasoning,Unknown,1,2,2,True,False,Hybrid system combining LLMs and rule-based reasoning | hybrid system combining LLMs and rule-based reasoning
+Imagination-searching-criticizing framework,Tool,1,2,2,True,False,Imagination-searching-criticizing framework | imagination-searching-criticizing framework
+Immiscible Diffusion,Unknown,1,1,1,True,False,Immiscible Diffusion
+Implicit bias analysis of deep linear models,Unknown,1,1,1,True,False,Implicit bias analysis of deep linear models
+In-context prompting,Unknown,1,2,2,True,False,In-context prompting | in-context prompting
+Inference attacks,Unknown,1,1,1,True,False,Inference attacks
+Input pre-processing technique,Unknown,1,2,2,True,False,Input pre-processing technique | input pre-processing technique
+Input space margins,Unknown,1,2,2,True,False,Input space margins | input space margin
+Iterative self-reflection feedback loop,Unknown,1,2,2,True,False,Feedback loop for iterative self-reflection | iterative self-reflection feedback loop
+Iteratively reweighted least squares,Unknown,1,1,1,True,False,Iteratively reweighted least squares
+Iteratively reweighted least squares variant,Unknown,1,1,1,True,False,Iteratively reweighted least squares variant
+JB-CO-Task,Unknown,1,1,1,True,False,JB-CO-Task
+JB-CO-Text,Unknown,1,1,1,True,False,JB-CO-Text
+JB-MisGen,Unknown,1,1,1,True,False,JB-MisGen
+Joint Embedding Predictive Architectures,Unknown,1,1,1,True,False,Joint Embedding Predictive Architectures
+Kullback-Leibler divergence,Unknown,1,1,1,True,False,Kullback-Leibler divergence
+LACIE,Unknown,1,1,1,True,False,LACIE
+LACIE listener-aware finetuning method,Unknown,1,1,1,True,False,LACIE listener-aware finetuning method
+LLaMA-7B,Unknown,1,1,1,True,False,LLaMA-7B
+LSTM,Architecture,1,1,1,True,False,LSTM
+Label-specific representation learning,Technique,1,1,1,True,False,Label-specific representation learning
+Latent Preference Induction,Unknown,1,1,1,True,False,Latent Preference Induction
+Latent coupling factorization,Unknown,1,2,2,True,False,Latent coupling factorization | latent coupling factorization
+Latent diffusion models,Architecture,1,1,1,True,False,latent diffusion models
+Latent variable graphical models,Unknown,1,2,2,True,False,Latent variable graphical models | latent variable graphical model
+Latent variable models,Unknown,1,1,1,True,False,Latent variable models
+LayerNorm,Unknown,1,1,1,True,False,LayerNorm
+Learnability-based training,Technique,1,1,1,True,False,Learnability-based training
+Learning from AI Feedback,Technique,1,2,2,True,False,Learning from AI Feedback | Learning from AI feedback
+Least-squares estimation,Unknown,1,2,2,True,False,Least-squares estimation | least-squares estimation
+Levenshtein edit distance,Unknown,1,1,1,True,False,Levenshtein edit distance
+LieGAN,Unknown,1,1,1,True,False,LieGAN
+Linear Vision Transformer,Architecture,1,1,1,True,False,Linear Vision Transformer
+Linear attention,Unknown,1,2,2,True,False,Linear attention | linear attention
+Linear regression decoder,Unknown,1,1,1,True,False,Linear regression decoder
+Lion optimizer,Optimizer,1,1,1,True,False,Lion optimizer
+Listener-aware finetuning,Unknown,1,1,1,True,False,Listener-aware finetuning
+Llama3-70B,Unknown,1,1,1,True,False,Llama3-70B
+Llama3-8B,Unknown,1,1,1,True,False,Llama3-8B
+Llava 1.5,Unknown,1,1,1,True,False,Llava 1.5
+LoRA,Unknown,1,1,1,True,False,LoRA
+Logit margins,Unknown,1,2,2,True,False,Logit margins | logit margin
+Looped models,Unknown,1,1,1,True,False,Looped models
+Loss upweighting,Unknown,1,2,2,True,False,Loss upweighting | loss upweighting
+MIDAS,Unknown,1,1,1,True,False,MIDAS
+MPE,Unknown,1,1,1,True,False,MPE
+MPNET,Unknown,1,1,1,True,False,MPNET
+MPR optimization algorithms,Unknown,1,1,1,True,False,MPR optimization algorithms
+MRI reconstruction,Unknown,1,1,1,True,False,MRI reconstruction
+Machine unlearning,Unknown,1,1,1,True,False,Machine unlearning
+Majority vote aggregation,Unknown,1,2,2,True,False,Majority vote aggregation | majority vote aggregation
+Margin consistency,Unknown,1,2,2,True,False,Margin consistency | margin consistency
+Marginal MAP,Unknown,1,1,1,True,False,Marginal MAP
+Masked Auto Encoder,Unknown,1,1,1,True,False,Masked Auto Encoder
+Matrix completion for MBR approximation,Unknown,1,1,1,True,False,Matrix completion for MBR approximation
+Matrix completion for MBR decoding,Unknown,1,1,1,True,False,Matrix completion for MBR decoding
+Mechanistic analysis of grokking and algorithmic shifts in skill composition,Unknown,1,1,1,True,False,Mechanistic analysis of grokking and algorithmic shifts in skill composition
+Mechanistic explanation for SFT vs LAIF,Unknown,1,1,1,True,False,Mechanistic explanation for SFT vs LAIF
+Memory footprint reduction algorithms,Unknown,1,1,1,True,False,Memory footprint reduction algorithms
+Method for learning group actions on the latent space,Technique,1,1,1,True,False,Method for learning group actions on the latent space
+Mini-batch upsampling,Unknown,1,2,2,True,False,Mini-batch upsampling | mini-batch upsampling
+Minimum Bayes Risk decoding,Unknown,1,2,2,True,False,Minimum Bayes Risk (MBR) decoding | Minimum Bayes Risk decoding
+Mistral-7B,Unknown,1,1,1,True,False,Mistral-7B
+Modular Regression,Unknown,1,1,1,True,False,Modular Regression
+Moment Matching Distillation,Unknown,1,1,1,True,False,Moment Matching Distillation
+Multi-Group Proportional Representation,Unknown,1,2,2,True,False,Multi-Group Proportional Representation | Multi-Group Proportional Representation (MPR)
+Multi-Head Attention,Architecture,1,1,1,True,False,Multi-Head Attention
+Multi-Query Attention,Unknown,1,1,1,True,False,Multi-Query Attention
+Multi-label comp-sum losses,Unknown,1,2,2,True,False,Multi-label comp-sum losses | multi-label comp-sum losses
+Multi-label constrained losses,Unknown,1,2,2,True,False,Multi-label constrained losses | multi-label constrained losses
+Multi-label logistic loss,Unknown,1,2,2,True,False,Multi-label logistic loss | multi-label logistic loss
+Multi-task learning,Technique,1,2,2,True,False,Multi-task learning | multi-task learning
+Multiclass extension of the exponential tail property,Unknown,1,2,2,True,False,Multiclass extension of the exponential tail property | multiclass extension of the exponential tail property
+Multilayer perceptrons,Unknown,1,1,1,True,False,Multilayer perceptrons
+Mutual information estimation,Unknown,1,1,1,True,False,Mutual information estimation
+NAO,Unknown,1,1,1,True,False,NAO
+Named Entity Recognition,Unknown,1,1,1,True,False,NER
+Neural Embeddings Rank,Unknown,1,1,1,True,False,Neural Embeddings Rank
+Neural operators,Unknown,1,1,1,True,False,Neural operators
+Neural polarization law,Unknown,1,2,2,True,False,Neural polarization law | neural polarization law
+Neural tangent experts,Unknown,1,2,2,True,False,Neural tangent experts | neural tangent experts
+NeuralSteiner,Unknown,1,1,1,True,False,NeuralSteiner
+Next-token prediction,Unknown,1,1,1,True,False,Next-token prediction
+Non-asymptotic convergence rates,Unknown,1,2,2,True,False,Non-asymptotic convergence rates | non-asymptotic convergence rates
+Non-convex rank minimization,Unknown,1,1,1,True,False,Non-convex rank minimization
+Non-linear perceptron,Unknown,1,1,1,True,False,Non-linear perceptron
+Nonlinear Modeling Error matrix,Unknown,1,1,1,True,False,Nonlinear Modeling Error matrix
+Nonlocal Attention Operator,Unknown,1,1,1,True,False,Nonlocal Attention Operator
+Nonnegative matrix factorization,Unknown,1,2,2,True,False,Nonnegative matrix factorization | nonnegative matrix factorization
+Normalizing flows,Architecture,1,1,1,True,False,Normalizing flows
+Normalizing flows based mutual information estimators,Architecture,1,1,1,True,False,Normalizing flows based mutual information estimators
+Normative model for spatial representation using residue number system,Unknown,1,1,1,True,False,Normative model for spatial representation using residue number system
+OPTO,Unknown,1,1,1,True,False,OPTO
+Oja's rule,Unknown,1,1,1,True,False,Oja's rule
+Online Gradient Descent,Unknown,1,1,1,True,False,Online Gradient Descent
+Optimal composite hypothesis tests,Unknown,1,1,1,True,False,Optimal composite hypothesis tests
+Optimization with Trace Oracle,Unknown,1,1,1,True,False,Optimization with Trace Oracle
+OptoPrime,Unknown,1,1,1,True,False,OptoPrime
+Orthogonal convolutions,Unknown,1,2,2,True,False,Orthogonal convolutions | orthogonal convolutions
+Orthogonal finetuning,Unknown,1,2,2,True,False,Orthogonal finetuning | orthogonal finetuning
+Output-sensitive algorithm,Unknown,1,1,1,True,False,Output-sensitive algorithm
+PAC-Bayes bound for multiple errors,Unknown,1,1,1,True,False,PAC-Bayes bound for multiple errors
+PAC-Bayes generalisation bounds,Unknown,1,1,1,True,False,PAC-Bayes generalisation bounds
+PRELUDE,Unknown,1,1,1,True,False,PRELUDE
+Pareto front tracing algorithm,Unknown,1,1,1,True,False,Pareto front tracing algorithm
+Partially observable Markov decision processes,Unknown,1,2,2,True,False,POMDP | Partially observable Markov decision processes
+Pay-for-performance contract framework,Tool,1,1,1,True,False,Pay-for-performance contract framework
+Permutation Equivariant and Relative Margin-based losses,Unknown,1,2,2,True,False,PERM losses | Permutation Equivariant and Relative Margin-based losses
+Persistent homology dimension,Unknown,1,2,2,True,False,Persistent homology dimension | persistent homology dimension
+Polynomial-time algorithm for fixed centers,Unknown,1,1,1,True,False,Polynomial-time algorithm for fixed centers
+Pooling,Unknown,1,1,1,True,False,Pooling
+Pre-computed features,Unknown,1,1,1,True,False,Pre-computed features
+Preconditioned gradient descent,Unknown,1,2,2,True,False,Preconditioned gradient descent | preconditioned gradient descent
+Preference optimization,Unknown,1,1,1,True,False,Preference optimization
+Pretrained models,Unknown,1,1,1,True,False,Pretrained models
+Pretraining,Unknown,1,1,1,True,False,Pretraining
+Pretraining and finetuning,Unknown,1,2,2,True,False,Pretraining and finetuning | pretraining and finetuning
+Probabilistic Context-free Grammars,Unknown,1,1,1,True,False,Probabilistic Context-free Grammars
+Probabilistic answer set programming inference,Unknown,1,1,1,True,False,Probabilistic answer set programming inference
+Process Reward Model,Unknown,1,1,1,True,False,Process Reward Model
+Proximal Policy Optimization,Unknown,1,1,1,True,False,Proximal Policy Optimization
+Proxy-based sparse expert selection and pooling,Unknown,1,1,1,True,False,Proxy-based sparse expert selection and pooling
+ProxyFusion,Unknown,1,1,1,True,False,ProxyFusion
+Pseudo-margin,Unknown,1,2,2,True,False,Pseudo-margin | pseudo-margin
+PyTorch,Framework,1,1,1,True,False,PyTorch
+QB-Vine,Unknown,1,1,1,True,False,QB-Vine
+Quantized training,Technique,1,2,2,True,False,Quantized training | quantized training
+Quasi-Bayesian Vine,Unknown,1,1,1,True,False,Quasi-Bayesian Vine
+Quasi-Bayesian methods,Unknown,1,1,1,True,False,Quasi-Bayesian methods
+RL-based centralized dynamic planning framework,Tool,1,1,1,True,False,RL-based centralized dynamic planning framework
+RMSNorm,Unknown,1,1,1,True,False,RMSNorm
+Ratio Matching,Unknown,1,1,1,True,False,Ratio Matching
+ReLU networks,Unknown,1,1,1,True,False,ReLU networks
+RealMLP,Unknown,1,1,1,True,False,RealMLP
+Reasoning primitives,Unknown,1,1,1,True,False,Reasoning primitives
+Reconstruction objective,Unknown,1,1,1,True,False,Reconstruction objective
+Rectilinear Steiner tree generation,Unknown,1,1,1,True,False,Rectilinear Steiner tree generation
+Recurrent neural networks,Unknown,1,1,1,True,False,Recurrent neural networks
+Recursive Value Function Search,Algorithm,1,2,2,True,False,RVFS | Recursive Value Function Search
+Refusal direction extraction,Unknown,1,1,1,True,False,Refusal direction extraction
+Reinforcement learning from human feedback,Technique,1,1,1,True,False,Reinforcement learning from human feedback
+Relational match-to-sample,Unknown,1,2,2,True,False,Relational match-to-sample | relational match-to-sample
+Residue number system,Unknown,1,1,1,True,False,Residue number system
+Restricted isometry property on a tangent space,Unknown,1,1,1,True,False,Restricted isometry property on a tangent space
+Retrieval augmented generation,Unknown,1,2,2,True,False,Retrieval augmented generation | retrieval augmented generation
+Retriever-Aware Training,Technique,1,3,3,True,False,RAT | Retriever Aware Training | Retriever-Aware Training
+Reward Machines,Unknown,1,1,1,True,False,Reward Machines
+Ridge regression,Unknown,1,2,2,True,False,Ridge regression | ridge regression
+Rotary Positional Embedding,Unknown,1,1,1,True,False,Rotary Positional Embedding
+Rotary position embeddings,Unknown,1,1,1,True,False,Rotary position embeddings
+Rule-based reasoning,Unknown,1,2,2,True,False,Rule-based reasoning | rule-based reasoning
+SAFEOPT,Unknown,1,1,1,True,False,SAFEOPT
+SIRIUS,Unknown,1,1,1,True,False,SIRIUS
+SIRIUS correction mechanism,Unknown,1,1,1,True,False,SIRIUS correction mechanism
+SMACv2,Unknown,1,1,1,True,False,SMACv2
+SVRG-type variance reduction,Unknown,1,1,1,True,False,SVRG-type variance reduction
+Scene description benchmark,Dataset,1,2,2,True,False,Scene description benchmark | scene description benchmark
+Schur Nets,Unknown,1,1,1,True,False,Schur Nets
+Self-attention,Architecture,1,1,1,True,False,Self-attention
+Self-distillation,Unknown,1,1,1,True,False,Self-distillation
+Self-instruct,Unknown,1,2,2,True,False,Self-instruct | self-instruct
+Semantic consistency,Unknown,1,1,1,True,False,Semantic consistency
+Sensory-cognitive models utilizing naturalistic stimuli,Unknown,1,1,1,True,False,Sensory-cognitive models utilizing naturalistic stimuli
+Set-membership estimation,Unknown,1,2,2,True,False,Set-membership estimation | set-membership estimation
+Sharpness-Aware Minimization,Unknown,1,1,1,True,False,Sharpness-Aware Minimization
+Single-hidden-layer ReLU networks,Unknown,1,1,1,True,False,Single-hidden-layer ReLU networks
+Singular value decomposition,Unknown,1,1,1,True,False,Singular value decomposition
+Sinkhorn Value Iteration,Algorithm,1,1,1,True,False,Sinkhorn Value Iteration
+Skill-Mix,Unknown,1,1,1,True,False,Skill-Mix
+Skill-Mix evaluation,Unknown,1,1,1,True,False,Skill-Mix evaluation
+Sklar's theorem,Unknown,1,1,1,True,False,Sklar's theorem
+Smoothie,Unknown,1,1,1,True,False,Smoothie
+Sparse expert selection,Unknown,1,1,1,True,False,Sparse expert selection
+Spatial meaningfulness framework,Tool,1,1,1,True,False,Spatial meaningfulness framework
+Spatio-temporal kernel,Unknown,1,2,2,True,False,Spatio-temporal kernel | spatio-temporal kernel
+Spatiotemporal Sensitivity Module,Unknown,1,1,1,True,False,Spatiotemporal Sensitivity Module
+Stable Diffusion,Model,1,1,1,True,False,Stable Diffusion
+Stable Diffusion Ultra,Unknown,1,1,1,True,False,Stable Diffusion Ultra
+Standard contract theory,Unknown,1,1,1,True,False,Standard contract theory
+Stochastic Amortization with noisy labels,Unknown,1,1,1,True,False,Stochastic Amortization with noisy labels
+Stochastic processes,Unknown,1,1,1,True,False,Stochastic processes
+Strong meta-tuned default parameters,Unknown,1,1,1,True,False,Strong meta-tuned default parameters
+Structured orthogonal parametrization,Unknown,1,2,2,True,False,Structured orthogonal parametrization | structured orthogonal parametrization
+Sum-product networks,Unknown,1,1,1,True,False,Sum-product networks
+Supervised fine-tuning,Unknown,1,1,1,True,False,Supervised fine-tuning
+Supervised learning,Technique,1,2,2,True,False,Supervised learning | supervised learning
+Supervised safety fine-tuning,Unknown,1,1,1,True,False,Supervised safety fine-tuning
+SwiGLU,Unknown,1,1,1,True,False,SwiGLU
+Synatra,Unknown,1,1,1,True,False,Synatra
+Synthetic data generation framework,Tool,1,1,1,True,False,Synthetic data generation framework
+TVSAFEOPT,Unknown,1,1,1,True,False,TVSAFEOPT
+TabR,Unknown,1,1,1,True,False,TabR
+Tangent Space Causal Inference,Unknown,1,2,2,True,False,TSCI | Tangent Space Causal Inference
+Task-structured RL algorithms,Unknown,1,1,1,True,False,Task-structured RL algorithms
+Temporal Activation Controller,Unknown,1,1,1,True,False,Temporal Activation Controller
+Text-to-image diffusion models,Architecture,1,1,1,True,False,Text-to-image diffusion models
+Theoretical analysis of gradient descent sample inefficiency,Unknown,1,1,1,True,False,Theoretical analysis of gradient descent sample inefficiency
+Theoretical framework for tokenization under Markovian data,Tool,1,1,1,True,False,Theoretical framework for tokenization under Markovian data
+Theory of pattern classes under discrete data streams,Unknown,1,1,1,True,False,Theory of pattern classes under discrete data streams
+Tokenization,Unknown,1,2,2,True,False,Tokenization | tokenization
+Tool-augmented Outcome Reward Model,Tool,1,1,1,True,False,Tool-augmented Outcome Reward Model
+Trace,Unknown,1,1,1,True,False,Trace
+Trace library,Tool,1,1,1,True,False,Trace library
+Tractability conditions for compositional queries,Unknown,1,1,1,True,False,Tractability conditions for compositional queries
+Two-agent speaker-listener game,Unknown,1,1,1,True,False,Two-agent speaker-listener game
+Two-stage training algorithm for one-layer transformer,Architecture,1,1,1,True,False,Two-stage training algorithm for one-layer transformer
+Unelicitable backdoors,Unknown,1,2,2,True,False,Unelicitable backdoors | unelicitable backdoors
+Uniform DAG sampling,Unknown,1,1,1,True,False,Uniform DAG sampling
+Uniform sampling algorithm,Unknown,1,1,1,True,False,Uniform sampling algorithm
+Unifying class of structured matrices,Unknown,1,1,1,True,False,Unifying class of structured matrices
+Unigram models,Unknown,1,2,2,True,False,Unigram models | unigram models
+Unsupervised Environment Design,Unknown,1,1,1,True,False,Unsupervised Environment Design
+Unsupervised routing,Unknown,1,2,2,True,False,Unsupervised routing | unsupervised routing
+Update-and-deploy framework,Tool,1,1,1,True,False,Update-and-deploy framework
+Variational Score Distillation,Metric,1,1,1,True,False,Variational Score Distillation
+Vector fields,Unknown,1,1,1,True,False,Vector fields
+Vector-contraction inequality,Unknown,1,2,2,True,False,Vector-contraction inequality | vector-contraction inequality
+Video diffusion model,Architecture,1,1,1,True,False,Video diffusion model
+Vine copulas,Unknown,1,1,1,True,False,Vine copulas
+Vision Transformers,Unknown,1,1,1,True,False,vision transformers
+Wasserstein,Unknown,1,1,1,True,False,Wasserstein
+Wasserstein gradient boosting,Unknown,1,1,1,True,False,Wasserstein gradient boosting
+Weight orthogonalization,Unknown,1,2,2,True,False,Weight orthogonalization | weight orthogonalization
+Weight rescaling following pretraining,Unknown,1,1,1,True,False,Weight rescaling following pretraining
+active labeling framework,Tool,1,1,1,True,False,active labeling framework
+adaptive branching,Unknown,1,1,1,True,False,adaptive branching
+adaptive gradient methods,Unknown,1,1,1,True,False,adaptive gradient methods
+adversarial evaluation procedure,Unknown,1,1,1,True,False,adversarial evaluation procedure
+adversarial suffixes,Unknown,1,1,1,True,False,adversarial suffixes
+adversarial training strategies,Technique,1,1,1,True,False,adversarial training strategies
+algorithm enhancements for memory footprint reduction,Unknown,1,1,1,True,False,algorithm enhancements for memory footprint reduction
+alternating optimization,Unknown,1,1,1,True,False,alternating optimization
+alternative parameterization of low-rank problem,Unknown,1,1,1,True,False,alternative parameterization of low-rank problem
+ancestral sampling,Unknown,1,1,1,True,False,ancestral sampling
+assignment-then-diffusion,Unknown,1,1,1,True,False,assignment-then-diffusion
+assignment-then-diffusion training strategy,Technique,1,1,1,True,False,assignment-then-diffusion training strategy
+auditing algorithms,Unknown,1,1,1,True,False,auditing algorithms
+basis for equivariant operations,Unknown,1,1,1,True,False,basis for equivariant operations
+bidirectional graph search,Unknown,1,1,1,True,False,bidirectional graph search
+bisimulation metrics,Unknown,1,1,1,True,False,bisimulation metrics
+class-balanced subset,Unknown,1,1,1,True,False,class-balanced subset
+classifier-free guidance,Unknown,1,1,1,True,False,classifier-free guidance
+composite hypothesis tests,Unknown,1,1,1,True,False,composite hypothesis tests
+concept space framework,Tool,1,1,1,True,False,concept space framework
+consistent binary relevance surrogate,Unknown,1,1,1,True,False,consistent binary relevance surrogate
+counterfactual explanations,Unknown,1,1,1,True,False,counterfactual explanations
+cross-view contrastive knowledge distillation,Unknown,1,1,1,True,False,cross-view contrastive knowledge distillation
+deep gradient compression,Unknown,1,1,1,True,False,deep gradient compression
+discounted occupancy couplings,Unknown,1,1,1,True,False,discounted occupancy couplings
+disentangled conditioning mechanism,Unknown,1,1,1,True,False,disentangled conditioning mechanism
+disentangled semantic and low-level conditioning mechanism,Unknown,1,1,1,True,False,disentangled semantic and low-level conditioning mechanism
+double integral operator,Unknown,1,1,1,True,False,double integral operator
+dual training algorithm,Technique,1,1,1,True,False,dual training algorithm
+dynamic programming,Algorithm,1,1,1,True,False,dynamic programming
+dynamic propagation models,Unknown,1,1,1,True,False,dynamic propagation models
+dynamic rescaling,Unknown,1,1,1,True,False,dynamic rescaling
+dynamic rescaling of network parameters and gradients,Unknown,1,1,1,True,False,dynamic rescaling of network parameters and gradients
+efficient uncoupled learning algorithm,Technique,1,1,1,True,False,efficient uncoupled learning algorithm
+equivariant basis from graph Laplacian,Unknown,1,1,1,True,False,equivariant basis from graph Laplacian
+feed-forward layer,Unknown,1,1,1,True,False,feed-forward layer
+fixed-point forward gradients,Unknown,1,1,1,True,False,fixed-point forward gradients
+flow algorithms on graphs,Unknown,1,1,1,True,False,flow algorithms on graphs
+flow equations describing learning,Technique,1,1,1,True,False,flow equations describing learning
+formal verification,Unknown,1,1,1,True,False,formal verification
+game theory,Unknown,1,1,1,True,False,game theory
+generalization bounds,Unknown,1,1,1,True,False,generalization bounds
+goal-conditioned cost network,Unknown,1,1,1,True,False,goal-conditioned cost network
+gradient boosting,Unknown,1,1,1,True,False,gradient boosting
+gradient penalties,Unknown,1,1,1,True,False,gradient penalties
+graph Laplacian,Unknown,1,1,1,True,False,graph Laplacian
+graph structure,Unknown,1,1,1,True,False,graph structure
+graph-based learning framework,Tool,1,1,1,True,False,graph-based learning framework
+higher order graph neural networks,Architecture,1,1,1,True,False,higher order graph neural networks
+inhibitory plasticity,Unknown,1,1,1,True,False,inhibitory plasticity
+inhibitory plasticity rule,Unknown,1,1,1,True,False,inhibitory plasticity rule
+kth-order Markov processes,Unknown,1,1,1,True,False,kth-order Markov processes
+latent interventions,Unknown,1,1,1,True,False,latent interventions
+linear models,Unknown,1,1,1,True,False,linear models
+linear program,Unknown,1,1,1,True,False,linear program
+local simulator access,Unknown,1,1,1,True,False,local simulator access
+mechanistic interpretability,Unknown,1,1,1,True,False,mechanistic interpretability
+message passing,Unknown,1,1,1,True,False,message passing
+meta-learning,Technique,1,1,1,True,False,meta-learning
+meta-tuned default parameters,Unknown,1,1,1,True,False,meta-tuned default parameters
+method directly training on scenarios with high learnability,Technique,1,1,1,True,False,method directly training on scenarios with high learnability
+minimum norm interpolating solutions,Unknown,1,1,1,True,False,minimum norm interpolating solutions
+mixture method,Unknown,1,1,1,True,False,mixture method
+modular arithmetic dataset,Dataset,1,1,1,True,False,modular arithmetic dataset
+multilayer perceptron,Unknown,1,1,1,True,False,multilayer perceptron
+multimodal language models,Unknown,1,1,1,True,False,multimodal language models
+mutual fairness,Unknown,1,1,1,True,False,mutual fairness
+mutual fairness metric,Metric,1,1,1,True,False,mutual fairness metric
+nMCTS,Unknown,1,1,1,True,False,nMCTS
+nearly-linear time algorithm,Unknown,1,1,1,True,False,nearly-linear time algorithm
+neural network classifiers,Unknown,1,1,1,True,False,neural network classifiers
+new seed-selection algorithm,Algorithm,1,1,1,True,False,new seed-selection algorithm
+no-regret learning procedures,Technique,1,1,1,True,False,no-regret learning procedures
+normal-form games,Unknown,1,1,1,True,False,normal-form games
+normalization layers,Unknown,1,1,1,True,False,normalization layers
+numerical estimation,Unknown,1,1,1,True,False,numerical estimation
+one-step retrosynthesis models,Unknown,1,1,1,True,False,one-step retrosynthesis models
+online reinforcement learning,Technique,1,1,1,True,False,online reinforcement learning
+optimal transport distances,Algorithm,1,1,1,True,False,optimal transport distances
+optimal transport theory,Algorithm,1,1,1,True,False,optimal transport theory
+option-level formulation,Unknown,1,1,1,True,False,option-level formulation
+parameter-space moment matching,Unknown,1,1,1,True,False,parameter-space moment matching
+pay-per-token pricing,Unknown,1,1,1,True,False,pay-per-token pricing
+polarization,Unknown,1,1,1,True,False,polarization
+polytope theory,Unknown,1,1,1,True,False,polytope theory
+program search,Unknown,1,1,1,True,False,program search
+program synthesis,Unknown,1,1,1,True,False,program synthesis
+proportionally fair clustering,Unknown,1,1,1,True,False,proportionally fair clustering
+pseudo-programs,Unknown,1,1,1,True,False,pseudo-programs
+python sympy,Unknown,1,1,1,True,False,python sympy
+quantized assignment strategy,Unknown,1,1,1,True,False,quantized assignment strategy
+ranking algorithm,Unknown,1,1,1,True,False,ranking algorithm
+red-teaming,Unknown,1,1,1,True,False,red-teaming
+reinforcement learning-based centralized dynamic planning framework,Tool,1,1,1,True,False,reinforcement learning-based centralized dynamic planning framework
+remote photoplethysmography,Unknown,1,1,1,True,False,remote photoplethysmography
+risk controlling prediction sets,Unknown,1,1,1,True,False,risk controlling prediction sets
+satisficing paths,Unknown,1,1,1,True,False,satisficing paths
+seed-selection algorithm,Algorithm,1,1,1,True,False,seed-selection algorithm
+self-attention module,Architecture,1,1,1,True,False,self-attention module
+short-flat decomposition framework,Tool,1,1,1,True,False,short-flat decomposition framework
+sign operator,Unknown,1,1,1,True,False,sign operator
+spectral graph theory,Unknown,1,1,1,True,False,spectral graph theory
+state merge,Unknown,1,1,1,True,False,state merge
+stochastic-process approach,Unknown,1,1,1,True,False,stochastic-process approach
+suite of RL algorithms,Unknown,1,1,1,True,False,suite of RL algorithms
+task prioritisation metrics,Unknown,1,1,1,True,False,task prioritisation metrics
+teacher-student models,Unknown,1,1,1,True,False,teacher-student models
+temporally asymmetric generalization of Oja's rule,Unknown,1,1,1,True,False,temporally asymmetric generalization of Oja's rule
+ternary gradients,Optimizer,1,1,1,True,False,ternary gradients
+text-to-image models,Unknown,1,1,1,True,False,text-to-image models
+tool-augmented ORM,Tool,1,1,1,True,False,tool-augmented ORM
+topological data analysis,Unknown,1,1,1,True,False,topological data analysis
+transfer learning,Technique,1,1,1,True,False,transfer learning
+tree-based evidential learning,Technique,1,1,1,True,False,tree-based evidential learning
+two-stage training algorithm,Technique,1,1,1,True,False,two-stage training algorithm
+uncoupled learning algorithm,Technique,1,1,1,True,False,uncoupled learning algorithm
+universal stochastic gradient methods,Optimizer,1,1,1,True,False,universal stochastic gradient methods
+value function approximation,Unknown,1,1,1,True,False,value function approximation
+vanilla Sinkhorn,Algorithm,1,1,1,True,False,vanilla Sinkhorn
+view decoupling,Unknown,1,1,1,True,False,view decoupling
+visual search,Unknown,1,1,1,True,False,visual search
+weak supervision,Unknown,1,1,1,True,False,weak supervision
+weight noise,Unknown,1,1,1,True,False,weight noise
+weight rescaling,Unknown,1,1,1,True,False,weight rescaling
+weights2weights subspace,Unknown,1,1,1,True,False,weights2weights subspace
+white-box jailbreak method,Unknown,1,1,1,True,False,white-box jailbreak method
+ηMCTS,Unknown,1,1,1,True,False,ηMCTS

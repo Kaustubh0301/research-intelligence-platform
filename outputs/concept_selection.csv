@@ -1,0 +1,518 @@
+canonical_name,classification,paper_count,pct_of_papers,idf_score,graph_contribution,proposed_weight
+Large Language Models,GENERIC,9,9.0,2.408,36,0.75
+Transformers,GENERIC,7,7.0,2.659,21,0.75
+Diffusion Models,GENERIC,5,5.0,2.996,10,0.75
+AdamW optimizer,SHARED,3,3.0,3.507,3,3.00
+In-context learning,SHARED,3,3.0,3.507,3,3.00
+Chain-of-Thought,SPECIALIZED,2,2.0,3.912,1,6.00
+Cross-entropy loss,SPECIALIZED,2,2.0,3.912,1,6.00
+Direct preference optimization,SPECIALIZED,2,2.0,3.912,1,6.00
+Generative models,SPECIALIZED,2,2.0,3.912,1,6.00
+Gradient descent,SPECIALIZED,2,2.0,3.912,1,6.00
+LLaMA,SPECIALIZED,2,2.0,3.912,1,6.00
+Language models,SPECIALIZED,2,2.0,3.912,1,6.00
+Markov Decision Process,SPECIALIZED,2,2.0,3.912,1,6.00
+Monte Carlo Tree Search,SPECIALIZED,2,2.0,3.912,1,6.00
+Multi-Agent Reinforcement Learning,SPECIALIZED,2,2.0,3.912,1,6.00
+Neural networks,SPECIALIZED,2,2.0,3.912,1,6.00
+Optimal transport,SPECIALIZED,2,2.0,3.912,1,6.00
+Reinforcement learning,SPECIALIZED,2,2.0,3.912,1,6.00
+Stochastic gradient descent,SPECIALIZED,2,2.0,3.912,1,6.00
+$\Phi$-equilibria,SPECIALIZED,1,1.0,4.605,0,6.00
+1-Lipschitz neural networks,SPECIALIZED,1,1.0,4.605,0,6.00
+2D-CNN,SPECIALIZED,1,1.0,4.605,0,6.00
+3D-CNN,SPECIALIZED,1,1.0,4.605,0,6.00
+AID,SPECIALIZED,1,1.0,4.605,0,6.00
+APIBench,SPECIALIZED,1,1.0,4.605,0,6.00
+AST Sub-Tree Matching,SPECIALIZED,1,1.0,4.605,0,6.00
+Abstract Syntax Tree,SPECIALIZED,1,1.0,4.605,0,6.00
+Abstract Syntax Tree sub-tree matching,SPECIALIZED,1,1.0,4.605,0,6.00
+ActAnywhere,SPECIALIZED,1,1.0,4.605,0,6.00
+Activation addition,SPECIALIZED,1,1.0,4.605,0,6.00
+AdaGrad stepsizes,SPECIALIZED,1,1.0,4.605,0,6.00
+Adam,SPECIALIZED,1,1.0,4.605,0,6.00
+Adaptive learning algorithms,SPECIALIZED,1,1.0,4.605,0,6.00
+Adversarial CVaR evaluation,SPECIALIZED,1,1.0,4.605,0,6.00
+Adversarial training,SPECIALIZED,1,1.0,4.605,0,6.00
+Algebraic circuits,SPECIALIZED,1,1.0,4.605,0,6.00
+AlphaLLM,SPECIALIZED,1,1.0,4.605,0,6.00
+Alternating Least Squares algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+Amortized models,SPECIALIZED,1,1.0,4.605,0,6.00
+Attack-aware noise calibration,SPECIALIZED,1,1.0,4.605,0,6.00
+Attention mechanism,SPECIALIZED,1,1.0,4.605,0,6.00
+Attractor network,SPECIALIZED,1,1.0,4.605,0,6.00
+AutoDiff,SPECIALIZED,1,1.0,4.605,0,6.00
+Autoencoders,SPECIALIZED,1,1.0,4.605,0,6.00
+Autoregressive image diffusion model,SPECIALIZED,1,1.0,4.605,0,6.00
+BERT,SPECIALIZED,1,1.0,4.605,0,6.00
+BM25,SPECIALIZED,1,1.0,4.605,0,6.00
+Backpropagation,SPECIALIZED,1,1.0,4.605,0,6.00
+Bayesian approach for learning causal graphs with limited interventional samples,SPECIALIZED,1,1.0,4.605,0,6.00
+Bayesian ensemble,SPECIALIZED,1,1.0,4.605,0,6.00
+Bayesian ensemble interpretation of neural networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Bayesian optimization,SPECIALIZED,1,1.0,4.605,0,6.00
+Binary relevance surrogate,SPECIALIZED,1,1.0,4.605,0,6.00
+Blender,SPECIALIZED,1,1.0,4.605,0,6.00
+Blind-prediction framework,SPECIALIZED,1,1.0,4.605,0,6.00
+CASP,SPECIALIZED,1,1.0,4.605,0,6.00
+CIPHER,SPECIALIZED,1,1.0,4.605,0,6.00
+CLA2,SPECIALIZED,1,1.0,4.605,0,6.00
+CLA3,SPECIALIZED,1,1.0,4.605,0,6.00
+CLA4,SPECIALIZED,1,1.0,4.605,0,6.00
+COGEX,SPECIALIZED,1,1.0,4.605,0,6.00
+COMET,SPECIALIZED,1,1.0,4.605,0,6.00
+COMET metric,SPECIALIZED,1,1.0,4.605,0,6.00
+Causal backdoor adjustment,SPECIALIZED,1,1.0,4.605,0,6.00
+Chain-of-Thought prompting,SPECIALIZED,1,1.0,4.605,0,6.00
+Chat Models,SPECIALIZED,1,1.0,4.605,0,6.00
+Class-balanced mixture method,SPECIALIZED,1,1.0,4.605,0,6.00
+Claude Sonnet 3.5,SPECIALIZED,1,1.0,4.605,0,6.00
+Clustering,SPECIALIZED,1,1.0,4.605,0,6.00
+CodeLlama,SPECIALIZED,1,1.0,4.605,0,6.00
+Comp-sum losses,SPECIALIZED,1,1.0,4.605,0,6.00
+Compositional inference framework over semirings,SPECIALIZED,1,1.0,4.605,0,6.00
+Computational geometry tools,SPECIALIZED,1,1.0,4.605,0,6.00
+Computer-aided synthesis planning,SPECIALIZED,1,1.0,4.605,0,6.00
+Conditional value at risk,SPECIALIZED,1,1.0,4.605,0,6.00
+Conjunctive vector-binding operation,SPECIALIZED,1,1.0,4.605,0,6.00
+Conservation law for feature reuse and sparsity,SPECIALIZED,1,1.0,4.605,0,6.00
+Consistency Models,SPECIALIZED,1,1.0,4.605,0,6.00
+Constrained diffusion models,SPECIALIZED,1,1.0,4.605,0,6.00
+Constrained losses,SPECIALIZED,1,1.0,4.605,0,6.00
+Contextual Sparsity,SPECIALIZED,1,1.0,4.605,0,6.00
+Continual learning,SPECIALIZED,1,1.0,4.605,0,6.00
+Convergent cross mapping,SPECIALIZED,1,1.0,4.605,0,6.00
+Convolutional neural networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Coordinate mirror descent,SPECIALIZED,1,1.0,4.605,0,6.00
+Cost-robust contracts,SPECIALIZED,1,1.0,4.605,0,6.00
+Counterfactual Clamping Attack,SPECIALIZED,1,1.0,4.605,0,6.00
+Cross-Layer Attention,SPECIALIZED,1,1.0,4.605,0,6.00
+Cryptographic techniques,SPECIALIZED,1,1.0,4.605,0,6.00
+Cryptographic transformer circuits,SPECIALIZED,1,1.0,4.605,0,6.00
+Custom kernel for per-example gradient norms,SPECIALIZED,1,1.0,4.605,0,6.00
+DALL-E 3,SPECIALIZED,1,1.0,4.605,0,6.00
+DDIM,SPECIALIZED,1,1.0,4.605,0,6.00
+DESP,SPECIALIZED,1,1.0,4.605,0,6.00
+Data valuation,SPECIALIZED,1,1.0,4.605,0,6.00
+Deep Reinforcement Learning,SPECIALIZED,1,1.0,4.605,0,6.00
+Deep learning,SPECIALIZED,1,1.0,4.605,0,6.00
+Deep linear models,SPECIALIZED,1,1.0,4.605,0,6.00
+Diagonal linear networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Difference-in-means,SPECIALIZED,1,1.0,4.605,0,6.00
+Difference-in-means direction,SPECIALIZED,1,1.0,4.605,0,6.00
+Differentiable training objective for error control,SPECIALIZED,1,1.0,4.605,0,6.00
+Differential privacy,SPECIALIZED,1,1.0,4.605,0,6.00
+Dimensionality reduction,SPECIALIZED,1,1.0,4.605,0,6.00
+Direct feature attribution,SPECIALIZED,1,1.0,4.605,0,6.00
+Directional ablation,SPECIALIZED,1,1.0,4.605,0,6.00
+Disagreement upper bound,SPECIALIZED,1,1.0,4.605,0,6.00
+Discrimination objective,SPECIALIZED,1,1.0,4.605,0,6.00
+Distributed Lion,SPECIALIZED,1,1.0,4.605,0,6.00
+Document retriever,SPECIALIZED,1,1.0,4.605,0,6.00
+Double-Ended Synthesis Planning,SPECIALIZED,1,1.0,4.605,0,6.00
+E2GN2,SPECIALIZED,1,1.0,4.605,0,6.00
+Efficient Method of Moments,SPECIALIZED,1,1.0,4.605,0,6.00
+Empirical risk minimization,SPECIALIZED,1,1.0,4.605,0,6.00
+Energy score,SPECIALIZED,1,1.0,4.605,0,6.00
+Ensembling,SPECIALIZED,1,1.0,4.605,0,6.00
+Equivariant Graph Neural Networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Event-based Graph Spatiotemporal Sensitive Transformer,SPECIALIZED,1,1.0,4.605,0,6.00
+Execution graph,SPECIALIZED,1,1.0,4.605,0,6.00
+Exploration-enhanced Equivariant Graph Neural Networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Explore-then-exploit,SPECIALIZED,1,1.0,4.605,0,6.00
+Face feature fusion,SPECIALIZED,1,1.0,4.605,0,6.00
+Face recognition,SPECIALIZED,1,1.0,4.605,0,6.00
+Factor Relaxation with Latent Coupling,SPECIALIZED,1,1.0,4.605,0,6.00
+FactorizePhys,SPECIALIZED,1,1.0,4.605,0,6.00
+Factorized Self-Attention Module,SPECIALIZED,1,1.0,4.605,0,6.00
+FastMRI dataset,SPECIALIZED,1,1.0,4.605,0,6.00
+Feature attribution,SPECIALIZED,1,1.0,4.605,0,6.00
+Fine-grained non-asymptotic analysis,SPECIALIZED,1,1.0,4.605,0,6.00
+Fine-tuning,SPECIALIZED,1,1.0,4.605,0,6.00
+Fixed-point forward gradients training,SPECIALIZED,1,1.0,4.605,0,6.00
+Flow equations via a stochastic-process approach,SPECIALIZED,1,1.0,4.605,0,6.00
+Foreground subject segmentation,SPECIALIZED,1,1.0,4.605,0,6.00
+Forward gradients,SPECIALIZED,1,1.0,4.605,0,6.00
+Fractal dimension,SPECIALIZED,1,1.0,4.605,0,6.00
+Framework for discovering continuous and discrete symmetry beyond the affine transformation group,SPECIALIZED,1,1.0,4.605,0,6.00
+Fused Gromov-Wasserstein,SPECIALIZED,1,1.0,4.605,0,6.00
+GATs,SPECIALIZED,1,1.0,4.605,0,6.00
+GPT,SPECIALIZED,1,1.0,4.605,0,6.00
+GPT-4,SPECIALIZED,1,1.0,4.605,0,6.00
+GPT-4o,SPECIALIZED,1,1.0,4.605,0,6.00
+GPT-4v,SPECIALIZED,1,1.0,4.605,0,6.00
+GPT-Index,SPECIALIZED,1,1.0,4.605,0,6.00
+GRU,SPECIALIZED,1,1.0,4.605,0,6.00
+Gauss-Newton matrix,SPECIALIZED,1,1.0,4.605,0,6.00
+Gaussian Processes,SPECIALIZED,1,1.0,4.605,0,6.00
+Gaussian kernel ridge regression,SPECIALIZED,1,1.0,4.605,0,6.00
+Gaussian universality ansatz,SPECIALIZED,1,1.0,4.605,0,6.00
+Gemini,SPECIALIZED,1,1.0,4.605,0,6.00
+Gemini Ultra 1.5,SPECIALIZED,1,1.0,4.605,0,6.00
+Generalized Method of Moments,SPECIALIZED,1,1.0,4.605,0,6.00
+Google Muse,SPECIALIZED,1,1.0,4.605,0,6.00
+Google Parti,SPECIALIZED,1,1.0,4.605,0,6.00
+Gorilla,SPECIALIZED,1,1.0,4.605,0,6.00
+Gradient noise scale,SPECIALIZED,1,1.0,4.605,0,6.00
+Gradient-boosted decision trees,SPECIALIZED,1,1.0,4.605,0,6.00
+Gradual stacking,SPECIALIZED,1,1.0,4.605,0,6.00
+Graph Attention Networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Graph convolutional network,SPECIALIZED,1,1.0,4.605,0,6.00
+Graph neural networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Graph-based post-processing algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+Greedy Capture,SPECIALIZED,1,1.0,4.605,0,6.00
+Gromov-Wasserstein,SPECIALIZED,1,1.0,4.605,0,6.00
+Grouped-Query Attention,SPECIALIZED,1,1.0,4.605,0,6.00
+H3 architecture,SPECIALIZED,1,1.0,4.605,0,6.00
+Hamming loss,SPECIALIZED,1,1.0,4.605,0,6.00
+Hybrid system combining LLMs and rule-based reasoning,SPECIALIZED,1,1.0,4.605,0,6.00
+Imagination-searching-criticizing framework,SPECIALIZED,1,1.0,4.605,0,6.00
+Immiscible Diffusion,SPECIALIZED,1,1.0,4.605,0,6.00
+Implicit bias analysis of deep linear models,SPECIALIZED,1,1.0,4.605,0,6.00
+In-context prompting,SPECIALIZED,1,1.0,4.605,0,6.00
+Inference attacks,SPECIALIZED,1,1.0,4.605,0,6.00
+Input pre-processing technique,SPECIALIZED,1,1.0,4.605,0,6.00
+Input space margins,SPECIALIZED,1,1.0,4.605,0,6.00
+Iterative self-reflection feedback loop,SPECIALIZED,1,1.0,4.605,0,6.00
+Iteratively reweighted least squares,SPECIALIZED,1,1.0,4.605,0,6.00
+Iteratively reweighted least squares variant,SPECIALIZED,1,1.0,4.605,0,6.00
+JB-CO-Task,SPECIALIZED,1,1.0,4.605,0,6.00
+JB-CO-Text,SPECIALIZED,1,1.0,4.605,0,6.00
+JB-MisGen,SPECIALIZED,1,1.0,4.605,0,6.00
+Joint Embedding Predictive Architectures,SPECIALIZED,1,1.0,4.605,0,6.00
+Kullback-Leibler divergence,SPECIALIZED,1,1.0,4.605,0,6.00
+LACIE,SPECIALIZED,1,1.0,4.605,0,6.00
+LACIE listener-aware finetuning method,SPECIALIZED,1,1.0,4.605,0,6.00
+LLaMA-7B,SPECIALIZED,1,1.0,4.605,0,6.00
+LSTM,SPECIALIZED,1,1.0,4.605,0,6.00
+Label-specific representation learning,SPECIALIZED,1,1.0,4.605,0,6.00
+Latent Preference Induction,SPECIALIZED,1,1.0,4.605,0,6.00
+Latent coupling factorization,SPECIALIZED,1,1.0,4.605,0,6.00
+Latent diffusion models,SPECIALIZED,1,1.0,4.605,0,6.00
+Latent variable graphical models,SPECIALIZED,1,1.0,4.605,0,6.00
+Latent variable models,SPECIALIZED,1,1.0,4.605,0,6.00
+LayerNorm,SPECIALIZED,1,1.0,4.605,0,6.00
+Learnability-based training,SPECIALIZED,1,1.0,4.605,0,6.00
+Learning from AI Feedback,SPECIALIZED,1,1.0,4.605,0,6.00
+Least-squares estimation,SPECIALIZED,1,1.0,4.605,0,6.00
+Levenshtein edit distance,SPECIALIZED,1,1.0,4.605,0,6.00
+LieGAN,SPECIALIZED,1,1.0,4.605,0,6.00
+Linear Vision Transformer,SPECIALIZED,1,1.0,4.605,0,6.00
+Linear attention,SPECIALIZED,1,1.0,4.605,0,6.00
+Linear regression decoder,SPECIALIZED,1,1.0,4.605,0,6.00
+Lion optimizer,SPECIALIZED,1,1.0,4.605,0,6.00
+Listener-aware finetuning,SPECIALIZED,1,1.0,4.605,0,6.00
+Llama3-70B,SPECIALIZED,1,1.0,4.605,0,6.00
+Llama3-8B,SPECIALIZED,1,1.0,4.605,0,6.00
+Llava 1.5,SPECIALIZED,1,1.0,4.605,0,6.00
+LoRA,SPECIALIZED,1,1.0,4.605,0,6.00
+Logit margins,SPECIALIZED,1,1.0,4.605,0,6.00
+Looped models,SPECIALIZED,1,1.0,4.605,0,6.00
+Loss upweighting,SPECIALIZED,1,1.0,4.605,0,6.00
+MIDAS,SPECIALIZED,1,1.0,4.605,0,6.00
+MPE,SPECIALIZED,1,1.0,4.605,0,6.00
+MPNET,SPECIALIZED,1,1.0,4.605,0,6.00
+MPR optimization algorithms,SPECIALIZED,1,1.0,4.605,0,6.00
+MRI reconstruction,SPECIALIZED,1,1.0,4.605,0,6.00
+Machine unlearning,SPECIALIZED,1,1.0,4.605,0,6.00
+Majority vote aggregation,SPECIALIZED,1,1.0,4.605,0,6.00
+Margin consistency,SPECIALIZED,1,1.0,4.605,0,6.00
+Marginal MAP,SPECIALIZED,1,1.0,4.605,0,6.00
+Masked Auto Encoder,SPECIALIZED,1,1.0,4.605,0,6.00
+Matrix completion for MBR approximation,SPECIALIZED,1,1.0,4.605,0,6.00
+Matrix completion for MBR decoding,SPECIALIZED,1,1.0,4.605,0,6.00
+Mechanistic analysis of grokking and algorithmic shifts in skill composition,SPECIALIZED,1,1.0,4.605,0,6.00
+Mechanistic explanation for SFT vs LAIF,SPECIALIZED,1,1.0,4.605,0,6.00
+Memory footprint reduction algorithms,SPECIALIZED,1,1.0,4.605,0,6.00
+Method for learning group actions on the latent space,SPECIALIZED,1,1.0,4.605,0,6.00
+Mini-batch upsampling,SPECIALIZED,1,1.0,4.605,0,6.00
+Minimum Bayes Risk decoding,SPECIALIZED,1,1.0,4.605,0,6.00
+Mistral-7B,SPECIALIZED,1,1.0,4.605,0,6.00
+Modular Regression,SPECIALIZED,1,1.0,4.605,0,6.00
+Moment Matching Distillation,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-Group Proportional Representation,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-Head Attention,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-Query Attention,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-label comp-sum losses,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-label constrained losses,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-label logistic loss,SPECIALIZED,1,1.0,4.605,0,6.00
+Multi-task learning,SPECIALIZED,1,1.0,4.605,0,6.00
+Multiclass extension of the exponential tail property,SPECIALIZED,1,1.0,4.605,0,6.00
+Multilayer perceptrons,SPECIALIZED,1,1.0,4.605,0,6.00
+Mutual information estimation,SPECIALIZED,1,1.0,4.605,0,6.00
+NAO,SPECIALIZED,1,1.0,4.605,0,6.00
+Named Entity Recognition,SPECIALIZED,1,1.0,4.605,0,6.00
+Neural Embeddings Rank,SPECIALIZED,1,1.0,4.605,0,6.00
+Neural operators,SPECIALIZED,1,1.0,4.605,0,6.00
+Neural polarization law,SPECIALIZED,1,1.0,4.605,0,6.00
+Neural tangent experts,SPECIALIZED,1,1.0,4.605,0,6.00
+NeuralSteiner,SPECIALIZED,1,1.0,4.605,0,6.00
+Next-token prediction,SPECIALIZED,1,1.0,4.605,0,6.00
+Non-asymptotic convergence rates,SPECIALIZED,1,1.0,4.605,0,6.00
+Non-convex rank minimization,SPECIALIZED,1,1.0,4.605,0,6.00
+Non-linear perceptron,SPECIALIZED,1,1.0,4.605,0,6.00
+Nonlinear Modeling Error matrix,SPECIALIZED,1,1.0,4.605,0,6.00
+Nonlocal Attention Operator,SPECIALIZED,1,1.0,4.605,0,6.00
+Nonnegative matrix factorization,SPECIALIZED,1,1.0,4.605,0,6.00
+Normalizing flows,SPECIALIZED,1,1.0,4.605,0,6.00
+Normalizing flows based mutual information estimators,SPECIALIZED,1,1.0,4.605,0,6.00
+Normative model for spatial representation using residue number system,SPECIALIZED,1,1.0,4.605,0,6.00
+OPTO,SPECIALIZED,1,1.0,4.605,0,6.00
+Oja's rule,SPECIALIZED,1,1.0,4.605,0,6.00
+Online Gradient Descent,SPECIALIZED,1,1.0,4.605,0,6.00
+Optimal composite hypothesis tests,SPECIALIZED,1,1.0,4.605,0,6.00
+Optimization with Trace Oracle,SPECIALIZED,1,1.0,4.605,0,6.00
+OptoPrime,SPECIALIZED,1,1.0,4.605,0,6.00
+Orthogonal convolutions,SPECIALIZED,1,1.0,4.605,0,6.00
+Orthogonal finetuning,SPECIALIZED,1,1.0,4.605,0,6.00
+Output-sensitive algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+PAC-Bayes bound for multiple errors,SPECIALIZED,1,1.0,4.605,0,6.00
+PAC-Bayes generalisation bounds,SPECIALIZED,1,1.0,4.605,0,6.00
+PRELUDE,SPECIALIZED,1,1.0,4.605,0,6.00
+Pareto front tracing algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+Partially observable Markov decision processes,SPECIALIZED,1,1.0,4.605,0,6.00
+Pay-for-performance contract framework,SPECIALIZED,1,1.0,4.605,0,6.00
+Permutation Equivariant and Relative Margin-based losses,SPECIALIZED,1,1.0,4.605,0,6.00
+Persistent homology dimension,SPECIALIZED,1,1.0,4.605,0,6.00
+Polynomial-time algorithm for fixed centers,SPECIALIZED,1,1.0,4.605,0,6.00
+Pooling,SPECIALIZED,1,1.0,4.605,0,6.00
+Pre-computed features,SPECIALIZED,1,1.0,4.605,0,6.00
+Preconditioned gradient descent,SPECIALIZED,1,1.0,4.605,0,6.00
+Preference optimization,SPECIALIZED,1,1.0,4.605,0,6.00
+Pretrained models,SPECIALIZED,1,1.0,4.605,0,6.00
+Pretraining,SPECIALIZED,1,1.0,4.605,0,6.00
+Pretraining and finetuning,SPECIALIZED,1,1.0,4.605,0,6.00
+Probabilistic Context-free Grammars,SPECIALIZED,1,1.0,4.605,0,6.00
+Probabilistic answer set programming inference,SPECIALIZED,1,1.0,4.605,0,6.00
+Process Reward Model,SPECIALIZED,1,1.0,4.605,0,6.00
+Proximal Policy Optimization,SPECIALIZED,1,1.0,4.605,0,6.00
+Proxy-based sparse expert selection and pooling,SPECIALIZED,1,1.0,4.605,0,6.00
+ProxyFusion,SPECIALIZED,1,1.0,4.605,0,6.00
+Pseudo-margin,SPECIALIZED,1,1.0,4.605,0,6.00
+PyTorch,SPECIALIZED,1,1.0,4.605,0,6.00
+QB-Vine,SPECIALIZED,1,1.0,4.605,0,6.00
+Quantized training,SPECIALIZED,1,1.0,4.605,0,6.00
+Quasi-Bayesian Vine,SPECIALIZED,1,1.0,4.605,0,6.00
+Quasi-Bayesian methods,SPECIALIZED,1,1.0,4.605,0,6.00
+RL-based centralized dynamic planning framework,SPECIALIZED,1,1.0,4.605,0,6.00
+RMSNorm,SPECIALIZED,1,1.0,4.605,0,6.00
+Ratio Matching,SPECIALIZED,1,1.0,4.605,0,6.00
+ReLU networks,SPECIALIZED,1,1.0,4.605,0,6.00
+RealMLP,SPECIALIZED,1,1.0,4.605,0,6.00
+Reasoning primitives,SPECIALIZED,1,1.0,4.605,0,6.00
+Reconstruction objective,SPECIALIZED,1,1.0,4.605,0,6.00
+Rectilinear Steiner tree generation,SPECIALIZED,1,1.0,4.605,0,6.00
+Recurrent neural networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Recursive Value Function Search,SPECIALIZED,1,1.0,4.605,0,6.00
+Refusal direction extraction,SPECIALIZED,1,1.0,4.605,0,6.00
+Reinforcement learning from human feedback,SPECIALIZED,1,1.0,4.605,0,6.00
+Relational match-to-sample,SPECIALIZED,1,1.0,4.605,0,6.00
+Residue number system,SPECIALIZED,1,1.0,4.605,0,6.00
+Restricted isometry property on a tangent space,SPECIALIZED,1,1.0,4.605,0,6.00
+Retrieval augmented generation,SPECIALIZED,1,1.0,4.605,0,6.00
+Retriever-Aware Training,SPECIALIZED,1,1.0,4.605,0,6.00
+Reward Machines,SPECIALIZED,1,1.0,4.605,0,6.00
+Ridge regression,SPECIALIZED,1,1.0,4.605,0,6.00
+Rotary Positional Embedding,SPECIALIZED,1,1.0,4.605,0,6.00
+Rotary position embeddings,SPECIALIZED,1,1.0,4.605,0,6.00
+Rule-based reasoning,SPECIALIZED,1,1.0,4.605,0,6.00
+SAFEOPT,SPECIALIZED,1,1.0,4.605,0,6.00
+SIRIUS,SPECIALIZED,1,1.0,4.605,0,6.00
+SIRIUS correction mechanism,SPECIALIZED,1,1.0,4.605,0,6.00
+SMACv2,SPECIALIZED,1,1.0,4.605,0,6.00
+SVRG-type variance reduction,SPECIALIZED,1,1.0,4.605,0,6.00
+Scene description benchmark,SPECIALIZED,1,1.0,4.605,0,6.00
+Schur Nets,SPECIALIZED,1,1.0,4.605,0,6.00
+Self-attention,SPECIALIZED,1,1.0,4.605,0,6.00
+Self-distillation,SPECIALIZED,1,1.0,4.605,0,6.00
+Self-instruct,SPECIALIZED,1,1.0,4.605,0,6.00
+Semantic consistency,SPECIALIZED,1,1.0,4.605,0,6.00
+Sensory-cognitive models utilizing naturalistic stimuli,SPECIALIZED,1,1.0,4.605,0,6.00
+Set-membership estimation,SPECIALIZED,1,1.0,4.605,0,6.00
+Sharpness-Aware Minimization,SPECIALIZED,1,1.0,4.605,0,6.00
+Single-hidden-layer ReLU networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Singular value decomposition,SPECIALIZED,1,1.0,4.605,0,6.00
+Sinkhorn Value Iteration,SPECIALIZED,1,1.0,4.605,0,6.00
+Skill-Mix,SPECIALIZED,1,1.0,4.605,0,6.00
+Skill-Mix evaluation,SPECIALIZED,1,1.0,4.605,0,6.00
+Sklar's theorem,SPECIALIZED,1,1.0,4.605,0,6.00
+Smoothie,SPECIALIZED,1,1.0,4.605,0,6.00
+Sparse expert selection,SPECIALIZED,1,1.0,4.605,0,6.00
+Spatial meaningfulness framework,SPECIALIZED,1,1.0,4.605,0,6.00
+Spatio-temporal kernel,SPECIALIZED,1,1.0,4.605,0,6.00
+Spatiotemporal Sensitivity Module,SPECIALIZED,1,1.0,4.605,0,6.00
+Stable Diffusion,SPECIALIZED,1,1.0,4.605,0,6.00
+Stable Diffusion Ultra,SPECIALIZED,1,1.0,4.605,0,6.00
+Standard contract theory,SPECIALIZED,1,1.0,4.605,0,6.00
+Stochastic Amortization with noisy labels,SPECIALIZED,1,1.0,4.605,0,6.00
+Stochastic processes,SPECIALIZED,1,1.0,4.605,0,6.00
+Strong meta-tuned default parameters,SPECIALIZED,1,1.0,4.605,0,6.00
+Structured orthogonal parametrization,SPECIALIZED,1,1.0,4.605,0,6.00
+Sum-product networks,SPECIALIZED,1,1.0,4.605,0,6.00
+Supervised fine-tuning,SPECIALIZED,1,1.0,4.605,0,6.00
+Supervised learning,SPECIALIZED,1,1.0,4.605,0,6.00
+Supervised safety fine-tuning,SPECIALIZED,1,1.0,4.605,0,6.00
+SwiGLU,SPECIALIZED,1,1.0,4.605,0,6.00
+Synatra,SPECIALIZED,1,1.0,4.605,0,6.00
+Synthetic data generation framework,SPECIALIZED,1,1.0,4.605,0,6.00
+TVSAFEOPT,SPECIALIZED,1,1.0,4.605,0,6.00
+TabR,SPECIALIZED,1,1.0,4.605,0,6.00
+Tangent Space Causal Inference,SPECIALIZED,1,1.0,4.605,0,6.00
+Task-structured RL algorithms,SPECIALIZED,1,1.0,4.605,0,6.00
+Temporal Activation Controller,SPECIALIZED,1,1.0,4.605,0,6.00
+Text-to-image diffusion models,SPECIALIZED,1,1.0,4.605,0,6.00
+Theoretical analysis of gradient descent sample inefficiency,SPECIALIZED,1,1.0,4.605,0,6.00
+Theoretical framework for tokenization under Markovian data,SPECIALIZED,1,1.0,4.605,0,6.00
+Theory of pattern classes under discrete data streams,SPECIALIZED,1,1.0,4.605,0,6.00
+Tokenization,SPECIALIZED,1,1.0,4.605,0,6.00
+Tool-augmented Outcome Reward Model,SPECIALIZED,1,1.0,4.605,0,6.00
+Trace,SPECIALIZED,1,1.0,4.605,0,6.00
+Trace library,SPECIALIZED,1,1.0,4.605,0,6.00
+Tractability conditions for compositional queries,SPECIALIZED,1,1.0,4.605,0,6.00
+Two-agent speaker-listener game,SPECIALIZED,1,1.0,4.605,0,6.00
+Two-stage training algorithm for one-layer transformer,SPECIALIZED,1,1.0,4.605,0,6.00
+Unelicitable backdoors,SPECIALIZED,1,1.0,4.605,0,6.00
+Uniform DAG sampling,SPECIALIZED,1,1.0,4.605,0,6.00
+Uniform sampling algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+Unifying class of structured matrices,SPECIALIZED,1,1.0,4.605,0,6.00
+Unigram models,SPECIALIZED,1,1.0,4.605,0,6.00
+Unsupervised Environment Design,SPECIALIZED,1,1.0,4.605,0,6.00
+Unsupervised routing,SPECIALIZED,1,1.0,4.605,0,6.00
+Update-and-deploy framework,SPECIALIZED,1,1.0,4.605,0,6.00
+Variational Score Distillation,SPECIALIZED,1,1.0,4.605,0,6.00
+Vector fields,SPECIALIZED,1,1.0,4.605,0,6.00
+Vector-contraction inequality,SPECIALIZED,1,1.0,4.605,0,6.00
+Video diffusion model,SPECIALIZED,1,1.0,4.605,0,6.00
+Vine copulas,SPECIALIZED,1,1.0,4.605,0,6.00
+Vision Transformers,SPECIALIZED,1,1.0,4.605,0,6.00
+Wasserstein,SPECIALIZED,1,1.0,4.605,0,6.00
+Wasserstein gradient boosting,SPECIALIZED,1,1.0,4.605,0,6.00
+Weight orthogonalization,SPECIALIZED,1,1.0,4.605,0,6.00
+Weight rescaling following pretraining,SPECIALIZED,1,1.0,4.605,0,6.00
+active labeling framework,SPECIALIZED,1,1.0,4.605,0,6.00
+adaptive branching,SPECIALIZED,1,1.0,4.605,0,6.00
+adaptive gradient methods,SPECIALIZED,1,1.0,4.605,0,6.00
+adversarial evaluation procedure,SPECIALIZED,1,1.0,4.605,0,6.00
+adversarial suffixes,SPECIALIZED,1,1.0,4.605,0,6.00
+adversarial training strategies,SPECIALIZED,1,1.0,4.605,0,6.00
+algorithm enhancements for memory footprint reduction,SPECIALIZED,1,1.0,4.605,0,6.00
+alternating optimization,SPECIALIZED,1,1.0,4.605,0,6.00
+alternative parameterization of low-rank problem,SPECIALIZED,1,1.0,4.605,0,6.00
+ancestral sampling,SPECIALIZED,1,1.0,4.605,0,6.00
+assignment-then-diffusion,SPECIALIZED,1,1.0,4.605,0,6.00
+assignment-then-diffusion training strategy,SPECIALIZED,1,1.0,4.605,0,6.00
+auditing algorithms,SPECIALIZED,1,1.0,4.605,0,6.00
+basis for equivariant operations,SPECIALIZED,1,1.0,4.605,0,6.00
+bidirectional graph search,SPECIALIZED,1,1.0,4.605,0,6.00
+bisimulation metrics,SPECIALIZED,1,1.0,4.605,0,6.00
+class-balanced subset,SPECIALIZED,1,1.0,4.605,0,6.00
+classifier-free guidance,SPECIALIZED,1,1.0,4.605,0,6.00
+composite hypothesis tests,SPECIALIZED,1,1.0,4.605,0,6.00
+concept space framework,SPECIALIZED,1,1.0,4.605,0,6.00
+consistent binary relevance surrogate,SPECIALIZED,1,1.0,4.605,0,6.00
+counterfactual explanations,SPECIALIZED,1,1.0,4.605,0,6.00
+cross-view contrastive knowledge distillation,SPECIALIZED,1,1.0,4.605,0,6.00
+deep gradient compression,SPECIALIZED,1,1.0,4.605,0,6.00
+discounted occupancy couplings,SPECIALIZED,1,1.0,4.605,0,6.00
+disentangled conditioning mechanism,SPECIALIZED,1,1.0,4.605,0,6.00
+disentangled semantic and low-level conditioning mechanism,SPECIALIZED,1,1.0,4.605,0,6.00
+double integral operator,SPECIALIZED,1,1.0,4.605,0,6.00
+dual training algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+dynamic programming,SPECIALIZED,1,1.0,4.605,0,6.00
+dynamic propagation models,SPECIALIZED,1,1.0,4.605,0,6.00
+dynamic rescaling,SPECIALIZED,1,1.0,4.605,0,6.00
+dynamic rescaling of network parameters and gradients,SPECIALIZED,1,1.0,4.605,0,6.00
+efficient uncoupled learning algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+equivariant basis from graph Laplacian,SPECIALIZED,1,1.0,4.605,0,6.00
+feed-forward layer,SPECIALIZED,1,1.0,4.605,0,6.00
+fixed-point forward gradients,SPECIALIZED,1,1.0,4.605,0,6.00
+flow algorithms on graphs,SPECIALIZED,1,1.0,4.605,0,6.00
+flow equations describing learning,SPECIALIZED,1,1.0,4.605,0,6.00
+formal verification,SPECIALIZED,1,1.0,4.605,0,6.00
+game theory,SPECIALIZED,1,1.0,4.605,0,6.00
+generalization bounds,SPECIALIZED,1,1.0,4.605,0,6.00
+goal-conditioned cost network,SPECIALIZED,1,1.0,4.605,0,6.00
+gradient boosting,SPECIALIZED,1,1.0,4.605,0,6.00
+gradient penalties,SPECIALIZED,1,1.0,4.605,0,6.00
+graph Laplacian,SPECIALIZED,1,1.0,4.605,0,6.00
+graph structure,SPECIALIZED,1,1.0,4.605,0,6.00
+graph-based learning framework,SPECIALIZED,1,1.0,4.605,0,6.00
+higher order graph neural networks,SPECIALIZED,1,1.0,4.605,0,6.00
+inhibitory plasticity,SPECIALIZED,1,1.0,4.605,0,6.00
+inhibitory plasticity rule,SPECIALIZED,1,1.0,4.605,0,6.00
+kth-order Markov processes,SPECIALIZED,1,1.0,4.605,0,6.00
+latent interventions,SPECIALIZED,1,1.0,4.605,0,6.00
+linear models,SPECIALIZED,1,1.0,4.605,0,6.00
+linear program,SPECIALIZED,1,1.0,4.605,0,6.00
+local simulator access,SPECIALIZED,1,1.0,4.605,0,6.00
+mechanistic interpretability,SPECIALIZED,1,1.0,4.605,0,6.00
+message passing,SPECIALIZED,1,1.0,4.605,0,6.00
+meta-learning,SPECIALIZED,1,1.0,4.605,0,6.00
+meta-tuned default parameters,SPECIALIZED,1,1.0,4.605,0,6.00
+method directly training on scenarios with high learnability,SPECIALIZED,1,1.0,4.605,0,6.00
+minimum norm interpolating solutions,SPECIALIZED,1,1.0,4.605,0,6.00
+mixture method,SPECIALIZED,1,1.0,4.605,0,6.00
+modular arithmetic dataset,SPECIALIZED,1,1.0,4.605,0,6.00
+multilayer perceptron,SPECIALIZED,1,1.0,4.605,0,6.00
+multimodal language models,SPECIALIZED,1,1.0,4.605,0,6.00
+mutual fairness,SPECIALIZED,1,1.0,4.605,0,6.00
+mutual fairness metric,SPECIALIZED,1,1.0,4.605,0,6.00
+nMCTS,SPECIALIZED,1,1.0,4.605,0,6.00
+nearly-linear time algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+neural network classifiers,SPECIALIZED,1,1.0,4.605,0,6.00
+new seed-selection algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+no-regret learning procedures,SPECIALIZED,1,1.0,4.605,0,6.00
+normal-form games,SPECIALIZED,1,1.0,4.605,0,6.00
+normalization layers,SPECIALIZED,1,1.0,4.605,0,6.00
+numerical estimation,SPECIALIZED,1,1.0,4.605,0,6.00
+one-step retrosynthesis models,SPECIALIZED,1,1.0,4.605,0,6.00
+online reinforcement learning,SPECIALIZED,1,1.0,4.605,0,6.00
+optimal transport distances,SPECIALIZED,1,1.0,4.605,0,6.00
+optimal transport theory,SPECIALIZED,1,1.0,4.605,0,6.00
+option-level formulation,SPECIALIZED,1,1.0,4.605,0,6.00
+parameter-space moment matching,SPECIALIZED,1,1.0,4.605,0,6.00
+pay-per-token pricing,SPECIALIZED,1,1.0,4.605,0,6.00
+polarization,SPECIALIZED,1,1.0,4.605,0,6.00
+polytope theory,SPECIALIZED,1,1.0,4.605,0,6.00
+program search,SPECIALIZED,1,1.0,4.605,0,6.00
+program synthesis,SPECIALIZED,1,1.0,4.605,0,6.00
+proportionally fair clustering,SPECIALIZED,1,1.0,4.605,0,6.00
+pseudo-programs,SPECIALIZED,1,1.0,4.605,0,6.00
+python sympy,SPECIALIZED,1,1.0,4.605,0,6.00
+quantized assignment strategy,SPECIALIZED,1,1.0,4.605,0,6.00
+ranking algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+red-teaming,SPECIALIZED,1,1.0,4.605,0,6.00
+reinforcement learning-based centralized dynamic planning framework,SPECIALIZED,1,1.0,4.605,0,6.00
+remote photoplethysmography,SPECIALIZED,1,1.0,4.605,0,6.00
+risk controlling prediction sets,SPECIALIZED,1,1.0,4.605,0,6.00
+satisficing paths,SPECIALIZED,1,1.0,4.605,0,6.00
+seed-selection algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+self-attention module,SPECIALIZED,1,1.0,4.605,0,6.00
+short-flat decomposition framework,SPECIALIZED,1,1.0,4.605,0,6.00
+sign operator,SPECIALIZED,1,1.0,4.605,0,6.00
+spectral graph theory,SPECIALIZED,1,1.0,4.605,0,6.00
+state merge,SPECIALIZED,1,1.0,4.605,0,6.00
+stochastic-process approach,SPECIALIZED,1,1.0,4.605,0,6.00
+suite of RL algorithms,SPECIALIZED,1,1.0,4.605,0,6.00
+task prioritisation metrics,SPECIALIZED,1,1.0,4.605,0,6.00
+teacher-student models,SPECIALIZED,1,1.0,4.605,0,6.00
+temporally asymmetric generalization of Oja's rule,SPECIALIZED,1,1.0,4.605,0,6.00
+ternary gradients,SPECIALIZED,1,1.0,4.605,0,6.00
+text-to-image models,SPECIALIZED,1,1.0,4.605,0,6.00
+tool-augmented ORM,SPECIALIZED,1,1.0,4.605,0,6.00
+topological data analysis,SPECIALIZED,1,1.0,4.605,0,6.00
+transfer learning,SPECIALIZED,1,1.0,4.605,0,6.00
+tree-based evidential learning,SPECIALIZED,1,1.0,4.605,0,6.00
+two-stage training algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+uncoupled learning algorithm,SPECIALIZED,1,1.0,4.605,0,6.00
+universal stochastic gradient methods,SPECIALIZED,1,1.0,4.605,0,6.00
+value function approximation,SPECIALIZED,1,1.0,4.605,0,6.00
+vanilla Sinkhorn,SPECIALIZED,1,1.0,4.605,0,6.00
+view decoupling,SPECIALIZED,1,1.0,4.605,0,6.00
+visual search,SPECIALIZED,1,1.0,4.605,0,6.00
+weak supervision,SPECIALIZED,1,1.0,4.605,0,6.00
+weight noise,SPECIALIZED,1,1.0,4.605,0,6.00
+weight rescaling,SPECIALIZED,1,1.0,4.605,0,6.00
+weights2weights subspace,SPECIALIZED,1,1.0,4.605,0,6.00
+white-box jailbreak method,SPECIALIZED,1,1.0,4.605,0,6.00
+ηMCTS,SPECIALIZED,1,1.0,4.605,0,6.00
