@@ -8,7 +8,23 @@ import { ClusterOverview } from "@/components/dashboard/ClusterOverview";
 export const revalidate = 60;
 
 export default async function DashboardPage() {
-  const stats = await api.stats();
+  let stats;
+  try {
+    stats = await api.stats();
+  } catch {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-center">
+        <div className="text-4xl">⚠️</div>
+        <h2 className="text-lg font-semibold">Backend unavailable</h2>
+        <p className="text-sm text-muted-foreground max-w-sm">
+          The API server is not responding. Start it with:
+        </p>
+        <pre className="rounded-md bg-muted px-4 py-2 text-xs text-left">
+          uvicorn api.main:app --reload --port 8000
+        </pre>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

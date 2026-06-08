@@ -280,3 +280,184 @@ def fetch_top_techniques_batch(
 
 def citation_log_boost(citation_count: Optional[int]) -> float:
     return math.log1p(citation_count or 0)
+
+
+# ── Shared retrieval for chat ─────────────────────────────────────────────────
+
+def retrieve_papers_for_query(
+    term: str,
+    session: Session,
+    limit: int = 5,
+) -> list[dict]:
+    """
+    Run the same multi-signal scoring used by POST /search and return the
+    top `limit` papers as plain dicts ready for context building.
+
+    Scoring (identical to search router):
+      +40  exact title match
+      +20  title contains
+      +15  abstract contains
+      +15  category match
+      +12  technique match
+      +10  dataset match
+      + log1p(citation_count) tiebreaker
+
+    Returns a list of dicts with keys:
+      id, title, abstract, year, conference, citation_count,
+      cluster_id, degree_centrality,
+      top_techniques (list[str]),
+      categories (list[str]),
+      match_score, matched_in
+    plus analysis context:
+      summary, advantages, limitations
+    """
+    from db.models import PaperAnalysisRecord, PaperCategory, PaperDataset, PaperTechnique
+
+    q_lower = term.strip().lower()
+
+    scores:      dict[str, float]      = defaultdict(float)
+    matched_in:  dict[str, list[str]]  = defaultdict(list)
+    paper_cache: dict[str, tuple]      = {}  # id → (Paper, conf_short, pgm)
+
+    def _cache(paper, conf, pgm):
+        if paper.id not in paper_cache:
+            paper_cache[paper.id] = (paper, conf, pgm)
+
+    def _base():
+        return base_paper_query()
+
+    # Signal 1: title
+    for row in session.execute(_base().where(
+        func.lower(Paper.title).contains(q_lower)
+    )).all():
+        paper, conf, _yr, pgm = row
+        _cache(paper, conf, pgm)
+        if paper.title.lower() == q_lower:
+            scores[paper.id] += 40
+            matched_in[paper.id].append("title:exact")
+        else:
+            scores[paper.id] += 20
+            matched_in[paper.id].append("title")
+
+    # Signal 2: abstract
+    for row in session.execute(
+        _base().where(
+            func.lower(Paper.abstract).contains(q_lower),
+            Paper.abstract.isnot(None),
+        )
+    ).all():
+        paper, conf, _yr, pgm = row
+        _cache(paper, conf, pgm)
+        if "abstract" not in matched_in[paper.id]:
+            scores[paper.id] += 15
+            matched_in[paper.id].append("abstract")
+
+    # Signal 3: category
+    cat_rows = session.execute(
+        select(PaperCategory.paper_id, PaperCategory.name)
+        .where(func.lower(PaperCategory.name).contains(q_lower))
+    ).all()
+    if cat_rows:
+        cat_ids = list({r.paper_id for r in cat_rows})
+        cat_by_paper: dict[str, list[str]] = defaultdict(list)
+        for r in cat_rows:
+            cat_by_paper[r.paper_id].append(r.name)
+        for row in session.execute(_base().where(Paper.id.in_(cat_ids))).all():
+            paper, conf, _yr, pgm = row
+            _cache(paper, conf, pgm)
+            for cat_name in cat_by_paper[paper.id]:
+                scores[paper.id] += 15
+                matched_in[paper.id].append(f"category:{cat_name}")
+
+    # Signal 4: technique
+    tech_rows = session.execute(
+        select(PaperTechnique.paper_id, PaperTechnique.name)
+        .where(func.lower(PaperTechnique.name).contains(q_lower))
+    ).all()
+    if tech_rows:
+        tech_ids = list({r.paper_id for r in tech_rows})
+        tech_by_paper: dict[str, list[str]] = defaultdict(list)
+        for r in tech_rows:
+            tech_by_paper[r.paper_id].append(r.name)
+        for row in session.execute(_base().where(Paper.id.in_(tech_ids))).all():
+            paper, conf, _yr, pgm = row
+            _cache(paper, conf, pgm)
+            for tech_name in tech_by_paper[paper.id]:
+                scores[paper.id] += 12
+                matched_in[paper.id].append(f"technique:{tech_name}")
+
+    # Signal 5: dataset
+    ds_rows = session.execute(
+        select(PaperDataset.paper_id, PaperDataset.name)
+        .where(func.lower(PaperDataset.name).contains(q_lower))
+    ).all()
+    if ds_rows:
+        ds_ids = list({r.paper_id for r in ds_rows})
+        ds_by_paper: dict[str, list[str]] = defaultdict(list)
+        for r in ds_rows:
+            ds_by_paper[r.paper_id].append(r.name)
+        for row in session.execute(_base().where(Paper.id.in_(ds_ids))).all():
+            paper, conf, _yr, pgm = row
+            _cache(paper, conf, pgm)
+            for ds_name in ds_by_paper[paper.id]:
+                scores[paper.id] += 10
+                matched_in[paper.id].append(f"dataset:{ds_name}")
+
+    if not paper_cache:
+        return []
+
+    # Rank by score + citation tiebreaker, take top N
+    def _key(pid: str) -> float:
+        paper, _conf, _pgm = paper_cache[pid]
+        return scores[pid] + math.log1p(paper.citation_count or 0)
+
+    ranked = sorted(paper_cache.keys(), key=_key, reverse=True)[:limit]
+
+    # Batch-fetch top techniques
+    techniques_by_paper = fetch_top_techniques_batch(session, ranked, per_paper=3)
+
+    # Fetch categories (top 3 per paper)
+    cat_all = session.execute(
+        select(PaperCategory.paper_id, PaperCategory.name)
+        .where(PaperCategory.paper_id.in_(ranked))
+        .order_by(PaperCategory.paper_id, PaperCategory.confidence.desc())
+    ).all()
+    cats_by_paper: dict[str, list[str]] = defaultdict(list)
+    for pid, cname in cat_all:
+        if len(cats_by_paper[pid]) < 3:
+            cats_by_paper[pid].append(cname)
+
+    # Fetch analysis summaries
+    analysis_rows = session.execute(
+        select(
+            PaperAnalysisRecord.paper_id,
+            PaperAnalysisRecord.summary,
+            PaperAnalysisRecord.advantages,
+            PaperAnalysisRecord.limitations,
+        ).where(PaperAnalysisRecord.paper_id.in_(ranked))
+    ).all()
+    analysis_by_paper = {r.paper_id: r for r in analysis_rows}
+
+    results = []
+    for pid in ranked:
+        paper, conf, pgm = paper_cache[pid]
+        ar = analysis_by_paper.get(pid)
+        results.append({
+            "id":               paper.id,
+            "title":            paper.title,
+            "abstract":         paper.abstract or "",
+            "year":             paper.year,
+            "conference":       conf,
+            "citation_count":   paper.citation_count or 0,
+            "cluster_id":       pgm.cluster_id if pgm else None,
+            "degree_centrality": round(pgm.degree_centrality, 6) if pgm else 0.0,
+            "top_techniques":   techniques_by_paper.get(pid, []),
+            "categories":       cats_by_paper.get(pid, []),
+            "match_score":      round(scores[pid], 2),
+            "matched_in":       list(dict.fromkeys(matched_in[pid])),
+            "summary":          (ar.summary or "") if ar else "",
+            "advantages":       json_list(ar.advantages) if ar else [],
+            "limitations":      json_list(ar.limitations) if ar else [],
+        })
+
+    return results

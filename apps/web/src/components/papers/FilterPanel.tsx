@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
 import { api, queryKeys } from "@/lib/api";
-import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -54,11 +54,11 @@ function Section({
 
 const CONFERENCES = ["NeurIPS", "ICLR", "ICML"];
 
-const CLUSTERS = [
-  { value: "0", label: "Cluster 0", description: "Theory & Optimization" },
-  { value: "1", label: "Cluster 1", description: "RL & Structured Learning" },
-  { value: "2", label: "Cluster 2", description: "LLMs & Generative" },
-];
+const CLUSTERS = [0, 1, 2].map((n) => ({
+  value: String(n),
+  label: `Cluster ${n}`,
+  description: CLUSTER_LABELS[n] ?? "",
+}));
 
 export function FilterPanel({
   conference,

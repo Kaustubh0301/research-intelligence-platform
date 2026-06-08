@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PaperPage({ params }: Props) {
   const { id } = await params;
 
-  let paper, relatedData;
+  let paper: Awaited<ReturnType<typeof api.paper>>;
+  let relatedData: Awaited<ReturnType<typeof api.paperRelated>>;
   try {
     [paper, relatedData] = await Promise.all([
       api.paper(id),

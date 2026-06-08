@@ -21,7 +21,7 @@ const defaultFilters: GraphFilters = {
   minWeight: 2.0,
   clusterFilter: undefined,
   searchQuery: "",
-  showLabels: false,
+  showLabels: true,
 };
 
 const GraphContext = createContext<GraphContextValue>({

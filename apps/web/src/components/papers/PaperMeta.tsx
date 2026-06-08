@@ -1,7 +1,7 @@
 import type { PaperDetail } from "@/lib/types";
 import { CLUSTER_COLOURS } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ExternalLink, TrendingUp, Lock, Unlock } from "lucide-react";
 
@@ -82,48 +82,35 @@ export function PaperMeta({ paper }: Props) {
 
       <div className="flex flex-wrap gap-2">
         {paper.pdf_url && (
-          <Button variant="outline" size="sm" asChild>
-            <a href={paper.pdf_url} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-              PDF
-            </a>
-          </Button>
+          <a href={paper.pdf_url} target="_blank" rel="noopener noreferrer"
+            className={buttonVariants({ variant: "outline", size: "sm" })}>
+            <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+            PDF
+          </a>
         )}
         {paper.openreview_id && (
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={`https://openreview.net/forum?id=${paper.openreview_id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-              OpenReview
-            </a>
-          </Button>
+          <a href={`https://openreview.net/forum?id=${paper.openreview_id}`}
+            target="_blank" rel="noopener noreferrer"
+            className={buttonVariants({ variant: "outline", size: "sm" })}>
+            <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+            OpenReview
+          </a>
         )}
         {paper.semantic_scholar_id && (
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={`https://www.semanticscholar.org/paper/${paper.semantic_scholar_id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-              Semantic Scholar
-            </a>
-          </Button>
+          <a href={`https://www.semanticscholar.org/paper/${paper.semantic_scholar_id}`}
+            target="_blank" rel="noopener noreferrer"
+            className={buttonVariants({ variant: "outline", size: "sm" })}>
+            <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+            Semantic Scholar
+          </a>
         )}
         {paper.arxiv_id && (
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={`https://arxiv.org/abs/${paper.arxiv_id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-              arXiv
-            </a>
-          </Button>
+          <a href={`https://arxiv.org/abs/${paper.arxiv_id}`}
+            target="_blank" rel="noopener noreferrer"
+            className={buttonVariants({ variant: "outline", size: "sm" })}>
+            <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+            arXiv
+          </a>
         )}
       </div>
 

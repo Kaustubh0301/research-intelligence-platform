@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
 import { useGraphContext } from "./GraphContext";
-import { ExternalLink, Network, Search, SlidersHorizontal } from "lucide-react";
+import { ExternalLink, Network, Search, SlidersHorizontal, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, queryKeys } from "@/lib/api";
 
@@ -17,7 +17,7 @@ const WEIGHT_MIN = 1.0;
 const WEIGHT_MAX = 5.0;
 const WEIGHT_STEP = 0.5;
 
-export function GraphControls() {
+export function GraphControls({ onClose }: { onClose?: () => void }) {
   const { filters, setFilters, selected, setSelected } = useGraphContext();
   const router = useRouter();
 
@@ -37,6 +37,15 @@ export function GraphControls() {
       <div className="p-4 border-b flex items-center gap-2">
         <Network className="h-4 w-4 text-muted-foreground" />
         <span className="font-semibold text-sm">Knowledge Graph</span>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="ml-auto text-muted-foreground hover:text-foreground md:hidden"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       <div className="p-4 space-y-5 flex-1">

@@ -8,6 +8,8 @@ import type {
   TechniquesResponse,
   GraphResponse,
   ClustersResponse,
+  ChatRequest,
+  ChatResponse,
 } from "./types";
 
 const BASE =
@@ -59,6 +61,13 @@ export const api = {
   },
 
   graphClusters: () => apiFetch<ClustersResponse>("/graph/clusters"),
+
+  chat: (body: ChatRequest) =>
+    apiFetch<ChatResponse>("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
 };
 
 export const queryKeys = {

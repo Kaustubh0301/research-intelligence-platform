@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/", label: "Dashboard" },
-  { href: "/papers", label: "Papers" },
-  { href: "/graph", label: "Graph" },
+  { href: "/", label: "Dashboard", shortLabel: "Dash" },
+  { href: "/papers", label: "Papers", shortLabel: "Papers" },
+  { href: "/graph", label: "Graph", shortLabel: "Graph" },
+  { href: "/chat", label: "Research Assistant", shortLabel: "Assistant" },
 ];
 
 export function NavLinks() {
@@ -19,13 +20,14 @@ export function NavLinks() {
           key={l.href}
           href={l.href}
           className={cn(
-            "transition-colors hover:text-foreground/80",
+            "transition-colors hover:text-foreground/80 whitespace-nowrap",
             pathname === l.href || (l.href !== "/" && pathname.startsWith(l.href))
               ? "text-foreground font-medium"
               : "text-foreground/60"
           )}
         >
-          {l.label}
+          <span className="hidden sm:inline">{l.label}</span>
+          <span className="sm:hidden">{l.shortLabel}</span>
         </Link>
       ))}
     </nav>

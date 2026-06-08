@@ -236,3 +236,41 @@ export interface ClusterInfo {
 export interface ClustersResponse {
   clusters: ClusterInfo[];
 }
+
+// ── Chat ──────────────────────────────────────────────────────────────────────
+
+export interface ChatSource {
+  id: string;
+  title: string;
+  conference: string | null;
+  year: number;
+  citation_count: number;
+  cluster_id: number | null;
+  degree_centrality: number;
+  top_techniques: string[];
+  categories: string[];
+  match_score: number;
+  matched_in: string[];
+  abstract_snippet: string | null;
+}
+
+export interface ChatRequest {
+  message: string;
+  conversation_id?: string;
+}
+
+export interface ChatResponse {
+  answer: string;
+  sources: ChatSource[];
+  conversation_id: string;
+}
+
+// Client-side chat message (not sent to backend)
+export interface ChatMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  sources?: ChatSource[];
+  isLoading?: boolean;
+  timestamp: Date;
+}

@@ -263,3 +263,32 @@ class RelatedPapersResponse(BaseModel):
     title:        str
     graph_metrics: Optional[GraphMetrics] = None
     related:      list[RelatedPaper]
+
+
+# ── Chat ──────────────────────────────────────────────────────────────────────
+
+class ChatRequest(BaseModel):
+    message:         str            = Field(..., min_length=1, description="User question")
+    conversation_id: Optional[str]  = Field(None, description="Echo'd back; history is client-side")
+
+
+class ChatSource(BaseModel):
+    """A supporting paper returned alongside the assistant answer."""
+    id:               str
+    title:            str
+    conference:       Optional[str] = None
+    year:             int
+    citation_count:   int           = 0
+    cluster_id:       Optional[int] = None
+    degree_centrality: float        = 0.0
+    top_techniques:   list[str]     = Field(default_factory=list)
+    categories:       list[str]     = Field(default_factory=list)
+    match_score:      float         = 0.0
+    matched_in:       list[str]     = Field(default_factory=list)
+    abstract_snippet: Optional[str] = None
+
+
+class ChatResponse(BaseModel):
+    answer:          str
+    sources:         list[ChatSource]
+    conversation_id: str
