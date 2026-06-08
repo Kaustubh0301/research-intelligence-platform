@@ -41,6 +41,12 @@ from notebooklm.extractor import (
     ExtractionResult,
     ParsedCategories,
     ParsedDatasets,
+    ParsedExperimentalFindings,
+    ParsedFutureResearchDirections,
+    ParsedLimitations,
+    ParsedMethodology,
+    ParsedPracticalApplications,
+    ParsedStrengths,
     ParsedSummary,
     ParsedTechniques,
     ParsedUseCases,
@@ -76,10 +82,20 @@ def _upsert_analysis(
     session: Session,
     paper_id: str,
     notebook_id: str,
-    summary: ParsedSummary,
-    use_cases: Optional[ParsedUseCases],
+    summary:                    Optional[ParsedSummary]                  = None,
+    use_cases:                  Optional[ParsedUseCases]                 = None,
+    methodology:                Optional[ParsedMethodology]              = None,
+    experimental_findings:      Optional[ParsedExperimentalFindings]     = None,
+    strengths:                  Optional[ParsedStrengths]                = None,
+    limitations_v2:             Optional[ParsedLimitations]              = None,
+    practical_applications:     Optional[ParsedPracticalApplications]    = None,
+    future_research_directions: Optional[ParsedFutureResearchDirections] = None,
 ) -> bool:
-    """Write / update paper_analyses. Returns True if a row was written."""
+    """
+    Write / update paper_analyses.  Only updates fields that are provided
+    (not None) so partial re-synthesis doesn't null out existing columns.
+    Returns True if a row was written.
+    """
     existing = session.scalar(
         select(PaperAnalysisRecord).where(PaperAnalysisRecord.paper_id == paper_id)
     )
@@ -87,12 +103,35 @@ def _upsert_analysis(
     if not existing:
         session.add(rec)
 
-    rec.summary     = summary.summary or None
-    rec.advantages  = json.dumps(summary.advantages)
-    rec.limitations = json.dumps(summary.limitations)
-    rec.future_work = json.dumps(summary.future_work)
-    rec.use_cases   = json.dumps(use_cases.use_cases if use_cases else [])
-    rec.model       = f"{MODEL_LABEL}/notebook:{notebook_id}"
+    # V1 fields — only written when the corresponding parsed object is present
+    if summary is not None:
+        rec.summary     = summary.summary or None
+        rec.advantages  = json.dumps(summary.advantages)
+        rec.future_work = json.dumps(summary.future_work)
+    if use_cases is not None:
+        rec.use_cases = json.dumps(use_cases.use_cases)
+
+    # V2 fields
+    if methodology is not None:
+        rec.methodology = methodology.methodology or None
+    if experimental_findings is not None:
+        # Serialise each finding as "benchmark :: metric :: scores"
+        rec.experimental_findings = json.dumps([
+            f"{f.benchmark} :: {f.metric} :: {f.scores}".strip(" ::")
+            for f in experimental_findings.findings
+        ])
+    if strengths is not None:
+        rec.strengths = json.dumps(strengths.strengths)
+    if limitations_v2 is not None:
+        # Write to both the legacy limitations column and the new strengths path
+        # so the API backward-compat field stays populated
+        rec.limitations = json.dumps(limitations_v2.limitations)
+    if practical_applications is not None:
+        rec.practical_applications = json.dumps(practical_applications.applications)
+    if future_research_directions is not None:
+        rec.future_research_directions = json.dumps(future_research_directions.directions)
+
+    rec.model = f"{MODEL_LABEL}/notebook:{notebook_id}"
 
     session.flush()
     return True
@@ -256,16 +295,26 @@ def normalize(
     """
     stats = NormalizationStats()
 
-    # Build lookup maps keyed by paper_id
+    # Build lookup maps keyed by paper_id — V1 metadata
     summary_map:   dict[str, ParsedSummary]    = {s.paper_id: s for s in result.summaries   if s.paper_id}
     tech_map:      dict[str, ParsedTechniques] = {t.paper_id: t for t in result.techniques  if t.paper_id}
     dataset_map:   dict[str, ParsedDatasets]   = {d.paper_id: d for d in result.datasets    if d.paper_id}
     category_map:  dict[str, ParsedCategories] = {c.paper_id: c for c in result.categories  if c.paper_id}
     usecase_map:   dict[str, ParsedUseCases]   = {u.paper_id: u for u in result.use_cases   if u.paper_id}
 
+    # V2 analysis maps
+    methodology_map:   dict[str, ParsedMethodology]              = {m.paper_id: m for m in result.methodologies              if m.paper_id}
+    findings_map:      dict[str, ParsedExperimentalFindings]     = {f.paper_id: f for f in result.experimental_findings      if f.paper_id}
+    strengths_map:     dict[str, ParsedStrengths]                = {s.paper_id: s for s in result.strengths                  if s.paper_id}
+    limitations_map:   dict[str, ParsedLimitations]              = {l.paper_id: l for l in result.limitations_v2             if l.paper_id}
+    applications_map:  dict[str, ParsedPracticalApplications]    = {a.paper_id: a for a in result.practical_applications     if a.paper_id}
+    directions_map:    dict[str, ParsedFutureResearchDirections] = {d.paper_id: d for d in result.future_research_directions if d.paper_id}
+
     all_paper_ids = (
         set(summary_map) | set(tech_map) | set(dataset_map) |
-        set(category_map) | set(usecase_map)
+        set(category_map) | set(usecase_map) |
+        set(methodology_map) | set(findings_map) | set(strengths_map) |
+        set(limitations_map) | set(applications_map) | set(directions_map)
     )
 
     if result.unmatched:
@@ -278,30 +327,37 @@ def normalize(
         log.debug("Normalizing paper %s", paper_id)
 
         # ── paper_analyses ────────────────────────────────────────────────────
-        if paper_id in summary_map:
+        # Any subset of analysis prompts may be present; _upsert_analysis only
+        # writes fields that have parsed data, preserving existing column values.
+        has_analysis_data = any(paper_id in m for m in (
+            summary_map, usecase_map, methodology_map, findings_map,
+            strengths_map, limitations_map, applications_map, directions_map,
+        ))
+        if has_analysis_data:
             try:
                 ok = _upsert_analysis(
                     session, paper_id, notebook_id,
-                    summary_map[paper_id],
-                    usecase_map.get(paper_id),
+                    summary                    = summary_map.get(paper_id),
+                    use_cases                  = usecase_map.get(paper_id),
+                    methodology                = methodology_map.get(paper_id),
+                    experimental_findings      = findings_map.get(paper_id),
+                    strengths                  = strengths_map.get(paper_id),
+                    limitations_v2             = limitations_map.get(paper_id),
+                    practical_applications     = applications_map.get(paper_id),
+                    future_research_directions = directions_map.get(paper_id),
                 )
                 if ok:
                     stats.analyses_written += 1
-                    synth_id = synthesis_ids.get("summary", "")
-                    if synth_id:
-                        _write_extract(
-                            session, notebook_id, synth_id, paper_id,
-                            "summary", summary_map[paper_id].summary,
-                        )
-                        _write_extract(
-                            session, notebook_id, synth_id, paper_id,
-                            "limitations", json.dumps(summary_map[paper_id].limitations),
-                        )
-                        _write_extract(
-                            session, notebook_id, synth_id, paper_id,
-                            "future_work", json.dumps(summary_map[paper_id].future_work),
-                        )
-                        stats.extracts_written += 3
+                    # Write audit extract for the V1 summary only (extract_type
+                    # constraint in notebook_paper_extracts covers legacy types;
+                    # V2 synthesis content is preserved in notebook_syntheses.content
+                    # and does not need a redundant per-paper extract row).
+                    if paper_id in summary_map:
+                        synth_id = synthesis_ids.get("summary", "")
+                        if synth_id:
+                            _write_extract(session, notebook_id, synth_id, paper_id,
+                                           "summary", summary_map[paper_id].summary or "")
+                            stats.extracts_written += 1
             except Exception as exc:
                 log.error("analysis upsert failed for %s: %s", paper_id, exc)
                 stats.errors.append(f"analysis:{paper_id}:{exc}")

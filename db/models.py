@@ -403,8 +403,15 @@ class NotebookPaperExtract(Base):
     synthesis_id:   Mapped[str]  = mapped_column(UUID(as_uuid=False), ForeignKey("notebook_syntheses.id", ondelete="CASCADE"), nullable=False)
     paper_id:       Mapped[str]  = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
     extract_type:   Mapped[str]  = mapped_column(
-        String(20),
-        CheckConstraint("extract_type IN ('summary','techniques','methodologies','limitations','datasets','categories','future_work')"),
+        String(32),
+        CheckConstraint(
+            "extract_type IN ("
+            "'summary','techniques','methodologies','limitations','datasets',"
+            "'categories','future_work',"
+            "'methodology','experimental_findings','strengths',"
+            "'practical_applications','future_research_directions'"
+            ")"
+        ),
         nullable=False,
     )
     content:        Mapped[str]      = mapped_column(Text, nullable=False)

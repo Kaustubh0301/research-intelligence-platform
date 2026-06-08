@@ -424,19 +424,75 @@ def run_upload(
 
 # ── Stage D — Synthesize ──────────────────────────────────────────────────────
 
+# Analysis prompts that must cover every paper in the notebook.
+# Metadata prompts (techniques, datasets, categories) are checked separately
+# but do not trigger a hard stop — their coverage is logged as a warning only.
+_ANALYSIS_PROMPT_KEYS = frozenset({
+    "summary", "methodology", "experimental_findings",
+    "strengths", "limitations", "practical_applications",
+    "future_research_directions",
+})
+
+# Minimum fraction of notebook papers that must appear in a synthesis response.
+# If actual coverage falls below this threshold, the notebook is halted.
+_COVERAGE_THRESHOLD = 0.80
+
+
+def _count_paper_blocks(text: str) -> int:
+    """Count the number of PAPER: blocks in a synthesis response."""
+    import re
+    return len(re.findall(r"^PAPER:", text, re.MULTILINE))
+
+
+def _check_coverage(
+    nb_slug: str,
+    prompt_key: str,
+    answer: str,
+    expected_count: int,
+) -> None:
+    """
+    Raise RuntimeError if coverage of an analysis prompt response is below
+    _COVERAGE_THRESHOLD.  Logs a warning for metadata prompts but does not raise.
+
+    expected_count: number of papers in the notebook (from notebook_papers rows)
+    """
+    if expected_count == 0:
+        return
+    actual = _count_paper_blocks(answer)
+    coverage = actual / expected_count
+    if coverage < _COVERAGE_THRESHOLD:
+        msg = (
+            f"Stage D: COVERAGE FAILURE for {nb_slug}/{prompt_key} — "
+            f"expected {expected_count} papers, got {actual} PAPER: blocks "
+            f"({coverage:.0%} < {_COVERAGE_THRESHOLD:.0%} threshold). "
+            f"Response word count: {len(answer.split())}. "
+            f"Halting this notebook to prevent silent data loss."
+        )
+        if prompt_key in _ANALYSIS_PROMPT_KEYS:
+            raise RuntimeError(msg)
+        else:
+            log.warning(msg)
+    else:
+        log.debug(
+            "Stage D: coverage OK for %s/%s — %d/%d papers (%.0f%%)",
+            nb_slug, prompt_key, actual, expected_count, coverage * 100,
+        )
+
+
 def run_synthesize(
     notebook_id: Optional[str] = None,
     force: bool = False,
 ) -> int:
     """
-    For each notebook where all sources are uploaded, send 5 query prompts
-    and store responses as NotebookSynthesis rows.
+    For each notebook where all sources are uploaded, send prompts and store
+    responses as NotebookSynthesis rows.  Coverage is validated after each
+    analysis prompt response — failure raises RuntimeError and skips remaining
+    prompts for that notebook.
     Returns count of synthesis rows written.
     """
     synthesized = 0
 
     with get_session() as session:
-        # Find notebooks that have uploads and no remaining pending rows
         q = select(Notebook).where(
             Notebook.notebooklm_id != None,
             Notebook.status == "active",
@@ -445,8 +501,6 @@ def run_synthesize(
             q = q.where(Notebook.id == notebook_id)
 
         for nb in session.scalars(q).all():
-            # Check readiness: must have at least one uploaded/abstract_only row
-            # and zero pending rows
             pending_count = session.scalar(
                 select(func.count())
                 .select_from(NotebookPaper)
@@ -472,8 +526,15 @@ def run_synthesize(
 
             log.info("Stage D: querying notebook %s (%d sources)", nb.topic_slug, uploaded_count)
 
+            notebook_failed = False
             for key, prompt_text in PROMPTS.items():
-                # Skip if synthesis row already exists (UniqueConstraint also guards this)
+                if notebook_failed:
+                    log.warning(
+                        "Stage D: skipping %s/%s — notebook halted due to prior coverage failure",
+                        nb.topic_slug, key,
+                    )
+                    continue
+
                 existing = session.scalar(
                     select(NotebookSynthesis).where(
                         NotebookSynthesis.notebook_id    == nb.id,
@@ -487,6 +548,10 @@ def run_synthesize(
 
                 try:
                     result = client.query_notebook(nb.notebooklm_id, prompt_text)
+
+                    # Coverage validation — hard stop for analysis prompts
+                    _check_coverage(nb.topic_slug, key, result.answer, uploaded_count)
+
                     row = NotebookSynthesis(
                         notebook_id    = nb.id,
                         synthesis_type = "query_response",
@@ -496,13 +561,21 @@ def run_synthesize(
                         normalized     = False,
                     )
                     if existing and force:
-                        # Overwrite: delete old row first (UniqueConstraint prevents duplicate)
                         session.delete(existing)
                         session.flush()
                     session.add(row)
                     session.commit()
                     synthesized += 1
-                    log.info("Stage D: wrote synthesis %s/%s (%d words)", nb.topic_slug, key, row.word_count)
+                    log.info(
+                        "Stage D: wrote synthesis %s/%s (%d words, %d PAPER: blocks)",
+                        nb.topic_slug, key, row.word_count,
+                        _count_paper_blocks(result.answer),
+                    )
+                except RuntimeError as exc:
+                    # Coverage failure — halt this notebook, move to next
+                    log.error("%s", exc)
+                    session.rollback()
+                    notebook_failed = True
                 except client.ClientError as exc:
                     log.error("Stage D: query failed for %s/%s: %s", nb.topic_slug, key, exc)
                     session.rollback()
