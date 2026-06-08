@@ -36,3 +36,10 @@ def run_migrations() -> None:
     _add_column_if_missing("papers", "pdf_local_path",   "TEXT")
     _add_column_if_missing("papers", "pdf_word_count",   "INTEGER")
     _add_column_if_missing("papers", "pdf_extracted_at", "TIMESTAMP")
+
+    # Analysis V2 columns added 2026-06-08
+    _add_column_if_missing("paper_analyses", "methodology",                "TEXT")
+    _add_column_if_missing("paper_analyses", "experimental_findings",      "TEXT")
+    _add_column_if_missing("paper_analyses", "strengths",                  "TEXT")
+    _add_column_if_missing("paper_analyses", "practical_applications",     "TEXT")
+    _add_column_if_missing("paper_analyses", "future_research_directions", "TEXT")

@@ -222,10 +222,17 @@ class PaperAnalysisRecord(Base):
     paper_id:       Mapped[str]      = mapped_column(UUID(as_uuid=False), ForeignKey("papers.id", ondelete="CASCADE"), nullable=False, unique=True)
 
     summary:        Mapped[str|None] = mapped_column(Text)
-    advantages:     Mapped[str|None] = mapped_column(Text)   # JSON array
-    limitations:    Mapped[str|None] = mapped_column(Text)   # JSON array
-    future_work:    Mapped[str|None] = mapped_column(Text)   # JSON array
-    use_cases:      Mapped[str|None] = mapped_column(Text)   # JSON array
+    advantages:     Mapped[str|None] = mapped_column(Text)   # JSON array — legacy, kept for backward compat
+    limitations:    Mapped[str|None] = mapped_column(Text)   # JSON array — populated by V2 limitations prompt
+    future_work:    Mapped[str|None] = mapped_column(Text)   # JSON array — legacy, kept for backward compat
+    use_cases:      Mapped[str|None] = mapped_column(Text)   # JSON array — legacy, kept for backward compat
+
+    # V2 analysis fields (Analysis V2, 2026-06-08)
+    methodology:                Mapped[str|None] = mapped_column(Text)   # prose, 150-250 words
+    experimental_findings:      Mapped[str|None] = mapped_column(Text)   # JSON array of "name :: metric :: score" strings
+    strengths:                  Mapped[str|None] = mapped_column(Text)   # JSON array, replaces advantages
+    practical_applications:     Mapped[str|None] = mapped_column(Text)   # JSON array, replaces use_cases
+    future_research_directions: Mapped[str|None] = mapped_column(Text)   # JSON array, replaces future_work
 
     model:          Mapped[str|None] = mapped_column(Text)
     input_tokens:   Mapped[int|None] = mapped_column()

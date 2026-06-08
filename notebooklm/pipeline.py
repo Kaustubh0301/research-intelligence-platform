@@ -5,10 +5,16 @@ Stages:
   A — Assign:     keyword-score papers → notebook_papers rows
   B — Provision:  create NotebookLM notebooks → store notebooklm_id + url
   C — Upload:     push source documents to NotebookLM
-  D — Synthesize: query each notebook with 5 prompts → notebook_syntheses rows
+  D — Synthesize: query each notebook with 10 prompts → notebook_syntheses rows
   E — Extract:    parse synthesis responses → paper_analyses, categories, etc.
 
 Each stage is independently resumable by checking DB state before acting.
+
+Analysis V2 (2026-06-08): 7 analysis prompts replace the old summary+use_cases.
+3 metadata prompts (techniques, datasets, categories) are unchanged.
+Coverage validation is enforced after each synthesis response — if <80% of
+expected papers appear in a response, the run is halted rather than silently
+continuing with incomplete data.
 """
 
 from __future__ import annotations
@@ -33,26 +39,140 @@ from notebooklm import assigner, client, extractor, normalizer, source_prep
 log = logging.getLogger(__name__)
 
 
-# ── Validated query prompts (from validate_prompts.py, confirmed 100% compliant) ──
+# ── Query prompts (Analysis V2 — 10 total: 7 analysis + 3 metadata) ───────────
 
 PROMPTS: dict[str, str] = {
 
+    # ── Analysis V2: 7 content prompts ────────────────────────────────────────
+
     "summary": (
-        "For each paper in this notebook, complete these fields.\n"
+        "For each paper in this notebook, write a detailed summary.\n"
         "Use the EXACT paper title as it appears in the source.\n"
         "Format strictly as shown — no markdown, no bullets:\n\n"
         "PAPER: [exact title]\n"
-        "SUMMARY: [2 sentences]\n"
-        "ADVANTAGE: [key strength] | [key strength]\n"
-        "LIMITATION: [key weakness] | [key weakness]\n"
-        "FUTURE_WORK: [one direction] | [one direction]\n"
+        "SUMMARY: [3-5 paragraphs: (1) what problem the paper addresses and why it "
+        "matters, (2) the core proposed approach at a conceptual level, (3) key results "
+        "and how they compare to prior work, (4) the main contribution in one sentence. "
+        "Target 300-500 words. Include specific technique names, dataset names, and "
+        "quantitative claims from the paper.]\n"
         "===\n\n"
         "Rules:\n"
-        "- If a field has no content, write NONE.\n"
+        "- SUMMARY must be 3-5 paragraphs of prose, not bullets.\n"
+        "- Write for a ML researcher who has not read the paper.\n"
+        "- Do not use bullet points inside SUMMARY.\n"
+        "- If a paper has no content in the sources, write SUMMARY: NONE.\n"
         "- Do not add any text before the first PAPER: line.\n"
-        "- Do not add any text after the last ===.\n"
         "- Repeat the block for EVERY paper in the notebook."
     ),
+
+    "methodology": (
+        "For each paper in this notebook, explain the core methodology.\n"
+        "Use the EXACT paper title as it appears in the source.\n"
+        "Format strictly as shown — no markdown, no bullets:\n\n"
+        "PAPER: [exact title]\n"
+        "METHODOLOGY: [2-3 paragraphs: (1) the technical approach — architecture, "
+        "algorithm, or framework design, (2) key implementation decisions that distinguish "
+        "it from prior work, (3) training or evaluation procedure if relevant. "
+        "Target 150-250 words. Use precise technical terms.]\n"
+        "===\n\n"
+        "Rules:\n"
+        "- Do not restate the motivation — focus on mechanism.\n"
+        "- Name specific components, loss functions, and design choices.\n"
+        "- If methodology is unclear from sources, write METHODOLOGY: NONE.\n"
+        "- Do not add any text before the first PAPER: line.\n"
+        "- Repeat the block for EVERY paper in the notebook."
+    ),
+
+    "experimental_findings": (
+        "For each paper in this notebook, extract the key experimental results.\n"
+        "Use the EXACT paper title as it appears in the source.\n"
+        "Format strictly as shown — one FINDING line per result:\n\n"
+        "PAPER: [exact title]\n"
+        "FINDING: [benchmark or dataset name] :: [metric name] :: "
+        "[this paper's score] vs [baseline or prior work score]\n"
+        "===\n\n"
+        "Rules:\n"
+        "- Use the canonical benchmark name (e.g. ImageNet, GSM8K, MMLU).\n"
+        "- Include numeric values when available in the source.\n"
+        "- List the 3-6 strongest results.\n"
+        "- If no quantitative experiments exist, write: "
+        "FINDING: No quantitative benchmark evaluation\n"
+        "- Do not add any text before the first PAPER: line.\n"
+        "- Repeat the block for EVERY paper in the notebook."
+    ),
+
+    "strengths": (
+        "For each paper in this notebook, explain the key strengths of the approach.\n"
+        "Use the EXACT paper title as it appears in the source.\n"
+        "Format strictly as shown — one STRENGTH line per strength:\n\n"
+        "PAPER: [exact title]\n"
+        "STRENGTH: [1-2 sentences explaining WHY this aspect works mechanistically, "
+        "not just that it works]\n"
+        "===\n\n"
+        "Rules:\n"
+        "- Each STRENGTH must explain the mechanism, not just name the property.\n"
+        "- Wrong: 'Efficient inference'\n"
+        "- Right: 'Inference is efficient because KV activations are shared across "
+        "layers, halving memory bandwidth without changing the attention computation graph.'\n"
+        "- Write 2-4 STRENGTH lines per paper.\n"
+        "- Do not add any text before the first PAPER: line.\n"
+        "- Repeat the block for EVERY paper in the notebook."
+    ),
+
+    "limitations": (
+        "For each paper in this notebook, explain the key limitations.\n"
+        "Use the EXACT paper title as it appears in the source.\n"
+        "Format strictly as shown — one LIMITATION line per limitation:\n\n"
+        "PAPER: [exact title]\n"
+        "LIMITATION: [1-2 sentences: what the constraint is AND why it exists or "
+        "what would be needed to overcome it]\n"
+        "===\n\n"
+        "Rules:\n"
+        "- Each LIMITATION must explain the constraint, not just name it.\n"
+        "- Write 2-4 LIMITATION lines per paper.\n"
+        "- Include scope limitations, failure modes, and assumptions that may not hold.\n"
+        "- Do not add any text before the first PAPER: line.\n"
+        "- Repeat the block for EVERY paper in the notebook."
+    ),
+
+    "practical_applications": (
+        "For each paper in this notebook, describe practical deployment scenarios.\n"
+        "Use the EXACT paper title as it appears in the source.\n"
+        "Format strictly as shown — one APPLICATION line per scenario:\n\n"
+        "PAPER: [exact title]\n"
+        "APPLICATION: [2-3 sentences: the deployment context, what the paper's "
+        "contribution enables specifically, and what the practical benefit is vs. "
+        "the current alternative]\n"
+        "===\n\n"
+        "Rules:\n"
+        "- Each APPLICATION must name a specific industry or use context.\n"
+        "- Explain what is newly possible with this method vs. prior approaches.\n"
+        "- Write 2-3 APPLICATION lines per paper.\n"
+        "- Do not repeat the method name — describe the downstream use.\n"
+        "- Do not add any text before the first PAPER: line.\n"
+        "- Repeat the block for EVERY paper in the notebook."
+    ),
+
+    "future_research_directions": (
+        "For each paper in this notebook, identify open research directions.\n"
+        "Use the EXACT paper title as it appears in the source.\n"
+        "Format strictly as shown — one DIRECTION line per direction:\n\n"
+        "PAPER: [exact title]\n"
+        "DIRECTION: [1-2 sentences: an open question or research opportunity that "
+        "this paper creates or that would extend its contributions — from the perspective "
+        "of a researcher building on this work]\n"
+        "===\n\n"
+        "Rules:\n"
+        "- DIRECTION lines should be analyst-generated, not just restated from the "
+        "paper's conclusion.\n"
+        "- Focus on gaps the paper leaves open: unexplored settings, untested "
+        "assumptions, potential extensions to other domains.\n"
+        "- Write 2-4 DIRECTION lines per paper.\n"
+        "- Do not add any text before the first PAPER: line.\n"
+        "- Repeat the block for EVERY paper in the notebook."
+    ),
+
+    # ── Metadata prompts (unchanged from V1) ──────────────────────────────────
 
     "techniques": (
         "For each paper in this notebook, list technical methods.\n"
@@ -99,21 +219,6 @@ PROMPTS: dict[str, str] = {
         "- METHODOLOGY = high-level methodological approach (e.g. 'Fine-tuning',\n"
         "  'Mechanistic interpretability', 'Knowledge distillation').\n"
         "- 1–3 values per field. If unsure write NONE.\n"
-        "- Repeat the block for EVERY paper in the notebook."
-    ),
-
-    "use_cases": (
-        "For each paper in this notebook, describe practical use cases.\n"
-        "Use the EXACT paper title as it appears in the source.\n"
-        "Format strictly as shown — no markdown, no bullets:\n\n"
-        "PAPER: [exact title]\n"
-        "USE_CASE: [concrete 1-sentence application]\n"
-        "USE_CASE: [second application if applicable]\n"
-        "===\n\n"
-        "Rules:\n"
-        "- USE_CASE lines describe real-world applications, not research contributions.\n"
-        "- Write at least 1 and at most 3 USE_CASE lines per paper.\n"
-        "- Do not repeat the method name — describe the downstream use.\n"
         "- Repeat the block for EVERY paper in the notebook."
     ),
 }
