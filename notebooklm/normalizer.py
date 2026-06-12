@@ -37,6 +37,7 @@ from db.models import (
     PaperMethodology,
     PaperTechnique,
 )
+from search.sync import sync_entities
 from notebooklm.extractor import (
     ExtractionResult,
     ParsedCategories,
@@ -105,7 +106,12 @@ def _upsert_analysis(
 
     # V1 fields — only written when the corresponding parsed object is present
     if summary is not None:
-        rec.summary     = summary.summary or None
+        new_summary = summary.summary or None
+        # Keep the longer summary. V2 multi-paragraph summaries (1500-2700 chars)
+        # must not be overwritten by V1 two-sentence summaries (~300 chars) when a
+        # shared paper is revisited from a V1 notebook processed later in Stage E.
+        if new_summary is None or rec.summary is None or len(new_summary) >= len(rec.summary):
+            rec.summary = new_summary
         rec.advantages  = json.dumps(summary.advantages)
         rec.future_work = json.dumps(summary.future_work)
     if use_cases is not None:
@@ -424,5 +430,11 @@ def normalize(
             except Exception as exc:
                 log.error("categories upsert failed for %s: %s", paper_id, exc)
                 stats.errors.append(f"categories:{paper_id}:{exc}")
+
+    # Sync techniques and categories into entities_fts once after all papers.
+    try:
+        sync_entities(session, list(all_paper_ids))
+    except Exception as exc:
+        log.warning("FTS entity sync failed (non-fatal): %s", exc)
 
     return stats

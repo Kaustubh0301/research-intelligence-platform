@@ -5,27 +5,28 @@ import { useQuery } from "@tanstack/react-query";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
 import { api, queryKeys } from "@/lib/api";
 import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { FEATURES } from "@/lib/features";
 import { cn } from "@/lib/utils";
 
 interface Props {
   conference: string;
-  cluster: string;
-  technique: string;
+  cluster:    string;
+  technique:  string;
   onConferenceChange: (v: string) => void;
-  onClusterChange: (v: string) => void;
-  onTechniqueChange: (v: string) => void;
+  onClusterChange:    (v: string) => void;
+  onTechniqueChange:  (v: string) => void;
 }
+
+// ── Collapsible section ───────────────────────────────────────────────────
 
 function Section({
   title,
   children,
   active,
 }: {
-  title: string;
+  title:    string;
   children: React.ReactNode;
-  active?: boolean;
+  active?:  boolean;
 }) {
   const [open, setOpen] = useState(true);
   return (
@@ -33,32 +34,31 @@ function Section({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+        className="flex w-full items-center justify-between py-1 text-label-md uppercase tracking-widest text-im-primary hover:opacity-80 transition-opacity"
       >
-        <span className="flex items-center gap-1.5">
+        <span className="flex items-center gap-xs">
           {title}
-          {active && (
-            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-          )}
+          {active && <span className="inline-flex h-1.5 w-1.5 rounded-full bg-im-primary" />}
         </span>
-        {open ? (
-          <ChevronUp className="h-3.5 w-3.5" />
-        ) : (
-          <ChevronDown className="h-3.5 w-3.5" />
-        )}
+        {open
+          ? <ChevronUp className="h-3.5 w-3.5" />
+          : <ChevronDown className="h-3.5 w-3.5" />}
       </button>
-      {open && <div className="mt-2">{children}</div>}
+      {open && <div className="mt-md">{children}</div>}
     </div>
   );
 }
 
-const CONFERENCES = ["NeurIPS", "ICLR", "ICML"];
+// ── Data ──────────────────────────────────────────────────────────────────
 
-const CLUSTERS = [0, 1, 2].map((n) => ({
-  value: String(n),
-  label: `Cluster ${n}`,
-  description: CLUSTER_LABELS[n] ?? "",
+const CONFERENCES = ["NeurIPS", "ICLR", "ICML"];
+const CLUSTERS    = [0, 1, 2].map((n) => ({
+  value:       String(n),
+  label:       CLUSTER_LABELS[n] ?? `Cluster ${n}`,
+  description: "",
 }));
+
+// ── Main component ────────────────────────────────────────────────────────
 
 export function FilterPanel({
   conference,
@@ -68,33 +68,30 @@ export function FilterPanel({
   onClusterChange,
   onTechniqueChange,
 }: Props) {
-  const [techInput, setTechInput] = useState(technique);
-  const [techOpen, setTechOpen] = useState(false);
-  const techTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const [debouncedTechInput, setDebouncedTechInput] = useState(technique);
+  const [techInput, setTechInput]           = useState(technique);
+  const [techOpen, setTechOpen]             = useState(false);
+  const [debouncedTechInput, setDebounced]  = useState(technique);
+  const techTimer  = useRef<ReturnType<typeof setTimeout>>(undefined);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Sync technique display text when the active technique changes from outside
-  // (e.g. user clicks a technique chip on a PaperCard, or clears all filters).
+  // Sync when technique changes externally.
   useEffect(() => {
     setTechInput(technique);
-    setDebouncedTechInput(technique);
+    setDebounced(technique);
   }, [technique]);
 
-  // Debounce the API call, not the display value.
   const handleTechInputChange = (v: string) => {
     setTechInput(v);
     setTechOpen(true);
     clearTimeout(techTimer.current);
-    techTimer.current = setTimeout(() => setDebouncedTechInput(v), 250);
+    techTimer.current = setTimeout(() => setDebounced(v), 250);
   };
 
   // Close dropdown on outside click.
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node))
         setTechOpen(false);
-      }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -102,8 +99,8 @@ export function FilterPanel({
 
   const { data: techniquesData, isFetching: techFetching } = useQuery({
     queryKey: queryKeys.techniques(debouncedTechInput),
-    queryFn: () => api.techniques(debouncedTechInput || undefined),
-    enabled: techOpen && debouncedTechInput.length >= 1,
+    queryFn:  () => api.techniques(debouncedTechInput || undefined),
+    enabled:  techOpen && debouncedTechInput.length >= 1,
     staleTime: 5 * 60 * 1000,
   });
 
@@ -116,94 +113,100 @@ export function FilterPanel({
   const clearTechnique = () => {
     onTechniqueChange("");
     setTechInput("");
-    setDebouncedTechInput("");
+    setDebounced("");
     setTechOpen(false);
   };
 
   return (
-    <div className="space-y-4 text-sm">
-      <Section title="Conference" active={!!conference}>
-        <div className="space-y-1.5">
+    <div className="space-y-lg text-body-sm">
+
+      {/* Conference — pill buttons matching mockup */}
+      <Section title="Venues" active={!!conference}>
+        <div className="grid grid-cols-2 gap-sm">
           {CONFERENCES.map((conf) => (
-            <label
+            <button
               key={conf}
-              className="flex items-center gap-2.5 cursor-pointer group"
+              type="button"
+              onClick={() => onConferenceChange(conference === conf ? "" : conf)}
+              className={cn(
+                "border px-sm py-xs rounded text-label-md text-xs text-center transition-colors",
+                conference === conf
+                  ? "bg-surface-container-highest border-im-primary text-im-primary font-bold"
+                  : "bg-surface-container border-outline-variant text-on-surface-variant hover:border-outline"
+              )}
             >
-              <input
-                type="checkbox"
-                className="h-4 w-4 rounded border-muted-foreground/30 accent-primary cursor-pointer"
-                checked={conference === conf}
-                onChange={(e) => onConferenceChange(e.target.checked ? conf : "")}
-              />
-              <span className="group-hover:text-foreground transition-colors text-muted-foreground data-[checked]:text-foreground">
-                {conf}
-              </span>
-            </label>
+              {conf}
+            </button>
           ))}
         </div>
       </Section>
 
-      <Separator />
+      {FEATURES.GRAPH && (
+        <>
+          <div className="border-t border-outline-variant" />
 
-      <Section title="Cluster" active={!!cluster}>
-        <div className="space-y-1.5">
-          <label className="flex items-center gap-2.5 cursor-pointer group">
-            <input
-              type="radio"
-              name="cluster"
-              value=""
-              checked={cluster === ""}
-              onChange={() => onClusterChange("")}
-              className="h-4 w-4 accent-primary cursor-pointer"
-            />
-            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-              All clusters
-            </span>
-          </label>
-          {CLUSTERS.map((opt) => (
-            <label
-              key={opt.value}
-              className="flex items-center gap-2.5 cursor-pointer group"
-            >
-              <input
-                type="radio"
-                name="cluster"
-                value={opt.value}
-                checked={cluster === opt.value}
-                onChange={() => onClusterChange(opt.value)}
-                className="h-4 w-4 accent-primary cursor-pointer"
-              />
-              <span className="flex items-center gap-1.5 text-muted-foreground group-hover:text-foreground transition-colors">
-                <span
-                  className="inline-block h-2.5 w-2.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: CLUSTER_COLOURS[Number(opt.value)] }}
+          {/* Cluster */}
+          <Section title="Cluster" active={!!cluster}>
+            <div className="space-y-sm">
+              <label className="flex items-center gap-sm cursor-pointer group">
+                <input
+                  type="radio"
+                  name="cluster"
+                  value=""
+                  checked={cluster === ""}
+                  onChange={() => onClusterChange("")}
+                  className="h-4 w-4 accent-[#adc6ff] cursor-pointer"
                 />
-                <span className={cn(cluster === opt.value && "text-foreground font-medium")}>
-                  {opt.label}
+                <span className="text-on-surface-variant group-hover:text-on-surface transition-colors">
+                  All clusters
                 </span>
-              </span>
-            </label>
-          ))}
-        </div>
-      </Section>
+              </label>
+              {CLUSTERS.map((opt) => (
+                <label key={opt.value} className="flex items-center gap-sm cursor-pointer group">
+                  <input
+                    type="radio"
+                    name="cluster"
+                    value={opt.value}
+                    checked={cluster === opt.value}
+                    onChange={() => onClusterChange(opt.value)}
+                    className="h-4 w-4 accent-[#adc6ff] cursor-pointer"
+                  />
+                  <span className="flex items-center gap-xs text-on-surface-variant group-hover:text-on-surface transition-colors">
+                    <span
+                      className="inline-block h-2.5 w-2.5 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: CLUSTER_COLOURS[Number(opt.value)] }}
+                    />
+                    <span className={cn(cluster === opt.value && "text-on-surface font-medium")}>
+                      {opt.label}
+                    </span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </Section>
+        </>
+      )}
 
-      <Separator />
+      <div className="border-t border-outline-variant" />
 
+      {/* Technique autocomplete */}
       <Section title="Technique" active={!!technique}>
         <div className="relative" ref={dropdownRef}>
-          <div className="relative">
-            <Input
+          <div className="relative flex items-center bg-surface-container-high border border-outline-variant rounded-lg px-sm py-sm focus-within:border-im-primary transition-colors">
+            <span className="material-symbols-outlined text-[16px] text-outline mr-xs">search</span>
+            <input
+              type="text"
               placeholder="Search techniques…"
               value={techInput}
               onChange={(e) => handleTechInputChange(e.target.value)}
               onFocus={() => techInput && setTechOpen(true)}
-              className={cn("pr-7", technique && "border-primary/50")}
+              className="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-body-sm text-on-surface placeholder:text-outline"
             />
             {(techInput || technique) && (
               <button
                 type="button"
                 onClick={clearTechnique}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                className="text-on-surface-variant hover:text-on-surface transition-colors"
                 aria-label="Clear technique"
               >
                 <X className="h-3.5 w-3.5" />
@@ -212,37 +215,26 @@ export function FilterPanel({
           </div>
 
           {techOpen && debouncedTechInput.length >= 1 && (
-            <div className="absolute top-full left-0 right-0 z-20 mt-1 rounded-md border bg-popover shadow-md overflow-hidden">
+            <div className="absolute top-full left-0 right-0 z-20 mt-1 rounded-lg border border-outline-variant bg-surface-container shadow-xl overflow-hidden">
               {techFetching && (
-                <div className="px-3 py-2 text-xs text-muted-foreground">
-                  Loading…
-                </div>
+                <div className="px-md py-sm text-body-sm text-on-surface-variant">Loading…</div>
               )}
-              {!techFetching &&
-                techniquesData?.techniques.length === 0 && (
-                  <div className="px-3 py-2 text-xs text-muted-foreground">
-                    No techniques found
-                  </div>
-                )}
+              {!techFetching && techniquesData?.techniques.length === 0 && (
+                <div className="px-md py-sm text-body-sm text-on-surface-variant">No techniques found</div>
+              )}
               <div className="max-h-52 overflow-y-auto">
                 {techniquesData?.techniques.slice(0, 12).map((t) => (
                   <button
                     key={t.canonical_name}
                     type="button"
-                    onMouseDown={(e) => {
-                      // prevent blur before click registers
-                      e.preventDefault();
-                      selectTechnique(t.canonical_name);
-                    }}
+                    onMouseDown={(e) => { e.preventDefault(); selectTechnique(t.canonical_name); }}
                     className={cn(
-                      "flex w-full items-center justify-between px-3 py-2 text-xs hover:bg-accent transition-colors text-left",
-                      technique === t.canonical_name && "bg-accent font-medium"
+                      "flex w-full items-center justify-between px-md py-sm text-body-sm hover:bg-surface-container-high transition-colors text-left",
+                      technique === t.canonical_name && "bg-surface-container-high text-on-surface font-medium"
                     )}
                   >
-                    <span className="truncate">{t.canonical_name}</span>
-                    <span className="ml-2 flex-shrink-0 text-muted-foreground">
-                      {t.usage_count}
-                    </span>
+                    <span className="truncate text-on-surface-variant hover:text-on-surface">{t.canonical_name}</span>
+                    <span className="ml-sm flex-shrink-0 text-outline text-[11px]">{t.usage_count}</span>
                   </button>
                 ))}
               </div>
@@ -251,14 +243,14 @@ export function FilterPanel({
         </div>
 
         {technique && (
-          <div className="mt-2 flex items-center gap-1.5">
-            <span className="text-xs text-muted-foreground">Active:</span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+          <div className="mt-sm flex items-center gap-xs">
+            <span className="text-body-sm text-on-surface-variant">Active:</span>
+            <span className="inline-flex items-center gap-xs rounded-full bg-primary-container/10 px-sm py-0.5 text-[11px] font-label-md text-im-primary border border-primary-container/20">
               {technique}
               <button
                 type="button"
                 onClick={clearTechnique}
-                className="ml-0.5 hover:text-primary/70"
+                className="hover:opacity-60"
                 aria-label="Remove technique filter"
               >
                 <X className="h-3 w-3" />

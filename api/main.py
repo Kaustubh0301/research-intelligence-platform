@@ -38,24 +38,21 @@ app = FastAPI(
 )
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
-# Allow the Next.js dev server and any production origin configured via env.
+# Dev: allow any localhost / 127.0.0.1 origin regardless of port so that
+# multiple Next.js dev-server instances (3000, 3001, 3002, 3003…) all work.
 # In production, set CORS_ORIGIN to your deployed frontend URL.
 
-_cors_origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
 _extra = os.getenv("CORS_ORIGIN", "").strip()
-if _extra:
-    _cors_origins.append(_extra)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins     = _cors_origins,
-    allow_credentials = True,
-    allow_methods     = ["GET", "POST", "OPTIONS"],
-    allow_headers     = ["*"],
-    expose_headers    = ["X-Total-Count"],   # lets the frontend read pagination total
+    # allow_origins is empty — allow_origin_regex takes precedence.
+    allow_origins      = [_extra] if _extra else [],
+    allow_origin_regex = r"http://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_credentials  = True,
+    allow_methods      = ["GET", "POST", "OPTIONS"],
+    allow_headers      = ["*"],
+    expose_headers     = ["X-Total-Count"],   # lets the frontend read pagination total
 )
 
 # ── Routers ───────────────────────────────────────────────────────────────────

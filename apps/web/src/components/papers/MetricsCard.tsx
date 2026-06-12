@@ -1,38 +1,33 @@
 import type { PaperDetail } from "@/lib/types";
 import { CLUSTER_COLOURS } from "@/lib/constants";
-import { TrendingUp, Star, Users, Zap, GitBranch, Activity } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { FEATURES } from "@/lib/features";
 
-interface Props {
-  paper: PaperDetail;
-}
+interface Props { paper: PaperDetail; }
 
 function StatRow({
-  icon: Icon,
+  icon,
   label,
   value,
   sub,
-  className,
+  accent,
 }: {
-  icon: React.ElementType;
-  label: string;
-  value: string | number;
-  sub?: string;
-  className?: string;
+  icon:    string;
+  label:   string;
+  value:   string | number;
+  sub?:    string;
+  accent?: string;
 }) {
   return (
-    <div className="flex items-center justify-between py-2">
-      <span className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Icon className={cn("h-4 w-4 flex-shrink-0", className)} />
+    <div className="flex items-center justify-between py-sm">
+      <span className="flex items-center gap-sm text-body-sm text-on-surface-variant">
+        <span className={`material-symbols-outlined text-[18px] ${accent ?? "text-outline"}`}>
+          {icon}
+        </span>
         {label}
       </span>
-      <span className="text-sm font-medium tabular-nums">
+      <span className="text-body-sm font-medium text-on-surface tabular-nums">
         {typeof value === "number" ? value.toLocaleString() : value}
-        {sub && (
-          <span className="ml-1 text-xs font-normal text-muted-foreground">
-            {sub}
-          </span>
-        )}
+        {sub && <span className="ml-xs text-[11px] font-normal text-on-surface-variant">{sub}</span>}
       </span>
     </div>
   );
@@ -41,73 +36,66 @@ function StatRow({
 function CentralityBar({ value }: { value: number }) {
   const pct = Math.round(value * 100);
   return (
-    <div className="space-y-1 py-1">
-      <div className="flex items-center justify-between text-sm">
-        <span className="flex items-center gap-2 text-muted-foreground">
-          <Activity className="h-4 w-4 flex-shrink-0" />
+    <div className="space-y-xs py-xs">
+      <div className="flex items-center justify-between text-body-sm">
+        <span className="flex items-center gap-sm text-on-surface-variant">
+          <span className="material-symbols-outlined text-[18px] text-outline">show_chart</span>
           Degree centrality
         </span>
-        <span className="font-medium tabular-nums">{value.toFixed(4)}</span>
+        <span className="font-medium text-on-surface tabular-nums">{value.toFixed(4)}</span>
       </div>
-      <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+      <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-surface-container-highest">
         <div
-          className="h-full rounded-full bg-primary transition-all"
+          className="h-full rounded-full bg-im-primary transition-all"
           style={{ width: `${pct}%` }}
         />
       </div>
-      <p className="text-right text-[11px] text-muted-foreground">
-        top {100 - pct}%
-      </p>
+      <p className="text-right text-[11px] text-on-surface-variant">top {100 - pct}%</p>
     </div>
   );
 }
 
 export function MetricsCard({ paper }: Props) {
-  const gm = paper.graph_metrics;
+  const gm           = paper.graph_metrics;
   const clusterColour =
-    gm?.cluster_id != null
-      ? (CLUSTER_COLOURS[gm.cluster_id] ?? "#6b7280")
-      : null;
+    gm?.cluster_id != null ? (CLUSTER_COLOURS[gm.cluster_id] ?? "#6b7280") : null;
 
   return (
-    <section className="rounded-xl border bg-card p-5 space-y-1">
-      <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+    <section className="rounded-xl border border-outline-variant bg-surface-container-low p-lg space-y-xs">
+      <h2 className="text-label-md uppercase tracking-widest text-on-surface-variant mb-sm">
         Metrics
       </h2>
 
-      <div className="divide-y">
+      <div className="divide-y divide-outline-variant/40">
         <StatRow
-          icon={TrendingUp}
+          icon="trending_up"
           label="Citations"
           value={paper.citation_count}
-          className="text-blue-500"
+          accent="text-im-primary"
         />
         {paper.influential_citation_count > 0 && (
           <StatRow
-            icon={Star}
+            icon="star"
             label="Influential"
             value={paper.influential_citation_count}
-            className="text-amber-500"
+            accent="text-im-tertiary"
           />
         )}
         {paper.authors.length > 0 && (
-          <StatRow
-            icon={Users}
-            label="Authors"
-            value={paper.authors.length}
-          />
+          <StatRow icon="group" label="Authors" value={paper.authors.length} />
         )}
 
-        {gm && (
+        {/* Graph metrics: cluster badge + neighbour count */}
+        {FEATURES.GRAPH && gm && (
           <>
             {clusterColour !== null && (
-              <div className="flex items-center justify-between py-2">
-                <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <GitBranch className="h-4 w-4 flex-shrink-0" />
+              <div className="flex items-center justify-between py-sm">
+                <span className="flex items-center gap-sm text-body-sm text-on-surface-variant">
+                  <span className="material-symbols-outlined text-[18px] text-outline">account_tree</span>
                   Cluster
                 </span>
                 <span
-                  className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
+                  className="inline-flex items-center rounded-full px-sm py-0.5 text-[11px] font-bold text-white"
                   style={{ backgroundColor: clusterColour }}
                 >
                   Cluster {gm.cluster_id}
@@ -115,7 +103,7 @@ export function MetricsCard({ paper }: Props) {
               </div>
             )}
             <StatRow
-              icon={Zap}
+              icon="hub"
               label="Neighbours"
               value={gm.neighbors_count}
               sub="in graph"
@@ -124,12 +112,13 @@ export function MetricsCard({ paper }: Props) {
         )}
       </div>
 
-      {gm && (
-        <div className="pt-2 border-t">
+      {/* Graph centrality metrics */}
+      {FEATURES.GRAPH && gm && (
+        <div className="pt-sm border-t border-outline-variant/40">
           <CentralityBar value={gm.degree_centrality} />
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-xs text-muted-foreground">Betweenness</span>
-            <span className="text-xs font-medium tabular-nums">
+          <div className="flex items-center justify-between pt-xs">
+            <span className="text-[11px] text-on-surface-variant">Betweenness</span>
+            <span className="text-[11px] font-medium text-on-surface tabular-nums">
               {gm.betweenness_centrality.toFixed(6)}
             </span>
           </div>

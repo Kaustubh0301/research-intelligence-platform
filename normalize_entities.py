@@ -191,6 +191,16 @@ def main() -> None:
         report = dispatch[table](dry_run=args.dry_run, force=args.force)
         print(report)
 
+    if not args.dry_run:
+        try:
+            from db.session import get_session
+            from search.sync import rebuild_all
+            with get_session() as session:
+                n_p, n_e = rebuild_all(session)
+            print(f"\nFTS rebuild: {n_p} paper rows, {n_e} entity rows indexed.")
+        except Exception as exc:
+            print(f"\nFTS rebuild failed (non-fatal): {exc}")
+
 
 if __name__ == "__main__":
     main()

@@ -12,7 +12,7 @@ interface Props {
 
 export function SourcePanel({ sources, isLoading }: Props) {
   return (
-    <aside className="w-72 shrink-0 border-l bg-background flex flex-col overflow-hidden">
+    <aside className="w-72 h-full shrink-0 border-l bg-background flex flex-col overflow-hidden">
       <div className="p-3 border-b flex items-center gap-2">
         <BookOpen className="h-4 w-4 text-muted-foreground" />
         <span className="text-sm font-semibold">Supporting Papers</span>

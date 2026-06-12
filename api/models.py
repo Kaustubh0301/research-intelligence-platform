@@ -6,7 +6,7 @@ These are distinct from the SQLAlchemy ORM models in db/models.py.
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -284,9 +284,19 @@ class RelatedPapersResponse(BaseModel):
 
 # ── Chat ──────────────────────────────────────────────────────────────────────
 
+class ConversationMessage(BaseModel):
+    """A single prior turn in the conversation, sent by the client."""
+    role:    Literal["user", "assistant"]
+    content: str = Field(..., min_length=1)
+
+
 class ChatRequest(BaseModel):
-    message:         str            = Field(..., min_length=1, description="User question")
-    conversation_id: Optional[str]  = Field(None, description="Echo'd back; history is client-side")
+    message:         str                       = Field(..., min_length=1, description="User question")
+    conversation_id: Optional[str]             = Field(None, description="Echo'd back unchanged")
+    history:         list[ConversationMessage] = Field(
+        default_factory=list,
+        description="Prior turns, oldest first. Capped server-side at 10 turns.",
+    )
 
 
 class ChatSource(BaseModel):

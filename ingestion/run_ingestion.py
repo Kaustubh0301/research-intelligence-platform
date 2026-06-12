@@ -44,6 +44,7 @@ from ingestion.store import (
     upsert_paper,
     upsert_paper_authors,
 )
+from search.sync import sync_papers
 
 logging.basicConfig(
     level=logging.INFO,
@@ -84,6 +85,7 @@ def ingest_one(short_name: str, year: int, limit: int) -> dict:
     # ── Persist ───────────────────────────────────────────────────
     inserted = 0
     updated  = 0
+    new_ids: list[str] = []
 
     with get_session() as session:
         conference = upsert_conference(
@@ -107,11 +109,21 @@ def ingest_one(short_name: str, year: int, limit: int) -> dict:
 
             if created:
                 inserted += 1
+                new_ids.append(paper.id)
             else:
                 updated += 1
 
             if i % 50 == 0:
                 log.info("  Progress: %d / %d", i, len(raw_papers))
+
+    # Sync new papers into FTS index (separate session; ingest session already committed).
+    if new_ids:
+        try:
+            with get_session() as fts_session:
+                n = sync_papers(fts_session, new_ids)
+                log.info("FTS sync: indexed %d new paper(s)", n)
+        except Exception as exc:
+            log.warning("FTS sync failed (non-fatal): %s", exc)
 
     return {"inserted": inserted, "updated": updated, "total": inserted + updated}
 
@@ -136,7 +148,11 @@ def run(
         if not short_name or not year:
             log.error("--conference and --year are required unless --all is set.")
             sys.exit(1)
-        editions = [(short_name.upper(), year)]
+        # Resolve to canonical short_name from config (preserves case: "NeurIPS" not "NEURIPS")
+        from ingestion.conferences_config import get_conference as _gc
+        _upper_map = {k.upper(): k for k in __import__('ingestion.conferences_config', fromlist=['CONFERENCES']).CONFERENCES}
+        canonical = _upper_map.get(short_name.upper(), short_name)
+        editions = [(canonical, year)]
 
     total_inserted = 0
     total_updated  = 0

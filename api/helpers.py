@@ -9,8 +9,53 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from collections import defaultdict
 from typing import Optional
+
+# ── Query tokeniser ───────────────────────────────────────────────────────────
+
+_STOP_WORDS = frozenset({
+    "a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
+    "have", "has", "had", "do", "does", "did", "will", "would", "could",
+    "should", "may", "might", "shall", "can", "for", "in", "on", "at",
+    "to", "of", "and", "or", "but", "not", "with", "from", "by", "as",
+    "it", "its", "this", "that", "these", "those", "what", "which", "who",
+    "when", "where", "how", "than", "more", "less", "some", "any", "all",
+    "each", "both", "few", "very", "just", "also", "up", "about",
+    "between", "after", "before", "over", "under",
+})
+
+
+# Tokens so common in the ML/AI corpus that they add noise rather than signal
+# when matched as substrings. Boosted at 0.2× instead of 0.5×.
+# "ai" is here because it substring-matches "tr*ai*ning", "f*ai*rness", etc.
+_GENERIC_TOKENS = frozenset({
+    "ai", "ml",
+    "model", "models",
+    "learning",
+    "network", "networks",
+    "system", "systems",
+    "method", "methods",
+    "data", "dataset",
+    "deep", "neural",
+    "large", "new", "novel", "proposed",
+    "based", "using", "approach",
+    "training", "trained",
+    "language", "task", "paper",
+    "performance", "result", "results",
+})
+
+
+def _tokenize(query: str) -> list[str]:
+    """Split a query into lowercase tokens, dropping stop words and length-1 tokens."""
+    tokens = re.split(r"[\s\-_/.,;:!?()\[\]]+", query.lower())
+    return [t for t in tokens if t and len(t) >= 2 and t not in _STOP_WORDS]
+
+
+def _token_boost(token: str) -> float:
+    """Return the score multiplier for a single query token."""
+    return 0.2 if token in _GENERIC_TOKENS else 0.5
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -356,9 +401,17 @@ def retrieve_papers_for_query(
     session: Session,
     limit: int = 5,
 ) -> list[dict]:
-    """
-    Run the same multi-signal scoring used by POST /search and return the
-    top `limit` papers as plain dicts ready for context building.
+    # Delegate to FTS5-backed retrieval (falls back to LIKE automatically).
+    from search.retrieval import retrieve_papers_for_query as _fts_retrieve
+    return _fts_retrieve(term, session, limit)
+
+
+def _retrieve_papers_for_query_legacy(
+    term: str,
+    session: Session,
+    limit: int = 5,
+) -> list[dict]:
+    """Legacy LIKE-based implementation kept for rollback verification.
 
     Scoring (identical to search router):
       +40  exact title match
@@ -393,82 +446,108 @@ def retrieve_papers_for_query(
     def _base():
         return base_paper_query()
 
-    # Signal 1: title
-    for row in session.execute(_base().where(
-        func.lower(Paper.title).contains(q_lower)
-    )).all():
-        paper, conf, _yr, pgm = row
-        _cache(paper, conf, pgm)
-        if paper.title.lower() == q_lower:
-            scores[paper.id] += 40
-            matched_in[paper.id].append("title:exact")
-        else:
-            scores[paper.id] += 20
-            matched_in[paper.id].append("title")
-
-    # Signal 2: abstract
-    for row in session.execute(
-        _base().where(
-            func.lower(Paper.abstract).contains(q_lower),
-            Paper.abstract.isnot(None),
-        )
-    ).all():
-        paper, conf, _yr, pgm = row
-        _cache(paper, conf, pgm)
-        if "abstract" not in matched_in[paper.id]:
-            scores[paper.id] += 15
-            matched_in[paper.id].append("abstract")
-
-    # Signal 3: category
-    cat_rows = session.execute(
-        select(PaperCategory.paper_id, PaperCategory.name)
-        .where(func.lower(PaperCategory.name).contains(q_lower))
-    ).all()
-    if cat_rows:
-        cat_ids = list({r.paper_id for r in cat_rows})
-        cat_by_paper: dict[str, list[str]] = defaultdict(list)
-        for r in cat_rows:
-            cat_by_paper[r.paper_id].append(r.name)
-        for row in session.execute(_base().where(Paper.id.in_(cat_ids))).all():
+    def _score_term(t: str, boost: float, tag: str) -> None:
+        """
+        Run all 5 signals for term `t` and accumulate into shared dicts.
+        `boost` scales all point values (1.0 for the full phrase, 0.5 for tokens).
+        `tag` prefixes matched_in labels to distinguish phrase vs token hits.
+        """
+        # Signal 1: title
+        for row in session.execute(_base().where(
+            func.lower(Paper.title).contains(t)
+        )).all():
             paper, conf, _yr, pgm = row
             _cache(paper, conf, pgm)
-            for cat_name in cat_by_paper[paper.id]:
-                scores[paper.id] += 15
-                matched_in[paper.id].append(f"category:{cat_name}")
+            label = f"{tag}title"
+            if paper.title.lower() == t:
+                scores[paper.id] += 40 * boost
+                if f"{tag}title:exact" not in matched_in[paper.id]:
+                    matched_in[paper.id].append(f"{tag}title:exact")
+            else:
+                scores[paper.id] += 20 * boost
+                if label not in matched_in[paper.id]:
+                    matched_in[paper.id].append(label)
 
-    # Signal 4: technique
-    tech_rows = session.execute(
-        select(PaperTechnique.paper_id, PaperTechnique.name)
-        .where(func.lower(PaperTechnique.name).contains(q_lower))
-    ).all()
-    if tech_rows:
-        tech_ids = list({r.paper_id for r in tech_rows})
-        tech_by_paper: dict[str, list[str]] = defaultdict(list)
-        for r in tech_rows:
-            tech_by_paper[r.paper_id].append(r.name)
-        for row in session.execute(_base().where(Paper.id.in_(tech_ids))).all():
+        # Signal 2: abstract
+        for row in session.execute(
+            _base().where(
+                func.lower(Paper.abstract).contains(t),
+                Paper.abstract.isnot(None),
+            )
+        ).all():
             paper, conf, _yr, pgm = row
             _cache(paper, conf, pgm)
-            for tech_name in tech_by_paper[paper.id]:
-                scores[paper.id] += 12
-                matched_in[paper.id].append(f"technique:{tech_name}")
+            label = f"{tag}abstract"
+            if label not in matched_in[paper.id]:
+                scores[paper.id] += 15 * boost
+                matched_in[paper.id].append(label)
 
-    # Signal 5: dataset
-    ds_rows = session.execute(
-        select(PaperDataset.paper_id, PaperDataset.name)
-        .where(func.lower(PaperDataset.name).contains(q_lower))
-    ).all()
-    if ds_rows:
-        ds_ids = list({r.paper_id for r in ds_rows})
-        ds_by_paper: dict[str, list[str]] = defaultdict(list)
-        for r in ds_rows:
-            ds_by_paper[r.paper_id].append(r.name)
-        for row in session.execute(_base().where(Paper.id.in_(ds_ids))).all():
-            paper, conf, _yr, pgm = row
-            _cache(paper, conf, pgm)
-            for ds_name in ds_by_paper[paper.id]:
-                scores[paper.id] += 10
-                matched_in[paper.id].append(f"dataset:{ds_name}")
+        # Signal 3: category
+        cat_rows = session.execute(
+            select(PaperCategory.paper_id, PaperCategory.name)
+            .where(func.lower(PaperCategory.name).contains(t))
+        ).all()
+        if cat_rows:
+            cat_ids = list({r.paper_id for r in cat_rows})
+            cat_by_paper: dict[str, list[str]] = defaultdict(list)
+            for r in cat_rows:
+                cat_by_paper[r.paper_id].append(r.name)
+            for row in session.execute(_base().where(Paper.id.in_(cat_ids))).all():
+                paper, conf, _yr, pgm = row
+                _cache(paper, conf, pgm)
+                for cat_name in cat_by_paper[paper.id]:
+                    label = f"{tag}category:{cat_name}"
+                    if label not in matched_in[paper.id]:
+                        scores[paper.id] += 15 * boost
+                        matched_in[paper.id].append(label)
+
+        # Signal 4: technique
+        tech_rows = session.execute(
+            select(PaperTechnique.paper_id, PaperTechnique.name)
+            .where(func.lower(PaperTechnique.name).contains(t))
+        ).all()
+        if tech_rows:
+            tech_ids = list({r.paper_id for r in tech_rows})
+            tech_by_paper: dict[str, list[str]] = defaultdict(list)
+            for r in tech_rows:
+                tech_by_paper[r.paper_id].append(r.name)
+            for row in session.execute(_base().where(Paper.id.in_(tech_ids))).all():
+                paper, conf, _yr, pgm = row
+                _cache(paper, conf, pgm)
+                for tech_name in tech_by_paper[paper.id]:
+                    label = f"{tag}technique:{tech_name}"
+                    if label not in matched_in[paper.id]:
+                        scores[paper.id] += 12 * boost
+                        matched_in[paper.id].append(label)
+
+        # Signal 5: dataset
+        ds_rows = session.execute(
+            select(PaperDataset.paper_id, PaperDataset.name)
+            .where(func.lower(PaperDataset.name).contains(t))
+        ).all()
+        if ds_rows:
+            ds_ids = list({r.paper_id for r in ds_rows})
+            ds_by_paper: dict[str, list[str]] = defaultdict(list)
+            for r in ds_rows:
+                ds_by_paper[r.paper_id].append(r.name)
+            for row in session.execute(_base().where(Paper.id.in_(ds_ids))).all():
+                paper, conf, _yr, pgm = row
+                _cache(paper, conf, pgm)
+                for ds_name in ds_by_paper[paper.id]:
+                    label = f"{tag}dataset:{ds_name}"
+                    if label not in matched_in[paper.id]:
+                        scores[paper.id] += 10 * boost
+                        matched_in[paper.id].append(label)
+
+    # Full-phrase pass — original boosts (boost=1.0), no tag prefix
+    _score_term(q_lower, boost=1.0, tag="")
+
+    # Token pass — score each meaningful token at half boost
+    # Only run when the query has multiple tokens (single-word queries already covered above)
+    tokens = _tokenize(q_lower)
+    extra_tokens = [t for t in dict.fromkeys(tokens) if t != q_lower]
+    for tok in extra_tokens:
+        _score_term(tok, boost=_token_boost(tok), tag="token:")
 
     if not paper_cache:
         return []
@@ -494,13 +573,18 @@ def retrieve_papers_for_query(
         if len(cats_by_paper[pid]) < 3:
             cats_by_paper[pid].append(cname)
 
-    # Fetch analysis summaries
+    # Fetch analysis fields — V2 fields plus legacy advantages for compat
     analysis_rows = session.execute(
         select(
             PaperAnalysisRecord.paper_id,
             PaperAnalysisRecord.summary,
-            PaperAnalysisRecord.advantages,
+            PaperAnalysisRecord.methodology,
+            PaperAnalysisRecord.experimental_findings,
+            PaperAnalysisRecord.strengths,
             PaperAnalysisRecord.limitations,
+            PaperAnalysisRecord.practical_applications,
+            PaperAnalysisRecord.future_research_directions,
+            PaperAnalysisRecord.advantages,
         ).where(PaperAnalysisRecord.paper_id.in_(ranked))
     ).all()
     analysis_by_paper = {r.paper_id: r for r in analysis_rows}
@@ -522,9 +606,14 @@ def retrieve_papers_for_query(
             "categories":       cats_by_paper.get(pid, []),
             "match_score":      round(scores[pid], 2),
             "matched_in":       list(dict.fromkeys(matched_in[pid])),
-            "summary":          (ar.summary or "") if ar else "",
-            "advantages":       json_list(ar.advantages) if ar else [],
-            "limitations":      json_list(ar.limitations) if ar else [],
+            "summary":                    (ar.summary or "") if ar else "",
+            "methodology":                (ar.methodology or "") if ar else "",
+            "experimental_findings":      json_list(ar.experimental_findings) if ar else [],
+            "strengths":                  json_list(ar.strengths) if ar else [],
+            "limitations":                json_list(ar.limitations) if ar else [],
+            "practical_applications":     json_list(ar.practical_applications) if ar else [],
+            "future_research_directions": json_list(ar.future_research_directions) if ar else [],
+            "advantages":                 json_list(ar.advantages) if ar else [],
         })
 
     return results

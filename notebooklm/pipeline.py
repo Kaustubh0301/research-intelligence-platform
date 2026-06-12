@@ -25,7 +25,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Optional
 
-from sqlalchemy import select, func
+from sqlalchemy import delete, select, func
 
 from db.models import (
     Notebook,
@@ -479,6 +479,53 @@ def _check_coverage(
         )
 
 
+def _invalidate_stale_syntheses(session, nb: "Notebook") -> int:
+    """
+    Delete all synthesis rows for a notebook if any uploaded source is newer
+    than the most recent synthesis.  Returns the number of rows deleted.
+
+    Deterministic rule: if upload_completed_at > max(synthesis.created_at) for
+    any uploaded NotebookPaper, the notebook content has changed since the last
+    synthesis run and every cached response is stale.
+
+    Safe on partial re-runs: after invalidation the first new synthesis rows
+    anchor the timestamp, so subsequent prompts in the same run skip this check
+    and insert normally.  If the run is interrupted, the next invocation sees
+    the partial syntheses and skips invalidation correctly (the remaining
+    uploads pre-date those partial synthesis rows).
+    """
+    last_synthesis_at = session.scalar(
+        select(func.max(NotebookSynthesis.created_at))
+        .where(NotebookSynthesis.notebook_id == nb.id)
+    )
+    if last_synthesis_at is None:
+        return 0   # no syntheses yet — nothing to invalidate
+
+    new_uploads = session.scalar(
+        select(func.count())
+        .select_from(NotebookPaper)
+        .where(
+            NotebookPaper.notebook_id == nb.id,
+            NotebookPaper.source_status.in_(["uploaded", "abstract_only"]),
+            NotebookPaper.upload_completed_at > last_synthesis_at,
+        )
+    )
+    if not new_uploads:
+        return 0
+
+    result = session.execute(
+        delete(NotebookSynthesis).where(NotebookSynthesis.notebook_id == nb.id)
+    )
+    deleted = result.rowcount
+    session.commit()
+    log.info(
+        "Stage D: invalidated %d stale synthesis rows for %s "
+        "(notebook has %d upload(s) newer than last synthesis at %s)",
+        deleted, nb.topic_slug, new_uploads, last_synthesis_at.isoformat(),
+    )
+    return deleted
+
+
 def run_synthesize(
     notebook_id: Optional[str] = None,
     force: bool = False,
@@ -488,6 +535,11 @@ def run_synthesize(
     responses as NotebookSynthesis rows.  Coverage is validated after each
     analysis prompt response — failure raises RuntimeError and skips remaining
     prompts for that notebook.
+
+    Stale synthesis detection: if any uploaded source has upload_completed_at
+    newer than the notebook's most recent synthesis, all syntheses for that
+    notebook are deleted before querying so every paper is covered.
+
     Returns count of synthesis rows written.
     """
     synthesized = 0
@@ -523,6 +575,11 @@ def run_synthesize(
                     nb.topic_slug, pending_count, uploaded_count,
                 )
                 continue
+
+            # Deterministic stale check: invalidate syntheses if new sources
+            # were uploaded after the last synthesis was generated.
+            if not force:
+                _invalidate_stale_syntheses(session, nb)
 
             log.info("Stage D: querying notebook %s (%d sources)", nb.topic_slug, uploaded_count)
 

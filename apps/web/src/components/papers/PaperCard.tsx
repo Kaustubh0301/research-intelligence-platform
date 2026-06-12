@@ -1,8 +1,5 @@
 import Link from "next/link";
-import { TrendingUp, BookOpen, Star } from "lucide-react";
 import type { PaperSummary } from "@/lib/types";
-import { CLUSTER_COLOURS } from "@/lib/constants";
-import { CategoryBadge } from "@/components/ui/CategoryBadge";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -10,16 +7,32 @@ interface Props {
   onTechniqueClick?: (name: string) => void;
 }
 
-function PresentationBadge({ type }: { type: string }) {
+// ── Conference badge colour ───────────────────────────────────────────────
+
+function conferenceBadgeClass(conf: string | null) {
+  if (!conf) return "bg-surface-container border-outline-variant text-on-surface-variant";
+  const c = conf.toUpperCase();
+  if (c.includes("NEURIPS") || c.includes("NIPS"))
+    return "bg-primary-container/10 border-primary-container/20 text-im-primary";
+  if (c.includes("ICML"))
+    return "bg-tertiary-container/10 border-tertiary-container/20 text-im-tertiary";
+  if (c.includes("ICLR"))
+    return "bg-secondary-container/10 border-secondary-container/20 text-im-secondary";
+  return "bg-surface-container border-outline-variant text-on-surface-variant";
+}
+
+// ── Presentation type chip ────────────────────────────────────────────────
+
+function PresentationChip({ type }: { type: string }) {
   const styles: Record<string, string> = {
-    oral: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    spotlight: "bg-blue-50 text-blue-700 border-blue-200",
-    poster: "bg-zinc-50 text-zinc-600 border-zinc-200",
+    oral:      "bg-emerald-900/30 border-emerald-700/40 text-emerald-400",
+    spotlight: "bg-blue-900/30 border-blue-700/40 text-blue-400",
+    poster:    "bg-surface-container border-outline-variant text-on-surface-variant",
   };
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium capitalize",
+        "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold font-label-md uppercase",
         styles[type] ?? styles.poster
       )}
     >
@@ -28,105 +41,105 @@ function PresentationBadge({ type }: { type: string }) {
   );
 }
 
+// ── Card ──────────────────────────────────────────────────────────────────
+
 export function PaperCard({ paper, onTechniqueClick }: Props) {
-  const clusterColour = paper.cluster_id !== null
-    ? (CLUSTER_COLOURS[paper.cluster_id] ?? "#6b7280")
-    : null;
+  const confBadge = conferenceBadgeClass(paper.conference);
 
   return (
-    // Stretched-link pattern: outer div is position:relative,
-    // the Link covers the whole card at z-0, technique chips sit at z-10.
-    <article className="group relative rounded-lg border bg-card transition-shadow hover:shadow-md hover:border-border/80">
-      {/* Full-card link — sits behind everything */}
+    <article className="group relative bg-surface-container-low border border-outline-variant rounded-xl p-lg hover:border-im-primary transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
+      {/* Full-card link behind everything */}
       <Link
         href={`/papers/${paper.id}`}
-        className="absolute inset-0 z-0 rounded-lg"
+        className="absolute inset-0 z-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-im-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         aria-label={paper.title}
       />
 
-      <div className="relative z-10 pointer-events-none p-4">
-        {/* Top metadata row */}
-        <div className="flex flex-wrap items-center gap-1.5 mb-2">
-          {paper.conference && paper.year && (
-            <span className="inline-flex items-center rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
-              {paper.conference} {paper.year}
-            </span>
-          )}
-          {paper.presentation_type && (
-            <PresentationBadge type={paper.presentation_type} />
-          )}
-          {clusterColour !== null && (
-            <span
-              className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium text-white"
-              style={{ backgroundColor: clusterColour }}
-            >
-              Cluster {paper.cluster_id}
-            </span>
-          )}
-          {paper.is_open_access && (
-            <span className="inline-flex items-center rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-xs font-medium text-amber-700">
-              <BookOpen className="mr-1 h-3 w-3" />
-              OA
-            </span>
-          )}
-        </div>
+      <div className="relative z-10 pointer-events-none">
+        <div className="flex justify-between items-start gap-md">
 
-        {/* Title + primary category */}
-        <div className="flex items-start gap-2 mb-1.5">
-          <h2 className="flex-1 text-sm font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
-            {paper.title}
-          </h2>
-          <CategoryBadge
-            category={paper.primary_category}
-            clusterId={paper.cluster_id}
-            className="flex-shrink-0 mt-0.5"
-          />
-        </div>
+          {/* Left: metadata + title + abstract + technique chips */}
+          <div className="flex-1 min-w-0">
+            {/* Badge row */}
+            <div className="flex flex-wrap items-center gap-sm mb-xs">
+              {paper.conference && paper.year && (
+                <span
+                  className={cn(
+                    "inline-flex items-center border rounded px-sm py-0.5 text-[10px] font-bold font-label-md uppercase",
+                    confBadge
+                  )}
+                >
+                  {paper.conference} {paper.year}
+                </span>
+              )}
+              {paper.presentation_type && (
+                <PresentationChip type={paper.presentation_type} />
+              )}
+              {paper.is_open_access && (
+                <span className="inline-flex items-center border border-amber-700/40 bg-amber-900/20 rounded px-sm py-0.5 text-[10px] font-bold font-label-md uppercase text-amber-400">
+                  Open Access
+                </span>
+              )}
+            </div>
 
-        {/* Abstract snippet */}
-        {paper.abstract_snippet && (
-          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 mb-3">
-            {paper.abstract_snippet}
-          </p>
-        )}
+            {/* Title */}
+            <h2 className="text-body-lg font-headline-md text-on-surface group-hover:text-im-primary transition-colors line-clamp-2 mb-sm leading-snug">
+              {paper.title}
+            </h2>
 
-        {/* Bottom row: techniques + metrics */}
-        <div className="flex items-end justify-between gap-2 mt-auto">
-          {/* Technique chips — pointer-events restored so they're clickable above the link */}
-          <div className="pointer-events-auto flex flex-wrap gap-1">
-            {paper.top_techniques.slice(0, 3).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onTechniqueClick?.(t);
-                }}
-                className="inline-flex items-center rounded px-1.5 py-0.5 text-xs bg-secondary text-secondary-foreground hover:bg-muted transition-colors"
-              >
-                {t}
-              </button>
-            ))}
+            {/* Abstract snippet */}
+            {paper.abstract_snippet && (
+              <p className="text-body-sm text-on-surface-variant line-clamp-2 mb-md leading-relaxed">
+                {paper.abstract_snippet}
+              </p>
+            )}
+
+            {/* Technique chips */}
+            {paper.top_techniques.length > 0 && (
+              <div className="pointer-events-auto flex flex-wrap gap-xs">
+                {paper.top_techniques.slice(0, 4).map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onTechniqueClick?.(t);
+                    }}
+                    className="flex items-center gap-xs px-sm py-1 bg-surface-container-highest rounded border border-outline-variant text-[11px] font-label-md text-on-surface-variant uppercase hover:border-outline hover:text-on-surface transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[13px] text-im-primary">
+                      psychology
+                    </span>
+                    {t}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Metrics */}
-          <div className="flex items-center gap-3 flex-shrink-0 text-xs text-muted-foreground">
+          {/* Right: citation count + bookmark */}
+          <div className="flex flex-col items-end gap-md flex-shrink-0">
+            <div className="text-right">
+              <div className="text-headline-md font-bold text-on-surface font-code">
+                {paper.citation_count >= 1000
+                  ? `${(paper.citation_count / 1000).toFixed(1)}k`
+                  : paper.citation_count.toLocaleString()}
+              </div>
+              <div className="text-[10px] text-on-surface-variant font-label-md uppercase tracking-tighter mt-0.5">
+                Citations
+              </div>
+            </div>
+
             {paper.influential_citation_count > 0 && (
-              <span
-                className="flex items-center gap-0.5"
-                title="Influential citations"
-              >
-                <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-                {paper.influential_citation_count}
-              </span>
+              <div className="text-right">
+                <div className="text-body-sm font-bold text-im-tertiary font-code">
+                  {paper.influential_citation_count}
+                </div>
+                <div className="text-[10px] text-on-surface-variant font-label-md uppercase tracking-tighter">
+                  Influential
+                </div>
+              </div>
             )}
-            <span
-              className="flex items-center gap-1"
-              title="Total citations"
-            >
-              <TrendingUp className="h-3 w-3" />
-              {paper.citation_count.toLocaleString()}
-            </span>
           </div>
         </div>
       </div>

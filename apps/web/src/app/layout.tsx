@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
 import { Providers } from "./providers";
-import { NavLinks } from "@/components/ui/NavLinks";
+import { LayoutShell } from "@/components/ui/LayoutShell";
 
 export const metadata: Metadata = {
-  title: "Research Intelligence Platform",
+  title: "InsightEngine — AI Research Hub",
   description: "ML paper corpus explorer",
 };
 
@@ -15,25 +14,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-background font-sans antialiased">
+    <html lang="en" className="dark">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
         <Providers>
-          <div className="flex min-h-screen flex-col">
-            <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-              <div className="container flex h-14 max-w-7xl mx-auto items-center px-4">
-                <Link
-                  href="/"
-                  className="mr-6 flex items-center font-semibold text-sm"
-                >
-                  Research Intelligence
-                </Link>
-                <NavLinks />
-              </div>
-            </header>
-            <main className="flex-1 container max-w-7xl mx-auto px-4 py-6">
-              {children}
-            </main>
-          </div>
+          <LayoutShell>{children}</LayoutShell>
         </Providers>
       </body>
     </html>

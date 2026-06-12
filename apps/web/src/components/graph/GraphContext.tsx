@@ -8,6 +8,8 @@ interface GraphFilters {
   clusterFilter: number | undefined;
   searchQuery: string;
   showLabels: boolean;
+  /** How many nodes are currently visible (progressive disclosure). */
+  visibleNodeCount: number;
 }
 
 interface GraphContextValue {
@@ -22,6 +24,7 @@ const defaultFilters: GraphFilters = {
   clusterFilter: undefined,
   searchQuery: "",
   showLabels: true,
+  visibleNodeCount: 50,
 };
 
 const GraphContext = createContext<GraphContextValue>({

@@ -1,7 +1,7 @@
 import type { PaperDetail } from "@/lib/types";
 import { CLUSTER_COLOURS } from "@/lib/constants";
 import { buttonVariants } from "@/components/ui/button";
-import { ExternalLink, BookOpen, Lock } from "lucide-react";
+import { ExternalLink, BookOpen, Lock, Tag, Building2, Quote, Layers, Database, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function PresentationPill({ type }: { type: string }) {
@@ -42,6 +42,41 @@ export function PaperHero({ paper }: Props) {
       <h1 className="text-2xl font-bold leading-tight tracking-tight">
         {paper.title}
       </h1>
+
+      {/* ── Paper Intelligence Header ── */}
+      {(() => {
+        const primaryCategory = paper.categories[0]?.name ?? null;
+        const clusterLabel =
+          paper.graph_metrics?.cluster_id != null
+            ? `Cluster ${paper.graph_metrics.cluster_id}`
+            : null;
+        const stats: { icon: React.ElementType; label: string; value: string | number }[] = [];
+
+        if (primaryCategory)
+          stats.push({ icon: Tag, label: "Category", value: primaryCategory });
+        if (paper.conference && paper.year)
+          stats.push({ icon: Building2, label: "Venue", value: `${paper.conference} ${paper.year}` });
+        stats.push({ icon: Quote, label: "Citations", value: paper.citation_count.toLocaleString() });
+        if (clusterLabel)
+          stats.push({ icon: Layers, label: "Cluster", value: clusterLabel });
+        if (paper.techniques.length > 0)
+          stats.push({ icon: Cpu, label: "Techniques", value: paper.techniques.length });
+        if (paper.datasets.length > 0)
+          stats.push({ icon: Database, label: "Datasets", value: paper.datasets.length });
+
+        if (stats.length === 0) return null;
+
+        return (
+          <div className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground border-t pt-3">
+            {stats.map(({ icon: Icon, label, value }) => (
+              <span key={label} className="flex items-center gap-1.5">
+                <Icon className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="font-medium text-foreground/70">{value}</span>
+              </span>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Authors */}
       <p className="text-sm text-muted-foreground leading-relaxed">

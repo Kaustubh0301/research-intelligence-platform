@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "@/lib/api";
-import type { ChatMessage, ChatSource } from "@/lib/types";
+import type { ChatMessage, ChatSource, ConversationMessage } from "@/lib/types";
+import { useSession } from "@/components/sessions/SessionContext";
+import { ChatSidebar } from "@/components/sessions/ChatSidebar";
+import { SessionTopBar } from "@/components/sessions/SessionTopBar";
 import { ChatInput } from "./ChatInput";
 import { MessageBubble } from "./MessageBubble";
-import { SidebarHistory } from "./SidebarHistory";
 import { SourcePanel } from "./SourcePanel";
 import { BookOpen, Menu, X } from "lucide-react";
 
@@ -14,30 +16,78 @@ function uid() {
 }
 
 export function ChatPageClient() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const {
+    activeSession,
+    activeMessages,
+    initialized,
+    appendMessage,
+    setConversationId,
+    autoNameIfUntitled,
+  } = useSession();
+
+  // ── Ephemeral UI state (never persisted) ────────────────────────────────────
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMsgId, setLoadingMsgId] = useState<string | null>(null);
   const [activeSources, setActiveSources] = useState<ChatSource[]>([]);
-  const [conversationId, setConversationId] = useState<string | undefined>();
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
 
-  // Accumulate all cited papers across the conversation for the sidebar
-  const [citedPapers, setCitedPapers] = useState<ChatSource[]>([]);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const wasLoadingRef = useRef(false);
 
-  const bottomRef = useRef<HTMLDivElement>(null);
-
-  // Auto-scroll on new message
+  // ── Reset ephemeral state on session switch ──────────────────────────────────
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    setInput("");
+    setIsLoading(false);
+    setLoadingMsgId(null);
+    // Restore last assistant message's sources into the right panel.
+    const last = [...activeMessages].reverse().find((m) => m.role === "assistant");
+    setActiveSources(last?.sources ?? []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSession?.id]);
 
+  // ── Auto-scroll ──────────────────────────────────────────────────────────────
+  const displayMessages = useMemo((): ChatMessage[] => {
+    if (!loadingMsgId) return activeMessages;
+    return [
+      ...activeMessages,
+      {
+        id: loadingMsgId,
+        role: "assistant",
+        content: "",
+        isLoading: true,
+        timestamp: new Date(),
+      },
+    ];
+  }, [activeMessages, loadingMsgId]);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const justFinished = wasLoadingRef.current && !isLoading;
+    wasLoadingRef.current = isLoading;
+    if (displayMessages.length > 0 && (justFinished || isLoading)) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, [displayMessages.length, isLoading]);
+
+  // ── Send ─────────────────────────────────────────────────────────────────────
   const sendMessage = async (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed || isLoading) return;
+    if (!trimmed || isLoading || !activeSession) return;
+
+    // Build history from current messages before any state mutations.
+    const history: ConversationMessage[] = activeMessages
+      .filter((m) => !m.isLoading && m.content)
+      .slice(-20)
+      .map((m) => ({ role: m.role, content: m.content }));
 
     setInput("");
     setIsLoading(true);
+
+    // Auto-name session from the first user message.
+    if (activeMessages.length === 0) autoNameIfUntitled(trimmed);
 
     const userMsg: ChatMessage = {
       id: uid(),
@@ -45,160 +95,159 @@ export function ChatPageClient() {
       content: trimmed,
       timestamp: new Date(),
     };
+    appendMessage(userMsg);
 
-    // Placeholder assistant message — shows typing indicator
-    const assistantId = uid();
-    const loadingMsg: ChatMessage = {
-      id: assistantId,
-      role: "assistant",
-      content: "",
-      isLoading: true,
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMsg, loadingMsg]);
+    const loadingId = uid();
+    setLoadingMsgId(loadingId);
 
     try {
       const res = await api.chat({
         message: trimmed,
-        conversation_id: conversationId,
+        conversation_id: activeSession.conversationId ?? undefined,
+        history,
       });
 
       setConversationId(res.conversation_id);
       setActiveSources(res.sources);
       if (res.sources.length > 0) setRightOpen(true);
 
-      // Merge new sources into cited papers (deduplicate by id)
-      setCitedPapers((prev) => {
-        const ids = new Set(prev.map((p) => p.id));
-        const newOnes = res.sources.filter((s) => !ids.has(s.id));
-        return [...prev, ...newOnes];
-      });
-
-      // Replace the loading placeholder with the real answer
-      const assistantMsg: ChatMessage = {
-        id: assistantId,
+      appendMessage({
+        id: uid(),
         role: "assistant",
         content: res.answer,
         sources: res.sources,
-        isLoading: false,
         timestamp: new Date(),
-      };
-
-      setMessages((prev) =>
-        prev.map((m) => (m.id === assistantId ? assistantMsg : m))
-      );
+      });
     } catch (err) {
-      const errMsg: ChatMessage = {
-        id: assistantId,
+      appendMessage({
+        id: uid(),
         role: "assistant",
         content:
           err instanceof Error
             ? `Error: ${err.message}`
             : "An unexpected error occurred. Please try again.",
-        isLoading: false,
         timestamp: new Date(),
-      };
-      setMessages((prev) =>
-        prev.map((m) => (m.id === assistantId ? errMsg : m))
-      );
+      });
     } finally {
+      setLoadingMsgId(null);
       setIsLoading(false);
     }
   };
 
-  // Clicking on a previous assistant message restores its sources
+  // Clicking an assistant message restores its sources in the panel.
   const handleMessageClick = (msg: ChatMessage) => {
     if (msg.role === "assistant" && msg.sources) {
       setActiveSources(msg.sources);
     }
   };
 
+  // ── Render ───────────────────────────────────────────────────────────────────
+  if (!initialized) {
+    // Sessions are loading from localStorage — show nothing to avoid flash.
+    return <div className="flex h-[calc(100vh-4rem)]" />;
+  }
+
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] -mx-4 -my-6 overflow-hidden relative">
-      {/* Mobile overlays */}
+    <div className="flex h-[calc(100vh-4rem)] overflow-hidden relative">
+      {/* Mobile overlay */}
       {(leftOpen || rightOpen) && (
         <div
           className="fixed inset-0 z-30 bg-black/40 md:hidden"
-          onClick={() => { setLeftOpen(false); setRightOpen(false); }}
+          onClick={() => {
+            setLeftOpen(false);
+            setRightOpen(false);
+          }}
         />
       )}
 
-      {/* Left sidebar */}
-      <div className={`
-        absolute md:relative z-40 md:z-auto h-full
-        transition-transform duration-200
-        ${leftOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-      `}>
-        <SidebarHistory
-          messages={messages}
-          savedPapers={citedPapers}
-          onPromptClick={(p) => {
-            setInput(p);
-            setLeftOpen(false);
-          }}
-        />
+      {/* Left: session sidebar */}
+      <div
+        className={`
+          absolute md:relative z-40 md:z-auto h-full flex
+          transition-transform duration-200
+          ${leftOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+        `}
+      >
+        <ChatSidebar />
       </div>
 
-      {/* Main chat area */}
-      <div className="flex flex-col flex-1 min-w-0">
-        {/* Mobile top toolbar */}
+      {/* Centre: chat area */}
+      <div className="flex flex-col flex-1 min-w-0 min-h-0">
+        {/* Mobile toolbar */}
         <div className="flex items-center gap-2 px-3 py-2 border-b md:hidden">
           <button
             onClick={() => setLeftOpen((o) => !o)}
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-            aria-label="Toggle history"
           >
             {leftOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            <span className="text-xs">Menu</span>
+            <span className="text-xs">Sessions</span>
           </button>
-          <span className="flex-1 text-center text-sm font-medium">Research Assistant</span>
+          <span className="flex-1 text-center text-sm font-medium truncate">
+            {activeSession?.title ?? "Research Assistant"}
+          </span>
           <button
             onClick={() => setRightOpen((o) => !o)}
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-            aria-label="Toggle sources"
           >
-            <span className="text-xs">Sources {activeSources.length > 0 ? `(${activeSources.length})` : ""}</span>
+            <span className="text-xs">
+              Sources {activeSources.length > 0 ? `(${activeSources.length})` : ""}
+            </span>
             <BookOpen className="h-4 w-4" />
           </button>
         </div>
 
+        {/* Desktop: session title bar */}
+        <div className="hidden md:block">
+          <SessionTopBar />
+        </div>
+
         {/* Message list */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-          {messages.length === 0 && (
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-4"
+        >
+          {displayMessages.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center gap-3 pb-8">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <span className="text-2xl">🔬</span>
               </div>
               <h2 className="text-lg font-semibold">Research Assistant</h2>
               <p className="text-sm text-muted-foreground max-w-sm">
-                Ask questions about the NeurIPS 2024 corpus. Answers are
-                grounded in paper summaries, techniques, and analyses — no
-                hallucination.
+                Ask questions about the NeurIPS &amp; ICLR 2024 corpus. Answers are
+                grounded in paper summaries, techniques, and analyses.
               </p>
-              <p className="text-xs text-muted-foreground">
-                Select an example prompt from the sidebar to get started.
-              </p>
+              <div className="flex flex-col gap-1.5 w-full max-w-sm mt-2">
+                {[
+                  "What techniques are used for LLM alignment?",
+                  "Which papers introduce novel transformer architectures?",
+                  "Summarise the diffusion model research represented here",
+                ].map((prompt) => (
+                  <button
+                    key={prompt}
+                    onClick={() => sendMessage(prompt)}
+                    className="text-xs text-left text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted rounded-lg px-3 py-2 transition-colors"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
-          {messages.map((msg) => (
+          {displayMessages.map((msg) => (
             <div
               key={msg.id}
               onClick={() => handleMessageClick(msg)}
               className={
-                msg.role === "assistant" && msg.sources
-                  ? "cursor-pointer"
-                  : undefined
+                msg.role === "assistant" && msg.sources ? "cursor-pointer" : undefined
               }
             >
               <MessageBubble message={msg} />
             </div>
           ))}
-          <div ref={bottomRef} />
         </div>
 
-        {/* Input bar */}
+        {/* Input */}
         <ChatInput
           value={input}
           onChange={setInput}
@@ -207,12 +256,14 @@ export function ChatPageClient() {
         />
       </div>
 
-      {/* Right source panel */}
-      <div className={`
-        absolute right-0 md:relative z-40 md:z-auto h-full
-        transition-transform duration-200
-        ${rightOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"}
-      `}>
+      {/* Right: source panel */}
+      <div
+        className={`
+          absolute right-0 md:relative z-40 md:z-auto h-full
+          transition-transform duration-200
+          ${rightOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"}
+        `}
+      >
         <SourcePanel sources={activeSources} isLoading={isLoading} />
       </div>
     </div>

@@ -1,112 +1,107 @@
 import Link from "next/link";
-import { TrendingUp } from "lucide-react";
 import type { RelatedPaperEntry } from "@/lib/types";
-import { CLUSTER_COLOURS } from "@/lib/constants";
-import { CategoryBadge } from "@/components/ui/CategoryBadge";
+import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
 
-const MAX_WEIGHT = 10; // normalise weight bar against this ceiling
+interface Props { related: RelatedPaperEntry[]; }
 
-interface Props {
-  related: RelatedPaperEntry[];
-}
+type MatchTier = { label: string; className: string };
 
-function WeightBar({ weight }: { weight: number }) {
-  const pct = Math.min(100, (weight / MAX_WEIGHT) * 100);
-  return (
-    <div className="flex items-center gap-2 min-w-0">
-      <div className="h-1 w-16 flex-shrink-0 overflow-hidden rounded-full bg-secondary">
-        <div
-          className="h-full rounded-full bg-primary/60 transition-all"
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-      <span className="text-xs text-muted-foreground whitespace-nowrap">
-        {weight.toFixed(1)}
-      </span>
-    </div>
-  );
+function matchTier(weight: number): MatchTier {
+  if (weight >= 12) return { label: "Strong Match",   className: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30" };
+  if (weight >= 7)  return { label: "Good Match",     className: "bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/30" };
+  if (weight >= 4)  return { label: "Related",        className: "bg-surface-container-highest text-on-surface-variant border-outline-variant" };
+  return              { label: "Loosely Related", className: "bg-surface-container-highest text-on-surface-variant/60 border-outline-variant" };
 }
 
 export function RelatedPapers({ related }: Props) {
   if (!related.length) {
     return (
-      <section className="rounded-xl border bg-card p-5">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+      <section className="rounded-xl border border-outline-variant bg-surface-container-low p-lg">
+        <h2 className="text-label-md uppercase tracking-widest text-on-surface-variant mb-md">
           Related Papers
         </h2>
-        <p className="text-sm text-muted-foreground">No related papers found.</p>
+        <p className="text-body-sm text-on-surface-variant">No related papers found.</p>
       </section>
     );
   }
 
   return (
-    <section className="rounded-xl border bg-card p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+    <section className="rounded-xl border border-outline-variant bg-surface-container-low p-lg">
+      <div className="flex items-center justify-between mb-lg">
+        <h2 className="text-label-md uppercase tracking-widest text-on-surface-variant">
           Related Papers
         </h2>
-        <span className="text-xs text-muted-foreground">{related.length} papers</span>
+        <span className="text-[11px] text-on-surface-variant">{related.length} papers</span>
       </div>
 
-      <div className="space-y-3">
-        {related.map(({ paper, weight, shared_techniques }) => {
+      <div className="space-y-md">
+        {related.map(({ paper, weight, shared_techniques, shared_datasets, shared_categories, shared_methodologies }) => {
           const clusterColour =
-            paper.cluster_id != null
-              ? (CLUSTER_COLOURS[paper.cluster_id] ?? "#6b7280")
-              : null;
+            paper.cluster_id != null ? (CLUSTER_COLOURS[paper.cluster_id] ?? "#6b7280") : null;
+          const clusterLabel =
+            paper.cluster_id != null ? (CLUSTER_LABELS[paper.cluster_id] ?? `Cluster ${paper.cluster_id}`) : null;
+          const tier = matchTier(weight);
+
+          // Build "Why related" bullets — techniques first, then datasets, then categories
+          const whyItems: string[] = [
+            ...shared_techniques.slice(0, 3),
+            ...shared_datasets.slice(0, 2),
+            ...shared_categories.slice(0, 2),
+            ...shared_methodologies.slice(0, 1),
+          ].filter((item, idx, arr) => arr.indexOf(item) === idx).slice(0, 5);
 
           return (
             <article
               key={paper.id}
-              className="group relative rounded-lg border bg-background p-3 transition-colors hover:border-border/80 hover:bg-muted/20"
+              className="group relative rounded-lg border border-outline-variant bg-surface-container p-md transition-colors hover:border-im-primary hover:bg-surface-container-high"
             >
-              {/* Stretch link */}
               <Link
                 href={`/papers/${paper.id}`}
-                className="absolute inset-0 rounded-lg"
+                className="absolute inset-0 z-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-im-primary"
                 aria-label={paper.title}
               />
-
-              <div className="relative space-y-2">
-                {/* Title + category + weight */}
-                <div className="flex items-start gap-2">
-                  <p className="flex-1 text-sm font-medium leading-snug group-hover:text-primary transition-colors line-clamp-2">
+              <div className="relative z-10 pointer-events-none space-y-sm">
+                {/* Title + match badge */}
+                <div className="flex items-start gap-sm">
+                  <p className="flex-1 text-body-sm font-medium text-on-surface group-hover:text-im-primary transition-colors line-clamp-2">
                     {paper.title}
                   </p>
-                  <div className="flex-shrink-0 flex items-center gap-1.5 pt-0.5">
-                    <CategoryBadge
-                      category={paper.primary_category}
-                      clusterId={paper.cluster_id}
-                    />
-                    <WeightBar weight={weight} />
-                  </div>
+                  <span className={`flex-shrink-0 mt-0.5 inline-flex items-center rounded-full border px-xs py-0.5 text-[10px] font-semibold whitespace-nowrap ${tier.className}`}>
+                    {tier.label}
+                  </span>
                 </div>
 
+                {/* Why related */}
+                {whyItems.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-xs">
+                    <span className="text-[10px] text-on-surface-variant/60 mr-0.5">Why related:</span>
+                    {whyItems.map((item) => (
+                      <span
+                        key={item}
+                        className="inline-flex items-center rounded bg-surface-container-highest px-xs py-0.5 text-[10px] text-on-surface-variant border border-outline-variant"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 {/* Meta row */}
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {clusterColour !== null && (
+                <div className="flex flex-wrap items-center gap-xs">
+                  {clusterColour !== null && clusterLabel !== null && (
                     <span
-                      className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium text-white"
+                      className="inline-flex items-center rounded-full px-sm py-0.5 text-[10px] font-bold text-white"
                       style={{ backgroundColor: clusterColour }}
                     >
-                      Cluster {paper.cluster_id}
+                      {clusterLabel}
                     </span>
                   )}
                   {paper.citation_count > 0 && (
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <TrendingUp className="h-3 w-3" />
+                    <span className="flex items-center gap-xs text-[11px] text-on-surface-variant">
+                      <span className="material-symbols-outlined text-[13px]">trending_up</span>
                       {paper.citation_count.toLocaleString()}
                     </span>
                   )}
-                  {/* Shared technique chips — z-10 so they're clickable above the stretch link */}
-                  {shared_techniques.slice(0, 3).map((t) => (
-                    <span
-                      key={t}
-                      className="relative z-10 inline-flex items-center rounded bg-secondary px-1.5 py-0.5 text-xs text-secondary-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
                 </div>
               </div>
             </article>

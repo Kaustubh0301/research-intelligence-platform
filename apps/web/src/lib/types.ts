@@ -269,9 +269,15 @@ export interface ChatSource {
   abstract_snippet: string | null;
 }
 
+export interface ConversationMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 export interface ChatRequest {
   message: string;
   conversation_id?: string;
+  history?: ConversationMessage[];
 }
 
 export interface ChatResponse {

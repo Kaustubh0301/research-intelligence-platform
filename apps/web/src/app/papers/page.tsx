@@ -1,46 +1,58 @@
 import { Suspense } from "react";
 import { PaperSearchClient } from "@/components/papers/PaperSearchClient";
 
-// The search client owns all interactive state via URL params;
-// this page is just the static shell + SSR boundary.
 export default function PapersPage() {
   return (
-    <div className="space-y-5">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Papers</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Browse and search 100 NeurIPS 2024 papers
-        </p>
+    <div>
+      {/* ── Hero search header ─────────────────────────────────────────── */}
+      <div className="relative w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-surface-container-low to-surface py-xl">
+        {/* Decorative radial glow */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        >
+          <div className="h-64 w-64 rounded-full bg-primary-container/10 blur-3xl" />
+        </div>
+
+        <div className="relative z-10 w-full max-w-3xl px-gutter text-center">
+          <h1 className="font-headline-lg text-headline-lg text-on-surface mb-md">
+            Explore Machine Learning Intelligence
+          </h1>
+          <p className="text-body-sm text-on-surface-variant mb-lg opacity-70">
+            Try: "transformer distillation" · "scaling laws" · "long-context retrieval"
+          </p>
+          {/* Search bar rendered by PaperSearchClient — just a placeholder here */}
+        </div>
       </div>
 
-      {/*
-        Suspense is required because PaperSearchClient calls useSearchParams()
-        which suspends during SSR. The fallback is shown on first load only;
-        subsequent navigations keep the existing UI via keepPreviousData.
-      */}
-      <Suspense fallback={<PapersShell />}>
-        <PaperSearchClient />
-      </Suspense>
+      {/* ── Main content ───────────────────────────────────────────────── */}
+      <div className="max-w-[1400px] mx-auto px-gutter py-lg">
+        <Suspense fallback={<PapersShell />}>
+          <PaperSearchClient />
+        </Suspense>
+      </div>
     </div>
   );
 }
 
 function PapersShell() {
   return (
-    <div className="grid grid-cols-1 gap-0 md:grid-cols-[240px_1fr]">
-      <div className="hidden md:block pr-6 border-r space-y-4">
+    <div className="flex gap-lg">
+      {/* Filter sidebar skeleton */}
+      <div className="w-64 flex-shrink-0 space-y-lg">
         {[80, 60, 90, 70, 85].map((w, i) => (
           <div
             key={i}
-            className="h-4 rounded animate-pulse bg-muted"
+            className="h-4 rounded-full animate-pulse bg-surface-container-high"
             style={{ width: `${w}%` }}
           />
         ))}
       </div>
-      <div className="md:pl-6 space-y-3">
-        <div className="h-9 rounded-md animate-pulse bg-muted" />
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-32 rounded-lg animate-pulse bg-muted" />
+      {/* Results skeleton */}
+      <div className="flex-1 space-y-md">
+        <div className="h-9 rounded-lg animate-pulse bg-surface-container-high" />
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="h-36 rounded-xl animate-pulse bg-surface-container-low border border-outline-variant" />
         ))}
       </div>
     </div>

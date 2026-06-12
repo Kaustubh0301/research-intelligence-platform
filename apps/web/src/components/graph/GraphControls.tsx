@@ -11,6 +11,91 @@ import { useGraphContext } from "./GraphContext";
 import { ExternalLink, Network, Search, SlidersHorizontal, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, queryKeys } from "@/lib/api";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
+// Progressive disclosure tiers (node counts shown per step)
+const DISCLOSURE_TIERS = [50, 100, 200, Infinity] as const;
+
+function ProgressiveDisclosureControl() {
+  const { filters, setFilters } = useGraphContext();
+
+  // Fetch the full graph at current weight just to know total node count.
+  // We reuse the same cached query already running in GraphCanvas.
+  const { data } = useQuery({
+    queryKey: queryKeys.graph(filters.minWeight, filters.clusterFilter),
+    queryFn: () => api.graph(filters.minWeight, filters.clusterFilter),
+    staleTime: 60_000,
+  });
+
+  const total = data?.nodes.length ?? 0;
+  const showing = Math.min(filters.visibleNodeCount, total);
+  const showingAll = showing >= total;
+
+  // Find next tier above current
+  const nextTier = DISCLOSURE_TIERS.find((t) => t > filters.visibleNodeCount);
+  const canExpand = !showingAll && nextTier !== undefined;
+
+  // Find previous tier to collapse back
+  const prevTierIdx =
+    [...DISCLOSURE_TIERS].reverse().findIndex((t) => t < filters.visibleNodeCount);
+  const prevTier =
+    prevTierIdx !== -1
+      ? [...DISCLOSURE_TIERS].reverse()[prevTierIdx]
+      : DISCLOSURE_TIERS[0];
+  const canCollapse = filters.visibleNodeCount > DISCLOSURE_TIERS[0];
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+          Visible nodes
+        </p>
+        <span className="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">
+          {total === 0 ? "—" : showingAll ? `all ${total}` : `${showing} / ${total}`}
+        </span>
+      </div>
+
+      <div className="flex gap-1.5">
+        {canCollapse && (
+          <button
+            onClick={() =>
+              setFilters({
+                ...filters,
+                visibleNodeCount: prevTier === Infinity ? total : prevTier,
+              })
+            }
+            className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-muted hover:bg-muted/80 text-muted-foreground transition-colors"
+            title="Show fewer nodes"
+          >
+            <ChevronUp className="h-3 w-3" />
+            Less
+          </button>
+        )}
+        {canExpand && (
+          <button
+            onClick={() =>
+              setFilters({
+                ...filters,
+                visibleNodeCount:
+                  nextTier === Infinity ? total : nextTier,
+              })
+            }
+            className="flex-1 flex items-center justify-center gap-1 px-2 py-1 rounded text-xs bg-primary/10 hover:bg-primary/20 text-primary transition-colors font-medium"
+            title={`Show ${nextTier === Infinity ? "all" : nextTier} nodes`}
+          >
+            <ChevronDown className="h-3 w-3" />
+            {nextTier === Infinity ? `Show all (${total})` : `+${nextTier - showing} more`}
+          </button>
+        )}
+        {showingAll && total > 0 && (
+          <span className="text-xs text-muted-foreground italic">
+            Showing all nodes
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 const CLUSTERS = [0, 1, 2] as const;
 const WEIGHT_MIN = 1.0;
@@ -66,6 +151,11 @@ export function GraphControls({ onClose }: { onClose?: () => void }) {
             />
           </div>
         </div>
+
+        <Separator />
+
+        {/* Progressive disclosure */}
+        <ProgressiveDisclosureControl />
 
         <Separator />
 

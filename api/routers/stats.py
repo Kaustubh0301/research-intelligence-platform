@@ -55,6 +55,7 @@ def get_stats(db: Session = Depends(get_db)) -> StatsResponse:
         .where(PaperTechnique.canonical_name.isnot(None))
     ) or 0
 
+    # Returns 0 when paper_graph_metrics is empty (analytics not yet run).
     total_clusters = db.scalar(
         select(func.count(PaperGraphMetric.cluster_id.distinct()))
         .where(PaperGraphMetric.cluster_id.isnot(None))
@@ -77,7 +78,7 @@ def get_stats(db: Session = Depends(get_db)) -> StatsResponse:
         for row in tech_rows
     ]
 
-    # ── Cluster overview ──────────────────────────────────────────────────────
+    # ── Cluster overview — returns [] when paper_graph_metrics is empty ───────
     cluster_rows = db.execute(
         select(
             PaperGraphMetric.cluster_id,

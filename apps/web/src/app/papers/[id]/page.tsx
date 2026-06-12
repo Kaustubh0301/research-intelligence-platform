@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { api } from "@/lib/api";
+import { FEATURES } from "@/lib/features";
 import { PaperHero } from "@/components/papers/PaperHero";
 import { AbstractCard } from "@/components/papers/AbstractCard";
 import { MetricsCard } from "@/components/papers/MetricsCard";
@@ -32,12 +33,14 @@ export default async function PaperPage({ params }: Props) {
   const { id } = await params;
 
   let paper: Awaited<ReturnType<typeof api.paper>>;
-  let relatedData: Awaited<ReturnType<typeof api.paperRelated>>;
+  // Only fetch related papers when the feature is enabled — avoids an
+  // unnecessary API call and keeps the type explicitly conditional.
+  let relatedData: Awaited<ReturnType<typeof api.paperRelated>> | undefined;
   try {
-    [paper, relatedData] = await Promise.all([
-      api.paper(id),
-      api.paperRelated(id, 8),
-    ]);
+    paper = await api.paper(id);
+    if (FEATURES.RELATED_PAPERS) {
+      relatedData = await api.paperRelated(id, 8);
+    }
   } catch {
     notFound();
   }
@@ -93,7 +96,9 @@ export default async function PaperPage({ params }: Props) {
         {/* Right column: analysis + related */}
         <div className="space-y-6">
           <AnalysisPanel analysis={paper.analysis} />
-          <RelatedPapers related={relatedData.related} />
+          {FEATURES.RELATED_PAPERS && relatedData && (
+            <RelatedPapers related={relatedData.related} />
+          )}
         </div>
       </div>
     </div>

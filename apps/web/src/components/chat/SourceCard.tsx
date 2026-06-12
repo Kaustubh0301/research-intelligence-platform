@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/ui/CategoryBadge";
+import { useSession } from "@/components/sessions/SessionContext";
 import { CLUSTER_COLOURS } from "@/lib/constants";
 import type { ChatSource } from "@/lib/types";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { nowIso } from "@/lib/sessions";
+import { ArrowUpRight, Bookmark, BookmarkCheck, TrendingUp } from "lucide-react";
 
 interface Props {
   source: ChatSource;
@@ -15,6 +16,22 @@ interface Props {
 }
 
 export function SourceCard({ source, index }: Props) {
+  const { activeSession, savePaper } = useSession();
+
+  const isSaved =
+    activeSession?.savedPapers.some((p) => p.id === source.id) ?? false;
+
+  function handleSave() {
+    savePaper({
+      id: source.id,
+      title: source.title,
+      conference: source.conference,
+      year: source.year ?? null,
+      savedAt: nowIso(),
+      tags: [],
+    });
+  }
+
   return (
     <Card className="shadow-none border border-border/60 hover:border-border transition-colors">
       <CardHeader className="pb-2 pt-3 px-3">
@@ -33,8 +50,9 @@ export function SourceCard({ source, index }: Props) {
           </div>
         </div>
       </CardHeader>
+
       <CardContent className="px-3 pb-3 space-y-2">
-        {/* Venue + citations row */}
+        {/* Venue + citations */}
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-1 flex-wrap">
             {source.conference && (
@@ -88,17 +106,39 @@ export function SourceCard({ source, index }: Props) {
           </div>
         )}
 
-        {/* Match score hint */}
-        <div className="flex items-center justify-between pt-1">
+        {/* Actions row */}
+        <div className="flex items-center justify-between pt-1 gap-2">
           <span className="text-xs text-muted-foreground">
             relevance {source.match_score.toFixed(0)}
           </span>
-          <Link
-            href={`/papers/${source.id}`}
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-muted"
-          >
-            Open <ArrowUpRight className="h-3 w-3" />
-          </Link>
+
+          <div className="flex items-center gap-1">
+            {/* Save / Saved */}
+            {isSaved ? (
+              <span className="inline-flex items-center gap-1 text-xs text-emerald-600 px-2 py-1">
+                <BookmarkCheck className="h-3 w-3" />
+                Saved
+              </span>
+            ) : (
+              <button
+                onClick={handleSave}
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-600 transition-colors px-2 py-1 rounded hover:bg-muted"
+              >
+                <Bookmark className="h-3 w-3" />
+                Save
+              </button>
+            )}
+
+            {/* Open in new tab */}
+            <a
+              href={`/papers/${source.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-muted"
+            >
+              Open <ArrowUpRight className="h-3 w-3" />
+            </a>
+          </div>
         </div>
       </CardContent>
     </Card>
