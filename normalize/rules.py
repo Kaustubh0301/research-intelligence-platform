@@ -64,6 +64,10 @@ def load_dataset_aliases() -> dict[str, str]:
     return load_alias_map(_ALIAS_DIR / "dataset_aliases.json")
 
 
+def load_category_aliases() -> dict[str, str]:
+    return load_alias_map(_ALIAS_DIR / "category_aliases.json")
+
+
 # ── Per-name canonical resolution ────────────────────────────────────────────
 
 def resolve_alias(name: str, alias_map: dict[str, str]) -> Optional[str]:

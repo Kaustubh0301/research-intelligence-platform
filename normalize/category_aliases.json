@@ -1,0 +1,23 @@
+{
+  "_comment": "Category alias map.  Keys are lowercase raw category names.  Values are canonical forms.",
+  "_note": "RL is the primary cross-table duplicate: a paper tagged with category 'RL' AND technique 'Reinforcement learning' produces both chips in the UI.  Mapping the category to the same canonical string as the technique lets the UI dedup collapse them to one chip.",
+
+  "=== Cross-table acronym expansions ===": null,
+  "rl":   "Reinforcement learning",
+
+  "=== Capitalisation normalisation ===": null,
+  "llm":        "LLM",
+  "nlp":        "NLP",
+  "theory":     "Theory",
+  "vision":     "Vision",
+  "efficiency": "Efficiency",
+  "generative": "Generative",
+  "safety":     "Safety",
+  "graph":      "Graph",
+  "biomedical": "Biomedical",
+  "multimodal": "Multimodal",
+  "agentic-ai": "Agentic-AI",
+  "retrieval":  "Retrieval",
+  "code":       "Code",
+  "robotics":   "Robotics"
+}

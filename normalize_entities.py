@@ -35,6 +35,7 @@ from db.models import PaperCategory, PaperDataset, PaperTechnique
 from db.session import get_session
 from normalize.rules import (
     build_report,
+    load_category_aliases,
     load_dataset_aliases,
     load_technique_aliases,
     normalize_all,
@@ -107,9 +108,16 @@ def _normalize_datasets(dry_run: bool, force: bool) -> str:
 
 def _normalize_categories(dry_run: bool, force: bool) -> str:
     """
-    Categories come from a controlled vocabulary (15 values).
-    No aliases needed — canonical_name = name.
+    Normalize paper_categories using the category alias map.
+
+    Pass 1 resolves known cross-table aliases (e.g. 'RL' → 'Reinforcement
+    learning') so that graph-edge shared_categories strings are identical to
+    shared_techniques strings for the same concept, letting the UI dedup
+    collapse them to a single chip.  Pass 2 falls back to canonical_name = name
+    for any value not in the alias map.
     """
+    alias_map = load_category_aliases()
+
     with get_session() as session:
         q = select(PaperCategory.name, func.count().label("n")).group_by(PaperCategory.name)
         if not force:
@@ -119,33 +127,23 @@ def _normalize_categories(dry_run: bool, force: bool) -> str:
         if not rows:
             return "  categories: nothing to normalize (all rows already have canonical_name)\n"
 
-        total_rows     = sum(r.n for r in rows)
-        distinct_names = len(rows)
+        names_with_counts = [(r.name, r.n) for r in rows]
+        mapping = normalize_all(names_with_counts, alias_map)
+        report  = build_report("categories", names_with_counts, mapping)
 
         if not dry_run:
-            session.execute(
-                update(PaperCategory)
-                .where(PaperCategory.canonical_name.is_(None))
-                .values(canonical_name=PaperCategory.name)
-            )
+            for raw_name, canonical in mapping.items():
+                session.execute(
+                    update(PaperCategory)
+                    .where(PaperCategory.name == raw_name)
+                    .values(canonical_name=canonical)
+                )
             session.commit()
-
-        lines = [
-            "=" * 60,
-            "  CATEGORIES normalization report",
-            "=" * 60,
-            f"  Total rows:             {total_rows}",
-            f"  Distinct names:         {distinct_names}",
-            "  Strategy:               controlled vocabulary — canonical_name = name",
-            "  Names merged:           0",
-            "",
-        ]
-        if dry_run:
-            lines.append("  [DRY RUN — no changes written]")
+            report += f"  → {len(mapping)} rows updated.\n"
         else:
-            lines.append(f"  → {total_rows} rows updated.")
-        lines.append("")
-        return "\n".join(lines)
+            report += "  [DRY RUN — no changes written]\n"
+
+    return report
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────

@@ -129,47 +129,90 @@ class BuildStats:
 
 # ── Entity loading ─────────────────────────────────────────────────────────────
 
+def _add_entity_ci(
+    bucket: dict[str, str],
+    canonical_name: "str | None",
+    name: "str | None",
+) -> None:
+    """
+    Insert one entity into a case-insensitive dedup bucket.
+
+    bucket maps lower(display) → display.  When two rows resolve to the same
+    lower-cased key, the row with a canonical_name wins so the display string
+    is always the authoritative canonical form rather than a raw variant.
+    """
+    display = canonical_name or name
+    if not display:
+        return
+    key = display.lower()
+    existing = bucket.get(key)
+    if existing is None:
+        bucket[key] = display
+    elif canonical_name and not existing == canonical_name:
+        # Upgrade to canonical casing if we haven't stored it yet.
+        bucket[key] = canonical_name
+
+
 def _load_paper_entities(session: Session) -> dict[str, dict[str, set[str]]]:
     """
     Return {paper_id: {'techniques': set, 'datasets': set, 'categories': set, 'methodologies': set}}.
-    Uses canonical_name where available; falls back to name.
+
+    Uses canonical_name where available; falls back to name.  Deduplication is
+    case-insensitive: two rows whose names differ only by case (e.g. "Large
+    Language Models" vs "Large language models") collapse to a single entry
+    using the canonical display form.
     """
     paper_ids = session.scalars(select(Paper.id)).all()
-    entities: dict[str, dict[str, set[str]]] = {
-        pid: {"techniques": set(), "datasets": set(), "categories": set(), "methodologies": set()}
+
+    # Intermediate: per-paper, per-type  lower(name) → display
+    buckets: dict[str, dict[str, dict[str, str]]] = {
+        pid: {"techniques": {}, "datasets": {}, "categories": {}, "methodologies": {}}
         for pid in paper_ids
     }
 
-    # Techniques (use canonical_name)
+    # Techniques
     for row in session.execute(
         select(PaperTechnique.paper_id, PaperTechnique.canonical_name, PaperTechnique.name)
     ).all():
-        name = row.canonical_name or row.name
-        if name:
-            entities[row.paper_id]["techniques"].add(name)
+        if row.paper_id in buckets:
+            _add_entity_ci(buckets[row.paper_id]["techniques"], row.canonical_name, row.name)
 
     # Datasets
     for row in session.execute(
         select(PaperDataset.paper_id, PaperDataset.canonical_name, PaperDataset.name)
     ).all():
-        name = row.canonical_name or row.name
-        if name:
-            entities[row.paper_id]["datasets"].add(name)
+        if row.paper_id in buckets:
+            _add_entity_ci(buckets[row.paper_id]["datasets"], row.canonical_name, row.name)
 
-    # Categories (canonical_name set = name for controlled vocab)
+    # Categories
     for row in session.execute(
         select(PaperCategory.paper_id, PaperCategory.canonical_name, PaperCategory.name)
     ).all():
-        name = row.canonical_name or row.name
-        if name:
-            entities[row.paper_id]["categories"].add(name)
+        if row.paper_id in buckets:
+            _add_entity_ci(buckets[row.paper_id]["categories"], row.canonical_name, row.name)
 
-    # Methodologies (no canonical_name column yet — use name directly)
+    # Methodologies (no canonical_name column — use name directly)
     for row in session.execute(
         select(PaperMethodology.paper_id, PaperMethodology.name)
     ).all():
-        if row.name:
-            entities[row.paper_id]["methodologies"].add(row.name)
+        if row.paper_id in buckets and row.name:
+            _add_entity_ci(buckets[row.paper_id]["methodologies"], None, row.name)
+
+    # Collapse buckets → sets of display strings
+    entities: dict[str, dict[str, set[str]]] = {
+        pid: {k: set(v.values()) for k, v in type_map.items()}
+        for pid, type_map in buckets.items()
+    }
+
+    # Cross-table dedup: remove any category or methodology entry whose
+    # lower-cased display string is already present in the technique set.
+    # This prevents edges from recording the same concept twice under different
+    # shared_* fields (e.g. shared_techniques=['Reinforcement learning'] AND
+    # shared_categories=['Reinforcement learning'] after category alias mapping).
+    for pid, type_map in entities.items():
+        tech_lower = {t.lower() for t in type_map["techniques"]}
+        type_map["categories"]    = {c for c in type_map["categories"]    if c.lower() not in tech_lower}
+        type_map["methodologies"] = {m for m in type_map["methodologies"] if m.lower() not in tech_lower}
 
     return entities
 
