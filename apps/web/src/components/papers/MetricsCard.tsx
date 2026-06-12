@@ -1,5 +1,5 @@
 import type { PaperDetail } from "@/lib/types";
-import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
 import { FEATURES } from "@/lib/features";
 
 interface Props { paper: PaperDetail; }
@@ -98,7 +98,7 @@ export function MetricsCard({ paper }: Props) {
                   className="inline-flex items-center rounded-full px-sm py-0.5 text-[11px] font-bold text-white"
                   style={{ backgroundColor: clusterColour }}
                 >
-                  Cluster {gm.cluster_id}
+                  {CLUSTER_LABELS[gm.cluster_id] ?? `Cluster ${gm.cluster_id}`}
                 </span>
               </div>
             )}

@@ -1,5 +1,5 @@
 import type { PaperDetail } from "@/lib/types";
-import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -55,7 +55,7 @@ export function PaperMeta({ paper }: Props) {
                   CLUSTER_COLOURS[paper.graph_metrics.cluster_id] ?? "#6b7280",
               }}
             >
-              Cluster {paper.graph_metrics.cluster_id}
+              {CLUSTER_LABELS[paper.graph_metrics.cluster_id] ?? `Cluster ${paper.graph_metrics.cluster_id}`}
             </span>
           )}
         <Badge variant={paper.is_open_access ? "green" : "secondary"}>

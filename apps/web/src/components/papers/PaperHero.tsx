@@ -1,5 +1,5 @@
 import type { PaperDetail } from "@/lib/types";
-import { CLUSTER_COLOURS } from "@/lib/constants";
+import { CLUSTER_COLOURS, CLUSTER_LABELS } from "@/lib/constants";
 import { buttonVariants } from "@/components/ui/button";
 import { ExternalLink, BookOpen, Lock, Tag, Building2, Quote, Layers, Database, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -48,7 +48,7 @@ export function PaperHero({ paper }: Props) {
         const primaryCategory = paper.categories[0]?.name ?? null;
         const clusterLabel =
           paper.graph_metrics?.cluster_id != null
-            ? `Cluster ${paper.graph_metrics.cluster_id}`
+            ? (CLUSTER_LABELS[paper.graph_metrics.cluster_id] ?? `Cluster ${paper.graph_metrics.cluster_id}`)
             : null;
         const stats: { icon: React.ElementType; label: string; value: string | number }[] = [];
 
@@ -119,7 +119,7 @@ export function PaperHero({ paper }: Props) {
             className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
             style={{ backgroundColor: clusterColour }}
           >
-            Cluster {paper.graph_metrics!.cluster_id}
+            {CLUSTER_LABELS[paper.graph_metrics!.cluster_id] ?? `Cluster ${paper.graph_metrics!.cluster_id}`}
           </span>
         )}
         {paper.is_open_access ? (
