@@ -1,29 +1,29 @@
 """
 Research Intelligence Platform — v1 API entry point.
 
-All routes are mounted under /api/v1/ with CORS enabled for the
-Next.js frontend at localhost:3000.
-
-Run:
-    cd /path/to/research-intelligence-platfrom
+Run locally:
     source .venv/bin/activate
-    export DATABASE_URL=sqlite:///research_platform.db
-    uvicorn api.main:app --reload --port 8000
+    uvicorn api.main:app --host 127.0.0.1 --port 8000 --workers 2
 
 Interactive docs: http://127.0.0.1:8000/docs
-Existing API:     http://127.0.0.1:8001  (run api.search on a different port)
 """
 
 from __future__ import annotations
 
 import os
 
+from dotenv import load_dotenv
+load_dotenv(override=True)
+
+from search.embeddings import get_index as _get_embedding_index
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routers import chat, graph, papers, search, stats, techniques
+from api.routers import chat, feature_map, graph, papers, search, stats, techniques
 
 # ── App ───────────────────────────────────────────────────────────────────────
+
+_dev_mode = os.getenv("API_DEV_MODE", "").lower() in ("1", "true", "yes")
 
 app = FastAPI(
     title       = "Research Intelligence Platform API v1",
@@ -33,27 +33,42 @@ app = FastAPI(
         "extracted from NeurIPS, ICLR, ICML, and other ML conferences."
     ),
     version     = "1.0.0",
-    docs_url    = "/docs",
-    redoc_url   = "/redoc",
+    # Docs only available in dev mode (set API_DEV_MODE=1 locally)
+    docs_url    = "/docs"   if _dev_mode else None,
+    redoc_url   = "/redoc"  if _dev_mode else None,
 )
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
-# Dev: allow any localhost / 127.0.0.1 origin regardless of port so that
-# multiple Next.js dev-server instances (3000, 3001, 3002, 3003…) all work.
-# In production, set CORS_ORIGIN to your deployed frontend URL.
+# CORS_ORIGIN must be set to the exact deployed frontend origin (no trailing slash).
+# Example: https://your-project.vercel.app
+# When unset, falls back to localhost-only (dev mode).
 
-_extra = os.getenv("CORS_ORIGIN", "").strip()
+_cors_origin = os.getenv("CORS_ORIGIN", "").strip()
+
+if _cors_origin:
+    _allowed_origins = [_cors_origin]
+    _origin_regex    = None
+else:
+    # Dev: allow any localhost / 127.0.0.1 port
+    _allowed_origins = []
+    _origin_regex    = r"http://(localhost|127\.0\.0\.1)(:\d+)?$"
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins is empty — allow_origin_regex takes precedence.
-    allow_origins      = [_extra] if _extra else [],
-    allow_origin_regex = r"http://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_origins      = _allowed_origins,
+    allow_origin_regex = _origin_regex,
     allow_credentials  = True,
     allow_methods      = ["GET", "POST", "OPTIONS"],
     allow_headers      = ["*"],
-    expose_headers     = ["X-Total-Count"],   # lets the frontend read pagination total
+    expose_headers     = ["X-Total-Count"],
 )
+
+# ── Startup ───────────────────────────────────────────────────────────────────
+
+@app.on_event("startup")
+def _load_embedding_index() -> None:
+    _get_embedding_index().load()
+
 
 # ── Routers ───────────────────────────────────────────────────────────────────
 
@@ -63,6 +78,7 @@ app.include_router(search.router)
 app.include_router(graph.router)
 app.include_router(techniques.router)
 app.include_router(chat.router)
+app.include_router(feature_map.router)
 
 
 # ── Root ──────────────────────────────────────────────────────────────────────

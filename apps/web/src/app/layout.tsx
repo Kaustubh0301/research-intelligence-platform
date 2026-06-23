@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import { LayoutShell } from "@/components/ui/LayoutShell";
+import { BackendBanner } from "@/components/ui/BackendBanner";
 
 export const metadata: Metadata = {
   title: "InsightEngine — AI Research Hub",
@@ -29,6 +30,7 @@ export default function RootLayout({
       </head>
       <body className="bg-surface text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
         <Providers>
+          <BackendBanner />
           <LayoutShell>{children}</LayoutShell>
         </Providers>
       </body>
