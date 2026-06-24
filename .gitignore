@@ -107,3 +107,9 @@ pdf_pipeline/project.md
 rollback_*.sql
 
 UI_TECHNICAL_DESIGN.md
+
+fix_missing_papers.py
+fix_overflow_notebooks.py
+corpus_intel/test.py
+*.docx
+apps/web/research-intelligence-web@*
