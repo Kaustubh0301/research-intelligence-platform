@@ -29,6 +29,7 @@ export function ChatPageClient() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMsgId, setLoadingMsgId] = useState<string | null>(null);
+  const [streamingContent, setStreamingContent] = useState<string | null>(null);
   const [activeSources, setActiveSources] = useState<ChatSource[]>([]);
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
@@ -41,6 +42,7 @@ export function ChatPageClient() {
     setInput("");
     setIsLoading(false);
     setLoadingMsgId(null);
+    setStreamingContent(null);
     // Restore last assistant message's sources into the right panel.
     const last = [...activeMessages].reverse().find((m) => m.role === "assistant");
     setActiveSources(last?.sources ?? []);
@@ -55,12 +57,12 @@ export function ChatPageClient() {
       {
         id: loadingMsgId,
         role: "assistant",
-        content: "",
-        isLoading: true,
+        content: streamingContent ?? "",
+        isLoading: streamingContent === null,   // spinner until first token
         timestamp: new Date(),
       },
     ];
-  }, [activeMessages, loadingMsgId]);
+  }, [activeMessages, loadingMsgId, streamingContent]);
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -99,37 +101,56 @@ export function ChatPageClient() {
 
     const loadingId = uid();
     setLoadingMsgId(loadingId);
+    setStreamingContent(null);  // null = show spinner
 
     try {
-      const res = await api.chat({
+      let sources: ChatSource[] = [];
+      let content = "";
+
+      const stream = api.streamChat({
         message: trimmed,
         conversation_id: activeSession.conversationId ?? undefined,
         history,
       });
 
-      setConversationId(res.conversation_id);
-      setActiveSources(res.sources);
-      if (res.sources.length > 0) setRightOpen(true);
+      for await (const event of stream) {
+        if (event.type === "sources") {
+          sources = event.sources ?? [];
+          if (event.conversation_id) setConversationId(event.conversation_id);
+          setActiveSources(sources);
+          if (sources.length > 0) setRightOpen(true);
+        } else if (event.type === "token" && event.token) {
+          content += event.token;
+          setStreamingContent(content);
+        } else if (event.type === "error") {
+          content = `Error: ${event.message ?? "Unknown error"}`;
+          setStreamingContent(content);
+        }
+      }
 
+      // Commit to persistent session store once streaming is complete
       appendMessage({
         id: uid(),
         role: "assistant",
-        content: res.answer,
-        sources: res.sources,
+        content,
+        sources,
         timestamp: new Date(),
       });
     } catch (err) {
+      const errContent =
+        err instanceof Error
+          ? `Error: ${err.message}`
+          : "An unexpected error occurred. Please try again.";
+      setStreamingContent(errContent);
       appendMessage({
         id: uid(),
         role: "assistant",
-        content:
-          err instanceof Error
-            ? `Error: ${err.message}`
-            : "An unexpected error occurred. Please try again.",
+        content: errContent,
         timestamp: new Date(),
       });
     } finally {
       setLoadingMsgId(null);
+      setStreamingContent(null);
       setIsLoading(false);
     }
   };
@@ -213,7 +234,7 @@ export function ChatPageClient() {
               </div>
               <h2 className="text-lg font-semibold">Research Assistant</h2>
               <p className="text-sm text-muted-foreground max-w-sm">
-                Ask questions about the NeurIPS &amp; ICLR 2024 corpus. Answers are
+                Ask questions about the NeurIPS, ICML, ICLR &amp; CVPR 2024 corpus. Answers are
                 grounded in paper summaries, techniques, and analyses.
               </p>
               <div className="flex flex-col gap-1.5 w-full max-w-sm mt-2">

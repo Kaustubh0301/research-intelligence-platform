@@ -57,7 +57,7 @@ export function ChatInput({ value, onChange, onSend, disabled }: Props) {
         </Button>
       </div>
       <p className="text-center text-xs text-muted-foreground mt-1.5">
-        Answers are grounded in the NeurIPS &amp; ICLR 2024 corpus
+        Answers are grounded in the NeurIPS, ICML, ICLR &amp; CVPR 2024 corpus
       </p>
     </div>
   );

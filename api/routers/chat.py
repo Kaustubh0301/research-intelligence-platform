@@ -10,9 +10,12 @@ No embeddings. No vector DB. No schema changes.
 
 from __future__ import annotations
 
+import json
+import re
 import uuid
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from api.deps import get_db
@@ -20,6 +23,46 @@ from api.helpers import retrieve_papers_for_query
 from api.models import ChatRequest, ChatResponse, ChatSource, ConversationMessage
 
 router = APIRouter(prefix="/api/v1", tags=["Chat"])
+
+# Words that signal the user is referring to something already discussed
+_REFERENTIAL = re.compile(
+    r"\b(that|those|it|its|them|they|this|these|the (first|second|third|"
+    r"fourth|fifth|last|previous|other|same|above)|paper \d|tell me more|"
+    r"elaborate|explain (more|further)|what about|can you expand|go deeper|"
+    r"more (detail|info|context)|summarise|summarize)\b",
+    re.IGNORECASE,
+)
+
+
+def _build_retrieval_query(
+    message: str,
+    history: list[ConversationMessage],
+) -> str:
+    """
+    Return an expanded search query for follow-up turns.
+
+    If the current message is short or referential, prepend the last
+    substantive user question from history so retrieval has enough signal
+    to find the right papers.  Otherwise return the message unchanged.
+    """
+    is_short = len(message.split()) <= 4   # very short: "and the third?" "what about limitations?"
+    is_referential = bool(_REFERENTIAL.search(message))
+
+    if not (is_short or is_referential):
+        return message
+
+    # Find the last user turn in history that isn't itself a follow-up
+    prior_user_msgs = [
+        t.content for t in history if t.role == "user"
+    ]
+    if not prior_user_msgs:
+        return message
+
+    # Use the most recent prior user message as context anchor
+    anchor = prior_user_msgs[-1]
+    # Cap combined length to avoid FTS over-tokenisation
+    combined = f"{anchor} {message}"
+    return combined[:300]
 
 # ── Context builder ───────────────────────────────────────────────────────────
 
@@ -167,15 +210,27 @@ def chat(
     req: ChatRequest,
     db: Session = Depends(get_db),
 ) -> ChatResponse:
-    # 1. Retrieve top-5 papers using multi-signal search scoring
-    papers = retrieve_papers_for_query(req.message, db, limit=_MAX_PAPERS)
+    # 1. Retrieve top-5 papers — expand query on follow-up turns so the right
+    #    papers stay in context even when the user says "tell me more about that"
+    retrieval_query = _build_retrieval_query(req.message, req.history)
+    papers = retrieve_papers_for_query(retrieval_query, db, limit=_MAX_PAPERS)
+
+    # If expanded query returns different papers than the raw message, union them
+    if retrieval_query != req.message:
+        raw_papers = retrieve_papers_for_query(req.message, db, limit=_MAX_PAPERS)
+        seen = {p["id"] for p in papers}
+        for p in raw_papers:
+            if p["id"] not in seen:
+                papers.append(p)
+                seen.add(p["id"])
+        papers = sorted(papers, key=lambda p: p["match_score"], reverse=True)[:_MAX_PAPERS]
 
     if not papers:
         return ChatResponse(
             answer=(
                 "I couldn't find any papers in the corpus that match your question. "
                 "Try rephrasing with specific technique names, author names, or research topics "
-                "covered in the NeurIPS / ICLR 2024 corpus."
+                "covered in the NeurIPS, ICML, ICLR, and CVPR 2024 corpus."
             ),
             sources=[],
             conversation_id=str(uuid.uuid4()),
@@ -211,3 +266,88 @@ def chat(
         sources         = sources,
         conversation_id = req.conversation_id or str(uuid.uuid4()),
     )
+
+
+def _sse(data: dict) -> str:
+    return f"data: {json.dumps(data)}\n\n"
+
+
+@router.post("/chat/stream", summary="Streaming research assistant (SSE)")
+def chat_stream(
+    req: ChatRequest,
+    db: Session = Depends(get_db),
+) -> StreamingResponse:
+    # Retrieve papers synchronously before starting the stream
+    retrieval_query = _build_retrieval_query(req.message, req.history)
+    papers = retrieve_papers_for_query(retrieval_query, db, limit=_MAX_PAPERS)
+
+    if retrieval_query != req.message:
+        raw_papers = retrieve_papers_for_query(req.message, db, limit=_MAX_PAPERS)
+        seen = {p["id"] for p in papers}
+        for p in raw_papers:
+            if p["id"] not in seen:
+                papers.append(p)
+                seen.add(p["id"])
+        papers = sorted(papers, key=lambda p: p["match_score"], reverse=True)[:_MAX_PAPERS]
+
+    conversation_id = req.conversation_id or str(uuid.uuid4())
+
+    sources = [
+        ChatSource(
+            id                = p["id"],
+            title             = p["title"],
+            conference        = p["conference"],
+            year              = p["year"],
+            citation_count    = p["citation_count"],
+            cluster_id        = p["cluster_id"],
+            degree_centrality = p["degree_centrality"],
+            top_techniques    = p["top_techniques"],
+            categories        = p["categories"],
+            match_score       = p["match_score"],
+            matched_in        = p["matched_in"],
+            abstract_snippet  = p["abstract"][:300] if p.get("abstract") else None,
+        )
+        for p in papers
+    ]
+
+    def generate():
+        # 1. Send sources immediately so the panel populates before LLM responds
+        yield _sse({"type": "sources", "sources": [s.model_dump() for s in sources], "conversation_id": conversation_id})
+
+        if not papers:
+            yield _sse({"type": "token", "token": (
+                "I couldn't find any papers in the corpus that match your question. "
+                "Try rephrasing with specific technique names, author names, or research topics "
+                "covered in the NeurIPS, ICML, ICLR, and CVPR 2024 corpus."
+            )})
+            yield _sse({"type": "done"})
+            return
+
+        # 2. Build LLM input
+        context = _build_context(papers)
+        messages = [
+            {"role": turn.role, "content": turn.content}
+            for turn in req.history[-_MAX_HISTORY_TURNS:]
+        ]
+        messages.append({
+            "role": "user",
+            "content": f"Here are the relevant papers from the corpus:\n\n{context}\n\n---\n\nQuestion: {req.message}",
+        })
+
+        # 3. Stream tokens
+        try:
+            from llm.providers import get_provider
+            provider = get_provider(system_prompt=_SYSTEM_PROMPT)
+            if hasattr(provider, "stream_response"):
+                for chunk in provider.stream_response(messages):
+                    yield _sse({"type": "token", "token": chunk})
+            else:
+                # Fallback for providers that don't support streaming
+                answer = provider.generate_response(messages)
+                yield _sse({"type": "token", "token": answer})
+        except Exception as exc:
+            yield _sse({"type": "error", "message": str(exc)})
+
+        yield _sse({"type": "done"})
+
+    return StreamingResponse(generate(), media_type="text/event-stream")

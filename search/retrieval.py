@@ -208,20 +208,29 @@ def retrieve_papers_for_query(
         log.warning("FTS unhealthy (%s) — falling back to LIKE retrieval", msg)
         return _retrieve_like_legacy(term, session, limit)
 
+    SEM_WEIGHT = 40.0
+
     # FTS scoring
     raw_scores = fts_score(term, session)
-    if not raw_scores:
+
+    # Semantic scoring (no-op when index not loaded or SEMANTIC_SEARCH=false)
+    from search.embeddings import get_index
+    sem_scores = get_index().search(term)
+
+    # Union of candidates — semantic-only papers enter here
+    all_candidates = set(raw_scores) | set(sem_scores)
+    if not all_candidates:
         return []
 
-    # Rank by score + citation tiebreaker
-    candidate_ids = list(raw_scores.keys())
-    metadata = fetch_paper_metadata_batch(session, candidate_ids)
+    metadata = fetch_paper_metadata_batch(session, list(all_candidates))
 
     def _rank_key(pid: str) -> float:
         m = metadata.get(pid, {})
-        return raw_scores[pid] + math.log1p(m.get("citation_count", 0) or 0)
+        kw  = raw_scores.get(pid, 0.0)
+        sem = sem_scores.get(pid, 0.0) * SEM_WEIGHT
+        return kw + sem + math.log1p(m.get("citation_count", 0) or 0)
 
-    ranked = sorted(raw_scores.keys(), key=_rank_key, reverse=True)[:limit]
+    ranked = sorted(all_candidates, key=_rank_key, reverse=True)[:limit]
 
     # Build matched_in labels for top results only
     matched_in = _build_matched_in(term, session, ranked)
@@ -231,10 +240,15 @@ def retrieve_papers_for_query(
         m = metadata.get(pid)
         if not m:
             continue
+        # Label semantic-only or hybrid hits
+        labels = list(dict.fromkeys(matched_in.get(pid, [])))
+        if pid in sem_scores:
+            labels = list(dict.fromkeys(["semantic"] + labels))
+        hybrid_score = _rank_key(pid)
         results.append({
             **m,
-            "match_score": round(raw_scores[pid], 2),
-            "matched_in":  list(dict.fromkeys(matched_in.get(pid, []))),
+            "match_score": round(hybrid_score, 2),
+            "matched_in":  labels,
         })
 
     return results
