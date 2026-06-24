@@ -51,7 +51,7 @@ function Section({
 
 // ── Data ──────────────────────────────────────────────────────────────────
 
-const CONFERENCES = ["NeurIPS", "ICLR", "ICML"];
+const CONFERENCES = ["NeurIPS", "ICLR", "ICML", "CVPR", "ACL"];
 const CLUSTERS    = [0, 1, 2].map((n) => ({
   value:       String(n),
   label:       CLUSTER_LABELS[n] ?? `Cluster ${n}`,

@@ -66,15 +66,6 @@ export function TopBar({ sidebarOpen, onToggle }: Props) {
           </nav>
         </div>
 
-        {/* Right: action icons */}
-        <div className="flex items-center gap-md">
-          <button className="p-sm rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors">
-            <span className="material-symbols-outlined text-[20px]">notifications</span>
-          </button>
-          <button className="p-sm rounded-full text-on-surface-variant hover:bg-surface-container-highest transition-colors">
-            <span className="material-symbols-outlined text-[20px]">account_circle</span>
-          </button>
-        </div>
       </div>
     </header>
   );

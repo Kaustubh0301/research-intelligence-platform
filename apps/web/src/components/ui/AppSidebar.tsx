@@ -15,10 +15,6 @@ const NAV_ITEMS = [
   { href: "/feature-map", icon: "schema", label: "Feature Mapper", feature: null },
 ] as const;
 
-const BOTTOM_ITEMS = [
-  { href: "#", icon: "settings", label: "Settings" },
-] as const;
-
 function NavItem({
   href,
   icon,
@@ -94,19 +90,6 @@ export function AppSidebar({ onToggle }: { onToggle?: () => void }) {
         ))}
       </nav>
 
-      {/* Bottom section */}
-      <div className="mt-auto pt-lg border-t border-outline-variant px-sm space-y-1">
-        {BOTTOM_ITEMS.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex items-center gap-3 px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-colors duration-200"
-          >
-            <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-            <span className="text-label-md">{item.label}</span>
-          </Link>
-        ))}
-      </div>
     </aside>
   );
 }
