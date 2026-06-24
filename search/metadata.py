@@ -104,6 +104,10 @@ def fetch_top_techniques_batch(
     if not paper_ids:
         return {}
 
+    # SQLite stores paper_id as hex without hyphens; UUID-format IDs must be stripped
+    hex_ids = [p.replace("-", "") for p in paper_ids]
+    uuid_by_hex = {p.replace("-", ""): p for p in paper_ids}
+
     rows = session.execute(
         select(
             PaperTechnique.paper_id,
@@ -111,7 +115,7 @@ def fetch_top_techniques_batch(
             func.count(PaperTechnique.id).label("cnt"),
         )
         .where(
-            PaperTechnique.paper_id.in_(paper_ids),
+            PaperTechnique.paper_id.in_(hex_ids),
             PaperTechnique.canonical_name.isnot(None),
         )
         .group_by(PaperTechnique.paper_id, PaperTechnique.canonical_name)
@@ -119,7 +123,8 @@ def fetch_top_techniques_batch(
     ).all()
 
     result: dict[str, list[str]] = defaultdict(list)
-    for pid, canonical, _ in rows:
+    for hex_pid, canonical, _ in rows:
+        pid = uuid_by_hex.get(hex_pid, hex_pid)
         if len(result[pid]) < per_paper:
             result[pid].append(canonical)
     return dict(result)
@@ -139,14 +144,22 @@ def fetch_paper_metadata_batch(
     if not paper_ids:
         return {}
 
+    # SQLite stores IDs as hex without hyphens; callers may pass UUID format (with hyphens).
+    # Strip hyphens for SQL queries, but keep UUID format as dict keys to match caller expectations.
+    hex_ids = [p.replace("-", "") for p in paper_ids]
+    uuid_by_hex = {p.replace("-", ""): p for p in paper_ids}
+
     # Papers + conference + graph metrics
     paper_rows = session.execute(
-        base_paper_query().where(Paper.id.in_(paper_ids))
+        base_paper_query().where(Paper.id.in_(hex_ids))
     ).all()
 
     paper_map: dict[str, tuple] = {}
     for paper, conf_short, _ed_year, pgm in paper_rows:
-        paper_map[paper.id] = (paper, conf_short, pgm)
+        # ORM returns UUID with hyphens; map back to the caller's key format
+        hex_pid = str(paper.id).replace("-", "")
+        key = uuid_by_hex.get(hex_pid, str(paper.id))
+        paper_map[key] = (paper, conf_short, pgm)
 
     # Techniques
     techniques_map = fetch_top_techniques_batch(session, paper_ids)
@@ -154,11 +167,12 @@ def fetch_paper_metadata_batch(
     # Categories (top 3 per paper by confidence)
     cat_rows = session.execute(
         select(PaperCategory.paper_id, PaperCategory.name)
-        .where(PaperCategory.paper_id.in_(paper_ids))
+        .where(PaperCategory.paper_id.in_(hex_ids))
         .order_by(PaperCategory.paper_id, PaperCategory.confidence.desc())
     ).all()
     cats_by_paper: dict[str, list[str]] = defaultdict(list)
-    for pid, cname in cat_rows:
+    for hex_pid, cname in cat_rows:
+        pid = uuid_by_hex.get(hex_pid, hex_pid)
         if len(cats_by_paper[pid]) < 3:
             cats_by_paper[pid].append(cname)
 
@@ -174,9 +188,9 @@ def fetch_paper_metadata_batch(
             PaperAnalysisRecord.practical_applications,
             PaperAnalysisRecord.future_research_directions,
             PaperAnalysisRecord.advantages,
-        ).where(PaperAnalysisRecord.paper_id.in_(paper_ids))
+        ).where(PaperAnalysisRecord.paper_id.in_(hex_ids))
     ).all()
-    analysis_map = {r.paper_id: r for r in analysis_rows}
+    analysis_map = {uuid_by_hex.get(r.paper_id, r.paper_id): r for r in analysis_rows}
 
     result: dict[str, dict] = {}
     for pid in paper_ids:

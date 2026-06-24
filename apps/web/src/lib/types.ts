@@ -295,3 +295,68 @@ export interface ChatMessage {
   isLoading?: boolean;
   timestamp: Date;
 }
+
+// ── Feature Mapper ──────────────────────────────────────────────────────────
+
+export interface FeatureMapPaper {
+  paper_id: string;
+  title: string;
+  year: number | null;
+  venue: string | null;
+  abstract: string;
+  top_techniques: string[];
+  categories: string[];
+  rank: number;
+  rrf_score: number;
+  semantic_score: number | null;
+  technique_score: number | null;
+  category_score: number | null;
+  matched_techniques: string[];
+  matched_categories: string[];
+  relevance_explanation: string | null;
+  similarity_points: string[];
+  difference_points: string[];
+}
+
+export interface FeatureMapFeature {
+  id: string;
+  name: string;
+  description: string;
+  source_section: string | null;
+  source_text: string;
+  feature_type: string;
+  matched_techniques: string[];
+  matched_categories: string[];
+  unrecognized_terms: string[];
+}
+
+export interface FeatureMapRecommendation {
+  rec_type: "missing_technique" | "evaluation_suggestion";
+  rank: number;
+  title: string;
+  body: string;
+  supporting_paper_ids: string[];
+  supporting_paper_titles: string[];
+  priority_score: number | null;
+  evidence_count: number;
+}
+
+export interface FeatureMapResult {
+  feature: FeatureMapFeature;
+  coverage_score: number;
+  coverage_tier: "strong" | "moderate" | "weak" | "novel";
+  papers: FeatureMapPaper[];
+  recommendations: FeatureMapRecommendation[];
+}
+
+export interface FeatureMapRequest {
+  text: string;
+}
+
+export interface FeatureMapResponse {
+  project_id: string;
+  title: string | null;
+  feature_count: number;
+  total_duration_ms: number;
+  features: FeatureMapResult[];
+}

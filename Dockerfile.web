@@ -1,0 +1,58 @@
+# ── Research Intelligence Platform — Next.js Frontend ────────────────────────
+#
+# Build context: repository root
+#
+# IMPORTANT: NEXT_PUBLIC_API_URL is embedded into the client-side bundle at
+# build time by Next.js. It CANNOT be changed at container runtime. Pass it
+# as a build argument:
+#
+#   docker build -f Dockerfile.web \
+#     --build-arg NEXT_PUBLIC_API_URL=https://yourdomain.com/api/v1 \
+#     -t rip-web:latest .
+#
+# Run (standalone, for testing):
+#   docker run --rm -p 3000:3000 rip-web:latest
+
+# ── Stage 1: Install dependencies ─────────────────────────────────────────────
+FROM node:20-alpine AS deps
+WORKDIR /app
+
+COPY apps/web/package.json apps/web/package-lock.json ./
+RUN npm ci --omit=dev
+
+
+# ── Stage 2: Build Next.js ────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Receive the API URL at build time — this is the only env var Next.js needs.
+ARG NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/web/ .
+
+# Disable Next.js telemetry in CI/CD
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN npm run build
+
+
+# ── Stage 3: Runtime image ────────────────────────────────────────────────────
+FROM node:20-alpine AS runtime
+WORKDIR /app
+
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1
+
+# next.config.ts does not set `output: "standalone"` yet — copy the full
+# build output. If standalone output is enabled later, replace with:
+#   COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public            ./public
+COPY --from=builder /app/.next             ./.next
+COPY --from=builder /app/node_modules      ./node_modules
+COPY --from=builder /app/package.json      ./package.json
+
+EXPOSE 3000
+
+CMD ["node_modules/.bin/next", "start", "-p", "3000"]

@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: "/papers", icon: "menu_book",   label: "Library",    feature: null    },
   { href: "/graph",  icon: "hub",         label: "Graph",      feature: "GRAPH" },
   { href: "/chat",   icon: "smart_toy",   label: "Chatbot",    feature: null    },
+  { href: "/feature-map", icon: "schema", label: "Feature Mapper", feature: null },
 ] as const;
 
 const BOTTOM_ITEMS = [

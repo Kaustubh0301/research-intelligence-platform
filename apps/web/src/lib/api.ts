@@ -10,6 +10,8 @@ import type {
   ClustersResponse,
   ChatRequest,
   ChatResponse,
+  FeatureMapRequest,
+  FeatureMapResponse,
 } from "./types";
 
 const BASE =
@@ -68,6 +70,44 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }),
+
+  featureMapAnalyze: (body: FeatureMapRequest) =>
+    apiFetch<FeatureMapResponse>("/feature-map/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
+
+  streamChat: async function* (
+    body: ChatRequest,
+    signal?: AbortSignal,
+  ): AsyncGenerator<{ type: string; token?: string; sources?: ChatResponse["sources"]; conversation_id?: string; message?: string }> {
+    const res = await fetch(`${BASE}/chat/stream`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal,
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(`API ${res.status} /chat/stream: ${detail}`);
+    }
+    const reader = res.body!.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split("\n\n");
+      buf = lines.pop() ?? "";
+      for (const line of lines) {
+        const data = line.replace(/^data: /, "").trim();
+        if (!data) continue;
+        try { yield JSON.parse(data); } catch { /* skip malformed */ }
+      }
+    }
+  },
 };
 
 export const queryKeys = {

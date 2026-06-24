@@ -1,0 +1,88 @@
+# ── Version control ───────────────────────────────────────────────────────────
+.git
+.gitignore
+
+# ── Python build artifacts ────────────────────────────────────────────────────
+.venv
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info
+dist
+build
+
+# ── Local dev / IDE ───────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+.DS_Store
+*.swp
+*.swo
+.claude
+
+# ── Node / Next.js ────────────────────────────────────────────────────────────
+apps/web/node_modules
+apps/web/.next
+apps/web/tsconfig.tsbuildinfo
+
+# ── Data that is volume-mounted at runtime ────────────────────────────────────
+# The live database is never baked into the image; it is mounted as a volume.
+research_platform.db
+research_platform.db.*
+research.db
+papers.db
+# Stray copy of the DB that ended up in the web directory
+apps/web/research_platform.db
+
+# ── FAISS index (volume-mounted) ──────────────────────────────────────────────
+embeddings.index
+embeddings_ids.json
+
+# ── HuggingFace cache (baked into API image via separate COPY step) ───────────
+# Excluded here so docker build doesn't re-hash it on every layer change.
+# The Dockerfile.api COPY step copies it explicitly after pip install.
+.hf_cache
+
+# ── Large data directories ────────────────────────────────────────────────────
+pdfs
+backups
+data
+
+# ── Logs and one-off outputs ──────────────────────────────────────────────────
+*.log
+outputs
+docs
+*.md
+!README.md
+
+# ── One-off scripts (not part of the API) ────────────────────────────────────
+backfill_canonical_names.py
+build_analytics.py
+build_edges.py
+build_graph.py
+build_graph_v2.py
+concept_selection_audit.py
+entity_audit.py
+entity_signal_audit.py
+fix_missing_papers.py
+fix_overflow_notebooks.py
+inspect_db.py
+migrate_canonicalize_techniques.py
+normalize_entities.py
+pick_validation_papers.py
+rebuild_fts.py
+resume_pipeline.py
+rollback_canon_backfill.sql
+run_validation_batch.py
+validate_collection.py
+validation_report.py
+validation_snapshot.py
+
+# ── Misc artefacts ────────────────────────────────────────────────────────────
+before_snapshot.json
+notebook_registry_backup_*.json
+synthesis_backup_*.json
+neurips_2024_sample.csv
+*.docx
