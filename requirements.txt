@@ -1,0 +1,44 @@
+# Runtime dependencies for Research Intelligence Platform API
+# Generated from .venv — ingestion-only packages (openreview-py, PyMuPDF,
+# pdfplumber, psycopg2-binary) are included so ingestion can run on the
+# same image if needed; they add ~150 MB. Strip them for a leaner API-only
+# image once ingestion is separated.
+
+# ── Web framework ─────────────────────────────────────────────────────────────
+fastapi==0.136.3
+uvicorn[standard]==0.49.0
+sse-starlette==3.4.4
+python-multipart==0.0.30
+email-validator==2.3.0
+
+# ── Database ──────────────────────────────────────────────────────────────────
+SQLAlchemy==2.0.50
+python-dotenv==1.2.2
+
+# ── Semantic search ───────────────────────────────────────────────────────────
+# torch CPU-only wheel — keeps image ~1 GB smaller than the default CUDA wheel.
+# Install order matters: torch must be installed before sentence-transformers.
+torch==2.12.1
+faiss-cpu==1.14.3
+sentence-transformers==5.6.0
+transformers==5.12.1
+huggingface_hub==1.19.0
+
+# ── LLM providers ─────────────────────────────────────────────────────────────
+anthropic==0.107.1
+google-genai==2.7.0
+
+# ── Graph / analytics ─────────────────────────────────────────────────────────
+networkx==3.6.1
+scipy==1.17.1
+
+# ── HTTP / async ──────────────────────────────────────────────────────────────
+httpx==0.28.1
+requests==2.34.2
+anyio==4.13.0
+
+# ── Ingestion (can be removed for API-only image) ─────────────────────────────
+openreview-py==2.2.1
+PyMuPDF==1.27.2.3
+pdfplumber==0.11.9
+psycopg2-binary==2.9.12

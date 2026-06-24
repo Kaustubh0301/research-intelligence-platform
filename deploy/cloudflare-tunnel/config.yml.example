@@ -1,0 +1,25 @@
+# ~/.cloudflared/config.yml
+# Cloudflare Tunnel config for Research Intelligence Platform.
+# Replace YOUR_TUNNEL_ID and api.yourdomain.com before use.
+
+tunnel: YOUR_TUNNEL_ID
+credentials-file: ~/.cloudflared/YOUR_TUNNEL_ID.json
+
+ingress:
+  # FastAPI backend — all /api/v1/* and /health traffic
+  - hostname: api.yourdomain.com
+    service: http://localhost:8000
+    originRequest:
+      # Feature Mapper can take up to 115s; give the origin extra headroom.
+      connectTimeout: 10s
+      tlsTimeout: 10s
+      tcpKeepAlive: 30s
+      noHappyEyeballs: false
+      keepAliveConnections: 10
+      keepAliveTimeout: 90s
+      httpHostHeader: ""
+      originServerName: ""
+      proxyType: ""
+
+  # Catch-all (required by cloudflared — must be last)
+  - service: http_status:404

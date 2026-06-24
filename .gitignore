@@ -7,11 +7,17 @@ __pycache__/
 .venv/
 venv/
 
-# Environment variables
+# Environment variables — never commit real env files
 .env
+.env.*
+!.env.example
 
 # Databases
 *.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
 
 # macOS
 .DS_Store
@@ -26,8 +32,84 @@ venv/
 dist/
 build/
 
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # Claude / temporary files
 tmp/
 
 pdfs/
 .claude/
+
+# Frontend
+node_modules/
+.next/
+
+# Generated backups
+*.backup_*
+*_backup_*.json
+
+# Embeddings (large generated artifacts — rebuild with search/embeddings.py)
+embeddings.index
+embeddings_ids.json
+
+# HuggingFace model cache (large — re-downloaded automatically)
+.hf_cache/
+
+# Database backups
+backups/
+
+# Generated outputs and internal snapshots
+outputs/
+before_snapshot.json
+neurips_2024_sample.csv
+
+# Editor config
+.vscode/
+.idea/
+
+# Internal planning, sprint, and session-handoff documents — not for public repo
+HANDOFF.md
+PROJECT_STATE.md
+PROJECT_STATUS.md
+ARCHITECTURE_DECISIONS.md
+CHAT_ARCHITECTURE.md
+ANALYSIS_QUALITY_AUDIT.md
+ANALYSIS_V2_IMPLEMENTATION.md
+CORPUS_EXPANSION_EXECUTION.md
+CORPUS_EXPANSION_PLAN.md
+DEMO_POLISH.md
+EXPECTED_REBUILD_IMPACT.md
+FRONTEND_HANDOFF.md
+FRONTEND_PROGRESS.md
+IMPLEMENTATION_SPRINT_1.md
+NEXT_MILESTONE.md
+NORMALIZATION_V2_AUDIT.md
+PDF_PIPELINE_ROOT_CAUSE.md
+PHASE1_EXECUTION_CHECKLIST.md
+PHASE1_EXECUTION_PLAN.md
+PHASE1_EXPANSION_RUNBOOK.md
+POST_REBUILD_VALIDATION.md
+PRE_INGESTION_AUDIT.md
+REBUILD_RUNBOOK.md
+SESSION_HANDOFF_ANALYSIS_V2.md
+SESSION_HANDOFF_UI.md
+UPGRADE_PATH_AUDIT.md
+docs/next_session_plan.md
+docs/project_handoff.md
+docs/project_state_handoff_v2.md
+docs/project_state_handoff_v3.md
+
+# Auto-generated files that must not be committed
+apps/web/next
+apps/web/next-env.d.ts
+pdf_pipeline/project.md
+rollback_*.sql
+
+UI_TECHNICAL_DESIGN.md
+
+fix_missing_papers.py
+fix_overflow_notebooks.py
+corpus_intel/test.py
+*.docx
+apps/web/research-intelligence-web@*

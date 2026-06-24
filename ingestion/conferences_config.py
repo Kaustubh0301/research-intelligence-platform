@@ -39,7 +39,7 @@ CONFERENCES: dict[str, dict] = {
         "editions": {
             2024: {
                 "openreview_id": "ICLR.cc/2024/Conference",
-                "invitation":    "ICLR.cc/2024/Conference/-/Blind_Submission",
+                "invitation":    "ICLR.cc/2024/Conference/-/Submission",
                 "location":      "Vienna, Austria",
             },
             2025: {
@@ -150,14 +150,15 @@ CONFERENCES: dict[str, dict] = {
 
 
 def get_conference(short_name: str) -> dict:
-    """Return conference config or raise KeyError."""
-    key = short_name.upper()
-    if key not in CONFERENCES:
+    """Return conference config or raise KeyError (case-insensitive lookup)."""
+    upper = short_name.upper()
+    _upper_map = {k.upper(): k for k in CONFERENCES}
+    if upper not in _upper_map:
         raise KeyError(
             f"Unknown conference: {short_name!r}. "
             f"Known: {', '.join(CONFERENCES)}"
         )
-    return CONFERENCES[key]
+    return CONFERENCES[_upper_map[upper]]
 
 
 def get_edition(short_name: str, year: int) -> dict:

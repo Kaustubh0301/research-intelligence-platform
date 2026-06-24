@@ -1,0 +1,125 @@
+# ── Research Intelligence Platform — API (FastAPI + SQLite) ──────────────────
+#
+# Build context: repository root
+# Runtime data (volume-mounted, NOT baked in):
+#   /data/research_platform.db   — SQLite database
+#   /data/embeddings.index       — FAISS index
+#   /data/embeddings_ids.json    — FAISS ID map
+#
+# HuggingFace model (baked in at build time, offline at runtime):
+#   /app/.hf_cache/              — all-MiniLM-L6-v2
+#
+# Build:
+#   docker build -f Dockerfile.api -t rip-api:latest .
+#
+# Run (standalone, for testing):
+#   docker run --rm \
+#     -p 8000:8000 \
+#     -v $(pwd)/research_platform.db:/data/research_platform.db \
+#     -v $(pwd)/embeddings.index:/data/embeddings.index:ro \
+#     -v $(pwd)/embeddings_ids.json:/data/embeddings_ids.json:ro \
+#     -e DATABASE_URL=sqlite:////data/research_platform.db \
+#     -e LLM_PROVIDER=anthropic \
+#     -e ANTHROPIC_API_KEY=sk-... \
+#     -e CORS_ORIGIN=https://yourdomain.com \
+#     rip-api:latest
+
+# ── Stage 1: Python dependencies ──────────────────────────────────────────────
+FROM python:3.12-slim AS deps
+
+WORKDIR /build
+
+# System libraries needed by scipy, faiss, PyMuPDF, pdfplumber
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    libgomp1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+# Install torch CPU-only first (avoids pulling CUDA wheels as transitive deps).
+# The --index-url flag scopes only this line; the subsequent pip install
+# uses the default index for everything else.
+RUN pip install --no-cache-dir \
+    torch==2.12.1 \
+    --index-url https://download.pytorch.org/whl/cpu
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+# ── Stage 2: Runtime image ────────────────────────────────────────────────────
+FROM python:3.12-slim AS runtime
+
+WORKDIR /app
+
+# Runtime system libraries (no gcc — build tools not needed at runtime)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed packages from deps stage
+COPY --from=deps /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=deps /usr/local/bin/uvicorn /usr/local/bin/uvicorn
+
+# Copy application source — runtime packages only.
+# notebooklm/, ingestion/, corpus_intel/, scripts/ are ingestion/analysis tools;
+# none are imported by the API and none are copied here.
+COPY api/            api/
+COPY db/             db/
+COPY feature_mapper/ feature_mapper/
+COPY graph/          graph/
+COPY llm/            llm/
+COPY metrics/        metrics/
+COPY normalize/      normalize/
+COPY search/         search/
+
+# Bake the HuggingFace model into the image so the container is fully offline.
+# The model is ~88 MB. search/embeddings.py resolves the cache path as
+# Path(__file__).parent.parent / ".hf_cache" → /app/.hf_cache
+COPY .hf_cache/ .hf_cache/
+
+# Create the /data directory where runtime volumes will be mounted.
+# The API reads DATABASE_URL, embeddings.index, and embeddings_ids.json
+# from /data at runtime.
+RUN mkdir -p /data
+
+# ── Environment ───────────────────────────────────────────────────────────────
+# Required at runtime (set via docker-compose or -e flags — never hardcode
+# secrets in this file):
+#   DATABASE_URL     sqlite:////data/research_platform.db
+#   LLM_PROVIDER     anthropic | gemini
+#   ANTHROPIC_API_KEY / GEMINI_API_KEY
+#   CORS_ORIGIN      https://yourdomain.com
+
+# Force HuggingFace offline mode — the model is baked in; no internet needed.
+ENV HF_HUB_OFFLINE=1 \
+    HF_HOME=/app/.hf_cache \
+    TRANSFORMERS_CACHE=/app/.hf_cache \
+    # Tell uvicorn to look for the index at the volume mount path
+    EMBEDDINGS_INDEX_PATH=/data/embeddings.index \
+    EMBEDDINGS_IDS_PATH=/data/embeddings_ids.json \
+    # Unbuffered Python output — logs appear immediately in docker logs
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+EXPOSE 8000
+
+# 2 workers is appropriate for a single-VM deployment with 4 GB RAM.
+# Increase to 4 for 8 GB RAM. Each worker loads the FAISS index (~40 MB)
+# and the sentence-transformers model (~90 MB) independently.
+CMD ["uvicorn", "api.main:app", \
+     "--host", "0.0.0.0", \
+     "--port", "8000", \
+     "--workers", "2", \
+     "--timeout-keep-alive", "75"]

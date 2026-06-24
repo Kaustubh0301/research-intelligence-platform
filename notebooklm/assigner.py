@@ -174,7 +174,11 @@ def _get_or_create_notebook(
             return nb
 
     # All existing are full, or none exist — create a new instance
-    next_instance = (max(nb.instance_number for nb in existing) + 1) if existing else 1
+    # Query ALL instances (including archived) to avoid UNIQUE constraint on (topic_slug, instance_number)
+    all_instances = session.scalars(
+        select(Notebook.instance_number).where(Notebook.topic_slug == topic_slug)
+    ).all()
+    next_instance = (max(all_instances) + 1) if all_instances else 1
     spec = _TOPICS[topic_slug]
     nb = Notebook(
         topic_slug=topic_slug,
