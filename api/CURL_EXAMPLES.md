@@ -3,7 +3,7 @@
 Start the server:
 
 ```bash
-cd /Users/kausthub.gupta/research-intelligence-platfrom
+cd /path/to/research-intelligence-platfrom
 source .venv/bin/activate
 export DATABASE_URL=sqlite:///research_platform.db
 uvicorn api.search:app --reload --port 8000

@@ -2,11 +2,15 @@
 LLM provider abstraction.
 
 Supported providers (selected via LLM_PROVIDER env var):
-  gemini    — Google Gemini 2.5 Flash  (default)
-  anthropic — Anthropic Claude Sonnet  (feature-flag fallback)
+  anthropic — Anthropic Claude Sonnet via optional LiteLLM proxy  (default)
+  gemini    — Google Gemini 2.5 Flash
 
 Each provider implements generate_response(messages) -> str.
 messages follows the OpenAI-style list[{"role": str, "content": str}] format.
+
+Anthropic proxy configuration (required):
+  ANTHROPIC_API_KEY  — API key issued by the proxy
+  ANTHROPIC_BASE_URL — Optional proxy base URL. Omit to use api.anthropic.com directly.
 """
 
 from __future__ import annotations
@@ -116,28 +120,50 @@ class GeminiProvider:
         ) from last_exc
 
 
-# ── Anthropic ─────────────────────────────────────────────────────────────────
+# ── Proxy (OpenAI-compat via LiteLLM) ────────────────────────────────────────
 
 class AnthropicProvider:
-    MODEL = "claude-sonnet-4-6"
+    """
+    Routes through an optional LiteLLM proxy using the native Anthropic SDK.
+    The proxy is addressed via ANTHROPIC_BASE_URL; the virtual key is ANTHROPIC_API_KEY.
+    """
+    MODEL = "claude-sonnet-4-5"
 
-    def __init__(self, api_key: str, system_prompt: str = "") -> None:
+    def __init__(self, api_key: str, base_url: str | None = None, system_prompt: str = "") -> None:
         self._api_key = api_key
+        self._base_url = base_url
         self._system_prompt = system_prompt
 
-    def generate_response(self, messages: list[dict]) -> str:
-        import anthropic  # deferred import
+    def _client(self):
+        import anthropic
+        kwargs = dict(api_key=self._api_key)
+        if self._base_url:
+            kwargs["base_url"] = self._base_url.rstrip("/")
+        return anthropic.Anthropic(**kwargs)
 
-        client = anthropic.Anthropic(api_key=self._api_key)
-        kwargs: dict = dict(
+    def generate_response(self, messages: list[dict]) -> str:
+        import anthropic
+        client = self._client()
+        response = client.messages.create(
             model=self.MODEL,
-            max_tokens=1024,
+            max_tokens=4096,
+            system=self._system_prompt or anthropic.NOT_GIVEN,
             messages=messages,
         )
-        if self._system_prompt:
-            kwargs["system"] = self._system_prompt
-        message = client.messages.create(**kwargs)
-        return message.content[0].text
+        return response.content[0].text
+
+    def stream_response(self, messages: list[dict]):
+        """Yield text chunks via the Anthropic streaming API."""
+        import anthropic
+        client = self._client()
+        with client.messages.stream(
+            model=self.MODEL,
+            max_tokens=1024,
+            system=self._system_prompt or anthropic.NOT_GIVEN,
+            messages=messages,
+        ) as stream:
+            for text in stream.text_stream:
+                yield text
 
 
 # ── Factory ───────────────────────────────────────────────────────────────────
@@ -149,7 +175,7 @@ def get_provider(system_prompt: str = "") -> LLMProvider:
     Raises ValueError with a human-readable message if the required API key
     is missing or the provider name is unrecognised.
     """
-    provider_name = os.getenv("LLM_PROVIDER", "gemini").strip().lower()
+    provider_name = os.getenv("LLM_PROVIDER", "anthropic").strip().lower()
 
     if provider_name == "gemini":
         api_key = os.getenv("GEMINI_API_KEY", "").strip()
@@ -165,11 +191,12 @@ def get_provider(system_prompt: str = "") -> LLMProvider:
         if not api_key:
             raise ValueError(
                 "ANTHROPIC_API_KEY is not set. "
-                "Add it to your .env file: ANTHROPIC_API_KEY=sk-ant-..."
+                "Add it to your .env file: ANTHROPIC_API_KEY=<your-proxy-key>"
             )
-        return AnthropicProvider(api_key=api_key, system_prompt=system_prompt)
+        base_url = os.getenv("ANTHROPIC_BASE_URL", "").strip() or None
+        return AnthropicProvider(api_key=api_key, base_url=base_url, system_prompt=system_prompt)
 
     raise ValueError(
         f"Unknown LLM_PROVIDER '{provider_name}'. "
-        "Supported values: gemini, anthropic"
+        "Supported values: anthropic, gemini"
     )

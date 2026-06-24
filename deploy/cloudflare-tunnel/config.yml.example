@@ -3,7 +3,7 @@
 # Replace YOUR_TUNNEL_ID and api.yourdomain.com before use.
 
 tunnel: YOUR_TUNNEL_ID
-credentials-file: /Users/YOUR_USERNAME/.cloudflared/YOUR_TUNNEL_ID.json
+credentials-file: ~/.cloudflared/YOUR_TUNNEL_ID.json
 
 ingress:
   # FastAPI backend — all /api/v1/* and /health traffic

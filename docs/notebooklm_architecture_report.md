@@ -80,7 +80,7 @@ The key invariant: **NotebookLM is write-only from the platform's perspective**.
 
 ### 3.1 Design constraints
 
-- **30–50 papers per notebook** (manager requirement, aligns with NotebookLM's ~50-source limit)
+- **30–50 papers per notebook** (design requirement, aligns with NotebookLM's ~50-source limit)
 - **Topic-based, not venue-based** — the whole point is cross-conference synthesis
 - **Two-level hierarchy** — top-level domain → specific topic. Keeps notebook count manageable.
 - **Papers can appear in up to 2 notebooks** — interdisciplinary work should not be excluded from either relevant topic

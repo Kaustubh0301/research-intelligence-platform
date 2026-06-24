@@ -93,11 +93,11 @@ curl -sf https://api.yourdomain.com/health
 In your `.env` file:
 ```
 CORS_ORIGIN=https://your-project.vercel.app
-ANTHROPIC_BASE_URL=https://clear-llm-proxy.internal.cleartax.co
+ANTHROPIC_BASE_URL=https://your-proxy.example.com
 ```
 
-The `ANTHROPIC_BASE_URL` stays as-is — the FastAPI process runs on your Mac
-which is on the corporate network and can reach the proxy directly.
+Set `ANTHROPIC_BASE_URL` to your LiteLLM-compatible proxy URL, or leave it blank to use
+`api.anthropic.com` directly. The FastAPI process reads this from the environment at startup.
 
 ---
 

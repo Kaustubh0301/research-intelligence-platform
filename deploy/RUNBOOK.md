@@ -19,12 +19,12 @@ Browser
                                                          FastAPI (uvicorn)
                                                            ├── SQLite DB (local file)
                                                            ├── FAISS index (local file)
-                                                           └── LLM proxy (corporate network)
+                                                           └── LLM proxy (optional; set via ANTHROPIC_BASE_URL)
 ```
 
 **Key constraints:**
 - `NEXT_PUBLIC_API_URL` is baked into the Vercel build — changing the tunnel URL requires a Vercel redeploy.
-- The LLM proxy (`clear-llm-proxy.internal.cleartax.co`) is only reachable on the corporate office network. The Mac must stay on that network while the demo runs.
+- The LLM proxy (set via `ANTHROPIC_BASE_URL`) is optional. If using a self-hosted proxy, ensure the Mac can reach it. Leave `ANTHROPIC_BASE_URL` blank to use `api.anthropic.com` directly.
 - The Mac must not sleep. System Preferences → Battery → disable "Prevent automatic sleeping" and enable "Wake for network access."
 
 ---
@@ -33,7 +33,7 @@ Browser
 
 | Item | Required | Notes |
 |------|----------|-------|
-| Mac on corporate office network | Yes | LLM proxy at `10.1.x.x` only reachable here |
+| Mac reachable to LLM proxy | Yes | Required if using an internal LiteLLM proxy |
 | `research_platform.db` in repo root | Yes | SQLite, WAL mode enabled |
 | `embeddings.index` + `embeddings_ids.json` in repo root | Yes | FAISS index |
 | Python venv with dependencies | Yes | `source .venv/bin/activate` |
@@ -57,7 +57,7 @@ Edit `.env` and set:
 | `DATABASE_URL` | `sqlite:///research_platform.db` |
 | `LLM_PROVIDER` | `anthropic` |
 | `ANTHROPIC_API_KEY` | your key (issued by the proxy) |
-| `ANTHROPIC_BASE_URL` | `https://clear-llm-proxy.internal.cleartax.co` |
+| `ANTHROPIC_BASE_URL` | your proxy URL, or leave blank for `api.anthropic.com` |
 | `CORS_ORIGIN` | your Vercel URL — set **after** Step 3 |
 | `NEXT_PUBLIC_API_URL` | your tunnel URL — set **after** Step 2 |
 | `SEMANTIC_SEARCH` | `true` |
@@ -162,7 +162,7 @@ Expected output:
 Starting backend...
   Log:  /path/to/research-intelligence-platfrom/backend.log
   Env:  CORS_ORIGIN=https://your-project.vercel.app
-  LLM:  anthropic  proxy=https://clear-llm-proxy.internal.cleartax.co
+  LLM:  anthropic  proxy=https://your-proxy.example.com
 ...
 Backend started (PID 12345)
 Waiting for /health...... OK
@@ -225,8 +225,8 @@ Verify:
 Run this before every demo session:
 
 ```bash
-# 1. Confirm Mac is on the corporate office network
-curl -sf https://clear-llm-proxy.internal.cleartax.co/health 2>/dev/null \
+# 1. Confirm LLM proxy is reachable (skip if using api.anthropic.com directly)
+curl -sf "${ANTHROPIC_BASE_URL}/health" 2>/dev/null \
   && echo "Proxy reachable" || echo "WARNING: proxy not reachable — chat will fail"
 
 # 2. Confirm backend is running
@@ -282,7 +282,7 @@ vercel --prod
 | Chat/search returns CORS error | `CORS_ORIGIN` doesn't match Vercel URL | Check `.env` `CORS_ORIGIN`, restart backend |
 | Feature Mapper returns 504 | Cloudflare proxy timeout too short | Dashboard → Network → Proxy Read Timeout → 300s |
 | Feature Mapper returns 422 | Input text < 50 words | Tell the user to paste a longer document |
-| Chat returns "LLM unavailable" | Off corporate network or proxy down | Connect to office network; check `ANTHROPIC_BASE_URL` |
+| Chat returns "LLM unavailable" | LLM proxy unreachable or down | Check `ANTHROPIC_BASE_URL`; ensure proxy is reachable |
 | Vercel shows old API URL | `NEXT_PUBLIC_API_URL` not set before build | Set env var in Vercel dashboard, redeploy |
 | Backend log: "database is locked" | SQLite not in WAL mode | `python3 -c "import sqlite3; c=sqlite3.connect('research_platform.db'); c.execute('PRAGMA journal_mode=WAL')"` |
 
@@ -292,7 +292,7 @@ vercel --prod
 
 | Limitation | Impact |
 |------------|--------|
-| Mac must stay awake on corporate network | Demo unavailable if lid closed or network drops |
+| Mac must stay awake and proxy-accessible | Demo unavailable if lid closed or network drops |
 | No zero-downtime restarts | In-flight requests drop when backend restarts |
 | SQLite single-writer | Fine for <20 concurrent users; upgrade to PostgreSQL for production |
 | Feature Mapper: 55–115s per request | Normal; Cloudflare timeout set to 300s covers it |
