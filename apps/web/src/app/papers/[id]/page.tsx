@@ -42,7 +42,7 @@ export default async function PaperPage({ params }: Props) {
       relatedData = await api.paperRelated(id, 8);
     }
   } catch {
-    notFound();
+    return notFound();
   }
 
   return (
