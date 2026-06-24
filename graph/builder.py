@@ -29,12 +29,13 @@ from __future__ import annotations
 import json
 import logging
 import math
+import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from itertools import combinations
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, insert, select, text
 from sqlalchemy.orm import Session
 
 from db.models import (
@@ -283,8 +284,12 @@ def _build_paper_relationships(
                 if weight > stats.max_edge_weight:
                     stats.max_edge_weight = weight
 
+    now = datetime.now(timezone.utc)
     for row in rows_to_insert:
-        session.add(PaperRelationship(**row))
+        row["id"] = str(uuid.uuid4())
+        row["created_at"] = now
+    if rows_to_insert:
+        session.execute(insert(PaperRelationship), rows_to_insert)
     session.flush()
 
     stats.paper_edges_created = len(rows_to_insert)
@@ -331,19 +336,25 @@ def _build_entity_relationships(
         "categories":    "category",
         "methodologies": "methodology",
     }
+    now = datetime.now(timezone.utc)
+    entity_rows = []
     for etype, pairs in co_counts.items():
         db_type = type_map[etype]
         for pair, count in pairs.items():
             a, b = sorted(pair)
-            session.add(EntityRelationship(
-                source_entity       = a,
-                target_entity       = b,
-                entity_type         = db_type,
-                co_occurrence_count = count,
-                weight              = float(count),
-            ))
+            entity_rows.append({
+                "id":                   str(uuid.uuid4()),
+                "source_entity":        a,
+                "target_entity":        b,
+                "entity_type":          db_type,
+                "co_occurrence_count":  count,
+                "weight":               float(count),
+                "created_at":           now,
+            })
             total += 1
 
+    if entity_rows:
+        session.execute(insert(EntityRelationship), entity_rows)
     session.flush()
     stats.entity_edges_created = total
     stats.entity_breakdown = {

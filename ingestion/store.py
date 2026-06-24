@@ -186,14 +186,16 @@ def upsert_paper_authors(
             select(PaperAuthor).where(PaperAuthor.paper_id == paper.id)
         ).all()
     }
+    seen_this_batch: set[str] = set()
 
     for position, name in enumerate(author_names, start=1):
         name = name.strip()
         if not name:
             continue
         author = get_or_create_author(session, name)
-        if author.id in existing_author_ids:
+        if author.id in existing_author_ids or author.id in seen_this_batch:
             continue
+        seen_this_batch.add(author.id)
         link = PaperAuthor(
             paper_id=paper.id,
             author_id=author.id,

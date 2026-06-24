@@ -78,7 +78,13 @@ def _run(args: list[str], retries: bool = True) -> tuple[str, str]:
     max_attempts = _MAX_RETRIES if retries else 1
 
     for attempt in range(1, max_attempts + 1):
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        except subprocess.TimeoutExpired:
+            if attempt < max_attempts:
+                log.warning("nlm command timed out (attempt %d/%d), retrying: %s", attempt, max_attempts, cmd_str)
+                continue
+            raise ClientError(message="command timed out after 600s", command=cmd_str, stderr="", attempts=attempt)
         if result.returncode == 0:
             return result.stdout.strip(), result.stderr.strip()
 

@@ -150,10 +150,13 @@ def _upsert_techniques(
 ) -> int:
     """Write paper_techniques rows. Returns count written."""
     written = 0
+    seen_this_batch: set[str] = set()
     for role, names in [("introduces", parsed.introduces), ("uses", parsed.uses)]:
         for name in names:
             name = name.strip()
             if not name:
+                continue
+            if name in seen_this_batch:
                 continue
             existing = session.scalar(
                 select(PaperTechnique).where(
@@ -167,6 +170,7 @@ def _upsert_techniques(
                 session.add(PaperTechnique(
                     paper_id=paper_id, name=name, role=role, source=MODEL_LABEL,
                 ))
+                seen_this_batch.add(name)
                 written += 1
     session.flush()
     return written
