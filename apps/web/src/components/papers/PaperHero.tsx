@@ -119,7 +119,7 @@ export function PaperHero({ paper }: Props) {
             className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
             style={{ backgroundColor: clusterColour }}
           >
-            {CLUSTER_LABELS[paper.graph_metrics!.cluster_id] ?? `Cluster ${paper.graph_metrics!.cluster_id}`}
+            {CLUSTER_LABELS[paper.graph_metrics!.cluster_id as number] ?? `Cluster ${paper.graph_metrics!.cluster_id}`}
           </span>
         )}
         {paper.is_open_access ? (

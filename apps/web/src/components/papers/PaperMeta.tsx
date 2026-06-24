@@ -55,7 +55,7 @@ export function PaperMeta({ paper }: Props) {
                   CLUSTER_COLOURS[paper.graph_metrics.cluster_id] ?? "#6b7280",
               }}
             >
-              {CLUSTER_LABELS[paper.graph_metrics.cluster_id] ?? `Cluster ${paper.graph_metrics.cluster_id}`}
+              {CLUSTER_LABELS[paper.graph_metrics.cluster_id as number] ?? `Cluster ${paper.graph_metrics.cluster_id}`}
             </span>
           )}
         <Badge variant={paper.is_open_access ? "green" : "secondary"}>

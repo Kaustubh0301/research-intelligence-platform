@@ -98,7 +98,7 @@ export function MetricsCard({ paper }: Props) {
                   className="inline-flex items-center rounded-full px-sm py-0.5 text-[11px] font-bold text-white"
                   style={{ backgroundColor: clusterColour }}
                 >
-                  {CLUSTER_LABELS[gm.cluster_id] ?? `Cluster ${gm.cluster_id}`}
+                  {gm.cluster_id != null ? (CLUSTER_LABELS[gm.cluster_id] ?? `Cluster ${gm.cluster_id}`) : "Unknown"}
                 </span>
               </div>
             )}
