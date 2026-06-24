@@ -13,7 +13,7 @@ export function BackendBanner() {
   const [status, setStatus] = useState<Status>("checking");
 
   const check = () => {
-    fetch(HEALTH_URL, { method: "GET", cache: "no-store" })
+    fetch(HEALTH_URL, { method: "GET", cache: "no-store", headers: { "ngrok-skip-browser-warning": "1" } })
       .then((r) => setStatus(r.ok ? "ok" : "down"))
       .catch(() => setStatus("down"));
   };
