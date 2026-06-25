@@ -20,15 +20,28 @@ This project started as an attempt to build a structured research corpus that co
 
 ## Screenshots
 
-Screenshots will be added after deployment and UI stabilization.
+### Dashboard
+![Dashboard](docs/screenshots/Dashboard.1.png)
+![Dashboard](docs/screenshots/Dashboard.2.png)
+*Corpus stats at a glance — total papers, techniques indexed, top techniques by paper count, and conference distribution.*
 
-Current UI areas:
+### AI Assistant
+![AI Assistant](docs/screenshots/AI%20assistant.png)
+*RAG-powered chat grounded in the corpus. Answers cite specific papers with relevance scores, conference, and citation counts in a live source panel.*
 
-- Dashboard
-- Paper library and search
-- Paper detail view
-- Research assistant
-- Feature Mapper
+### Paper Explorer
+![Paper Explorer 1](docs/screenshots/Paper%20Explorer.1.png)
+![Paper Explorer 2](docs/screenshots/Paper%20Explorer.2.png)
+![Paper Explorer 3](docs/screenshots/Paper%20Explorer.3.png)
+![Paper Explorer 4](docs/screenshots/Paper%20Explorer.4.png)
+*Full-text + semantic search across 3,010 papers. Filter by venue (NeurIPS, ICLR, ICML, CVPR, ACL) and technique. Per-paper AI analysis with methodology, findings, strengths, and related papers.*
+
+### Project Mapper
+![Project Mapper 1](docs/screenshots/Project%20Mapper.1.png)
+![Project Mapper 2](docs/screenshots/Project%20Mapper.2.png)
+![Project Mapper 3](docs/screenshots/Project%20Mapper.3.png)
+![Project Mapper 4](docs/screenshots/Project%20Mapper.4.png)
+*Paste any README, PRD, or architecture doc — each component is extracted and mapped to the most relevant papers in the corpus.*
 
 ---
 
