@@ -11,7 +11,7 @@ import {
 import type { ConferenceStat } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const COLOURS = ["#3b82f6", "#22c55e", "#f97316", "#a855f7", "#ec4899"];
+const COLOURS = ["#4648d4", "#6063ee", "#c0c1ff", "#767586", "#bec6e0"];
 
 interface Props {
   conferences: ConferenceStat[];
