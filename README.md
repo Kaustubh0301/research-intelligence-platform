@@ -14,21 +14,34 @@ A self-hosted system for building a queryable knowledge base from academic paper
 
 ## Why this exists
 
-This project started as an attempt to build a structured research corpus that could support search, analytics, and retrieval-driven assistants from the same underlying data. The Project Mapper came out of a specific need: given a system being built, which papers are actually relevant to each component, and where are the gaps?
+This project started as an attempt to build a structured research corpus that could support search, analytics, and retrieval-driven assistants from the same underlying data. The Feature Mapper came out of a specific need: given a system being built, which papers are actually relevant to each component, and where are the gaps?
 
 ---
 
 ## Screenshots
 
-Screenshots will be added after deployment and UI stabilization.
+### Dashboard
+![Dashboard](docs/screenshots/Dashboard.1.png)
+![Dashboard](docs/screenshots/Dashboard.2.png)
+*Corpus stats at a glance — total papers, techniques indexed, top techniques by paper count, and conference distribution.*
 
-Current UI areas:
+### AI Assistant
+![AI Assistant](docs/screenshots/AI%20assistant.png)
+*RAG-powered chat grounded in the corpus. Answers cite specific papers with relevance scores, conference, and citation counts in a live source panel.*
 
-- Dashboard
-- Paper library and search
-- Paper detail view
-- Research assistant
-- Project Mapper
+### Paper Explorer
+![Paper Explorer 1](docs/screenshots/Paper%20Explorer.1.png)
+![Paper Explorer 2](docs/screenshots/Paper%20Explorer.2.png)
+![Paper Explorer 3](docs/screenshots/Paper%20Explorer.3.png)
+![Paper Explorer 4](docs/screenshots/Paper%20Explorer.4.png)
+*Full-text + semantic search across 3,010 papers. Filter by venue (NeurIPS, ICLR, ICML, CVPR, ACL) and technique. Per-paper AI analysis with methodology, findings, strengths, and related papers.*
+
+### Project Mapper
+![Project Mapper 1](docs/screenshots/Project%20Mapper.1.png)
+![Project Mapper 2](docs/screenshots/Project%20Mapper.2.png)
+![Project Mapper 3](docs/screenshots/Project%20Mapper.3.png)
+![Project Mapper 4](docs/screenshots/Project%20Mapper.4.png)
+*Paste any README, PRD, or architecture doc — each component is extracted and mapped to the most relevant papers in the corpus.*
 
 ---
 
@@ -76,7 +89,7 @@ Browser
                                                       Gemini)
 ```
 
-SQLite runs in WAL mode and handles the corpus, FTS5 index, graph tables, and Project Mapper results. The FAISS index is built separately and loaded at startup.
+SQLite runs in WAL mode and handles the corpus, FTS5 index, graph tables, and Feature Mapper results. The FAISS index is built separately and loaded at startup.
 
 ---
 
@@ -102,7 +115,7 @@ Technique matching gets the highest weight because an exact name match is a stro
 
 A research assistant over the corpus, served via Server-Sent Events. The frontend receives sources before the first token arrives. Referential follow-ups ("tell me more about the third paper") are resolved by anchoring to the prior user turn before retrieval.
 
-### Project Mapper
+### Feature Mapper
 
 Give it any technical document — README, spec, PRD — and it maps each component to the most relevant papers in your corpus. Results are persisted to the database (`fm_projects`, `fm_features`, `fm_paper_matches`, `fm_recommendations`) and can be revisited without re-running the analysis.
 
@@ -137,7 +150,7 @@ Co-citation and co-authorship graphs with centrality metrics. Entity co-occurren
 ├── api/               FastAPI app — routers, models, middleware
 ├── apps/web/          Next.js 15 frontend
 ├── db/                SQLAlchemy models, migrations, seeds
-├── feature_mapper/    Project Mapper pipeline (parser → retrieval → LLM)
+├── feature_mapper/    Feature Mapper pipeline (parser → retrieval → LLM)
 ├── search/            FAISS index, FTS5, hybrid retrieval
 ├── graph/             Graph builder, analytics, explainer
 ├── ingestion/         OpenReview + Semantic Scholar fetch, store
@@ -170,7 +183,7 @@ cp .env.example .env
 # 3. Initialize database
 python db/migrate.py
 
-# 4. Build FAISS index (required before search and Project Mapper work)
+# 4. Build FAISS index (required before search and Feature Mapper work)
 python scripts/build_embeddings.py
 
 # 5. Start backend
@@ -210,7 +223,7 @@ bash deploy/start-backend.sh
 cd apps/web && vercel --prod
 ```
 
-Set the Cloudflare proxy read timeout to 300 seconds (Dashboard → Network → Proxy Read Timeout). The Project Mapper can take longer than the default timeout for large documents.
+Set the Cloudflare proxy read timeout to 300 seconds (Dashboard → Network → Proxy Read Timeout). The Feature Mapper can take longer than the default timeout for large documents.
 
 Full step-by-step: [`deploy/RUNBOOK.md`](deploy/RUNBOOK.md)
 
@@ -230,14 +243,14 @@ Minimum VPS: 4 vCPU, 8 GB RAM, 40 GB disk. Full checklist: [`deploy/DEPLOYMENT_C
 
 - SQLite works well for personal or small-team use. For higher concurrency, PostgreSQL migration SQL is in `db/migrations/`.
 - `NEXT_PUBLIC_API_URL` is baked at Vercel build time. Changing the tunnel URL requires a frontend redeploy.
-- Project Mapper latency scales with the number of features and LLM throughput.
+- Feature Mapper latency scales with the number of features and LLM throughput.
 - The machine running the backend must stay awake for the Cloudflare Tunnel deployment to work.
 
 ---
 
 ## Roadmap
 
-**Cross-paper synthesis** — after Project Mapper retrieval, aggregate methodology patterns, evaluation benchmarks, and open questions across the retrieved set. Fast path uses cached `paper_analyses`; live path routes through NotebookLM.
+**Cross-paper synthesis** — after Feature Mapper retrieval, aggregate methodology patterns, evaluation benchmarks, and open questions across the retrieved set. Fast path uses cached `paper_analyses`; live path routes through NotebookLM.
 
 **Graph-grounded recommendations** — surface papers strongly connected to the retrieved set in the co-citation graph, catching adjacent work that keyword and semantic search miss.
 
@@ -263,3 +276,4 @@ Minimum VPS: 4 vCPU, 8 GB RAM, 40 GB disk. Full checklist: [`deploy/DEPLOYMENT_C
 ## License
 
 MIT. See [`LICENSE`](LICENSE).
+
