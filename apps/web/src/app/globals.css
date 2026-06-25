@@ -8,51 +8,90 @@
   vertical-align: middle;
 }
 
-/* ── CSS token bridge: shadcn/ui variables → InsightEngine palette ───────
-   The app is always dark; we set vars at :root so all shadcn components
-   automatically render in the dark theme without needing class="dark".
-   We also keep the .dark block so darkMode:["class"] still works.       */
 @layer base {
-  :root,
+  /* ── shadcn/ui CSS vars ─────────────────────────────────────────────── */
+  :root {
+    --background:            220 100% 99%;
+    --foreground:            214 52% 11%;
+    --card:                  0 0% 100%;
+    --card-foreground:       214 52% 11%;
+    --popover:               0 0% 100%;
+    --popover-foreground:    214 52% 11%;
+    --primary:               238 60% 56%;
+    --primary-foreground:    0 0% 100%;
+    --secondary:             224 16% 40%;
+    --secondary-foreground:  0 0% 100%;
+    --muted:                 220 100% 93%;
+    --muted-foreground:      246 10% 31%;
+    --accent:                220 100% 93%;
+    --accent-foreground:     214 52% 11%;
+    --destructive:           0 72% 41%;
+    --destructive-foreground:0 0% 100%;
+    --border:                245 25% 82%;
+    --input:                 245 25% 82%;
+    --ring:                  238 60% 56%;
+    --radius:                0.5rem;
+
+    /* ── InsightEngine surface tokens (light) ─────────────────────────── */
+    --ie-surface:                  #f8f9ff;
+    --ie-surface-dim:              #cbdbf5;
+    --ie-surface-bright:           #f8f9ff;
+    --ie-surface-container-lowest: #ffffff;
+    --ie-surface-container-low:    #eff4ff;
+    --ie-surface-container:        #e5eeff;
+    --ie-surface-container-high:   #dce9ff;
+    --ie-surface-container-highest:#d3e4fe;
+    --ie-surface-variant:          #d3e4fe;
+    --ie-on-surface:               #0b1c30;
+    --ie-on-surface-variant:       #464554;
+    --ie-on-background:            #0b1c30;
+    --ie-outline:                  #767586;
+    --ie-outline-variant:          #c7c4d7;
+    --ie-inverse-surface:          #213145;
+    --ie-inverse-on-surface:       #eaf1ff;
+  }
+
   .dark {
-    --background:            221 54% 9%;    /* #0b1326 surface-dim        */
-    --foreground:            224 89% 93%;   /* #dae2fd on-surface         */
+    --background:            0 0% 4%;
+    --foreground:            0 0% 100%;
+    --card:                  0 0% 7%;
+    --card-foreground:       0 0% 100%;
+    --popover:               0 0% 7%;
+    --popover-foreground:    0 0% 100%;
+    --primary:               238 60% 56%;
+    --primary-foreground:    0 0% 100%;
+    --secondary:             0 0% 13%;
+    --secondary-foreground:  0 0% 100%;
+    --muted:                 0 0% 13%;
+    --muted-foreground:      0 0% 63%;
+    --accent:                0 0% 13%;
+    --accent-foreground:     0 0% 100%;
+    --destructive:           0 84% 60%;
+    --destructive-foreground:0 0% 100%;
+    --border:                0 0% 20%;
+    --input:                 0 0% 17%;
+    --ring:                  238 60% 56%;
 
-    --card:                  221 38% 15%;   /* #171f33 surface-container  */
-    --card-foreground:       224 89% 93%;
-
-    --popover:               221 40% 13%;   /* #131b2e surface-container-low */
-    --popover-foreground:    224 89% 93%;
-
-    --primary:               218 100% 84%;  /* #adc6ff                    */
-    --primary-foreground:    213 100% 21%;  /* #002e6a on-primary         */
-
-    --secondary:             221 29% 19%;   /* #222a3d surface-container-high */
-    --secondary-foreground:  224 89% 93%;
-
-    --muted:                 221 38% 15%;   /* #171f33                    */
-    --muted-foreground:      225 18% 80%;   /* #c2c6d6 on-surface-variant */
-
-    --accent:                221 29% 19%;   /* #222a3d                    */
-    --accent-foreground:     224 89% 93%;
-
-    --destructive:           4   100% 84%;  /* #ffb4ab error              */
-    --destructive-foreground:350 100% 21%;  /* #690005 on-error           */
-
-    --border:                225 13% 30%;   /* #424754 outline-variant    */
-    --input:                 222 25% 23%;   /* #2d3449 surface-container-highest */
-    --ring:                  218 100% 84%;  /* #adc6ff primary            */
-
-    --radius: 0.5rem;
+    /* ── InsightEngine surface tokens (dark — true black/white) ───────── */
+    --ie-surface:                  #0a0a0a;
+    --ie-surface-dim:              #000000;
+    --ie-surface-bright:           #141414;
+    --ie-surface-container-lowest: #000000;
+    --ie-surface-container-low:    #111111;
+    --ie-surface-container:        #1a1a1a;
+    --ie-surface-container-high:   #222222;
+    --ie-surface-container-highest:#2a2a2a;
+    --ie-surface-variant:          #2a2a2a;
+    --ie-on-surface:               #ffffff;
+    --ie-on-surface-variant:       #a0a0a0;
+    --ie-on-background:            #ffffff;
+    --ie-outline:                  #666666;
+    --ie-outline-variant:          #333333;
+    --ie-inverse-surface:          #ffffff;
+    --ie-inverse-on-surface:       #1a1a1a;
   }
 
-  * {
-    @apply border-border;
-  }
-
-  html {
-    color-scheme: dark;
-  }
+  * { @apply border-border; }
 
   body {
     @apply bg-background text-foreground antialiased;
@@ -63,19 +102,33 @@
 /* ── Custom scrollbar ───────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #424754; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #8c909f; }
+::-webkit-scrollbar-thumb { background: var(--ie-outline-variant); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ie-outline); }
 
-/* ── Glass panel utility ────────────────────────────────────────────────── */
+/* ── Shimmer animation ──────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(70, 72, 212, 0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Glass panel ────────────────────────────────────────────────────────── */
 @layer utilities {
   .glass-panel {
-    background: rgba(23, 31, 51, 0.75);
+    background: rgba(248, 249, 255, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
-
-  /* Gradient mask for lists that fade out at the bottom */
+  .dark .glass-panel {
+    background: rgba(23, 31, 51, 0.75);
+  }
   .gradient-fade-bottom {
     mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }

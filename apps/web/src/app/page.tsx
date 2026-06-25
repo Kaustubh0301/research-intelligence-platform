@@ -28,14 +28,29 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto px-gutter py-lg space-y-lg">
+    <div className="max-w-[1400px] mx-auto px-6 py-8 space-y-8">
       {/* Page header */}
-      <div>
-        <h1 className="text-headline-lg font-headline-lg text-on-surface">Dashboard</h1>
-        <p className="text-body-sm text-on-surface-variant mt-1">
-          {stats.total_papers} papers indexed
-          {FEATURES.GRAPH && ` · ${stats.total_edges.toLocaleString()} graph edges`}
-        </p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-on-background tracking-tight">Welcome back, Researcher</h1>
+          <p className="text-on-surface-variant flex items-center gap-1.5 mt-1 text-sm">
+            <span className="material-symbols-outlined text-[16px]">auto_awesome</span>
+            {stats.total_papers.toLocaleString()} papers indexed
+            {FEATURES.GRAPH && ` · ${stats.total_edges.toLocaleString()} graph edges`}
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <div className="bg-surface-container-high px-4 py-2.5 rounded-xl border border-outline-variant/30 flex flex-col">
+            <span className="text-[10px] font-semibold text-outline uppercase tracking-wider">Techniques</span>
+            <span className="text-sm font-bold text-im-primary">{stats.total_techniques.toLocaleString()} indexed</span>
+          </div>
+          {FEATURES.GRAPH && (
+            <div className="bg-surface-container-high px-4 py-2.5 rounded-xl border border-outline-variant/30 flex flex-col">
+              <span className="text-[10px] font-semibold text-outline uppercase tracking-wider">Graph Edges</span>
+              <span className="text-sm font-bold text-im-primary">{stats.total_edges.toLocaleString()}</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Stat cards */}
@@ -47,7 +62,7 @@ export default async function DashboardPage() {
       />
 
       {/* Charts row */}
-      <div className="grid gap-lg md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <TechniquesChart techniques={stats.top_techniques} />
         <ConferenceDonut conferences={stats.conferences} />
       </div>

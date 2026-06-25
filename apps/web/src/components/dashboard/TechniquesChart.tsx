@@ -50,7 +50,7 @@ export function TechniquesChart({ techniques }: Props) {
             />
             <Bar dataKey="papers" radius={[0, 4, 4, 0]}>
               {data.map((_, i) => (
-                <Cell key={i} fill="#3b82f6" fillOpacity={1 - i * 0.06} />
+                <Cell key={i} fill="#4648d4" fillOpacity={1 - i * 0.06} />
               ))}
             </Bar>
           </BarChart>

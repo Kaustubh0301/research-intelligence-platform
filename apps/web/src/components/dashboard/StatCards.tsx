@@ -11,31 +11,35 @@ interface Props {
 
 const buildStats = (p: Props) => [
   {
-    label: "Papers",
+    label: "Total Research Papers",
     value: p.total_papers.toLocaleString(),
-    icon: "description",
-    accent: "text-im-primary",
+    icon: "menu_book",
+    badge: "+4.2%",
+    badgeColor: "text-im-primary bg-im-primary/10",
+    graph: false,
+  },
+  {
+    label: "Techniques",
+    value: p.total_techniques.toLocaleString(),
+    icon: "layers",
+    badge: "Steady",
+    badgeColor: "text-outline bg-outline-variant/20",
     graph: false,
   },
   {
     label: "Graph Edges",
     value: p.total_edges.toLocaleString(),
     icon: "hub",
-    accent: "text-im-secondary",
+    badge: "+128",
+    badgeColor: "text-im-primary bg-im-primary/10",
     graph: true,
-  },
-  {
-    label: "Techniques",
-    value: p.total_techniques.toLocaleString(),
-    icon: "layers",
-    accent: "text-im-tertiary",
-    graph: false,
   },
   {
     label: "Clusters",
     value: p.total_clusters.toLocaleString(),
     icon: "account_tree",
-    accent: "text-im-primary",
+    badge: "+12",
+    badgeColor: "text-im-primary bg-im-primary/10",
     graph: true,
   },
 ];
@@ -44,23 +48,22 @@ export function StatCards(props: Props) {
   const stats = buildStats(props).filter((s) => !s.graph || FEATURES.GRAPH);
 
   return (
-    <div className="grid gap-md grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(160px,1fr))]">
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((s) => (
         <div
           key={s.label}
-          className="bg-surface-container-low border border-outline-variant rounded-xl p-lg hover:border-outline transition-colors"
+          className="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/20 hover:border-im-primary transition-all duration-300 group"
         >
-          <div className="flex items-center justify-between mb-sm">
-            <span className="text-label-md text-on-surface-variant uppercase tracking-widest">
-              {s.label}
-            </span>
-            <span className={`material-symbols-outlined text-[20px] ${s.accent}`}>
-              {s.icon}
+          <div className="flex justify-between items-start mb-3">
+            <div className="p-2 rounded-lg bg-im-primary/5 text-im-primary group-hover:bg-im-primary group-hover:text-on-primary transition-colors">
+              <span className="material-symbols-outlined text-[20px]">{s.icon}</span>
+            </div>
+            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${s.badgeColor}`}>
+              {s.badge}
             </span>
           </div>
-          <p className="text-[28px] font-bold text-on-surface font-headline-md leading-none">
-            {s.value}
-          </p>
+          <p className="text-outline text-[11px] font-semibold uppercase tracking-wider">{s.label}</p>
+          <h3 className="text-3xl font-bold text-on-surface mt-1 leading-none">{s.value}</h3>
         </div>
       ))}
     </div>

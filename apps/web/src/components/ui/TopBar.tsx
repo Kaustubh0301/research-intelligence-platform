@@ -1,71 +1,67 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-
-const SECTION_TABS: Record<string, Array<{ href: string; label: string }>> = {
-  "/papers": [{ href: "/papers", label: "Papers" }],
-  "/chat":   [{ href: "/chat",   label: "Research Assistant" }],
-  "/":       [{ href: "/",       label: "Overview" }],
-};
-
-function resolveTabs(pathname: string) {
-  if (pathname.startsWith("/papers")) return SECTION_TABS["/papers"];
-  if (pathname.startsWith("/chat"))   return SECTION_TABS["/chat"];
-  return SECTION_TABS["/"];
-}
+import { useEffect, useState } from "react";
 
 interface Props {
   sidebarOpen: boolean;
   onToggle:    () => void;
 }
 
+const PAGE_TITLES: Record<string, string> = {
+  "/":            "Dashboard",
+  "/papers":      "Paper Explorer",
+  "/chat":        "AI Assistant",
+  "/feature-map": "Project Mapper",
+  "/graph":       "Graph",
+};
+
 export function TopBar({ sidebarOpen, onToggle }: Props) {
   const pathname = usePathname();
-  const tabs     = resolveTabs(pathname);
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
+      setDark(true);
+    }
+  }, []);
+
+  function toggleDark() {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  }
+
+  const title = Object.entries(PAGE_TITLES).find(([k]) =>
+    k === "/" ? pathname === "/" : pathname.startsWith(k)
+  )?.[1] ?? "InsightEngine";
 
   return (
-    <header className="fixed top-0 right-0 left-0 h-16 bg-surface border-b border-outline-variant flex items-center z-50 transition-[padding] duration-300 ease-in-out"
-      style={{ paddingLeft: sidebarOpen ? "16rem" : "0" }}
-    >
-      <div className="flex items-center justify-between w-full px-gutter">
-        {/* Left: toggle button + sub-tabs */}
-        <div className="flex items-center h-full gap-sm">
-          {/* Sidebar toggle */}
-          <button
-            onClick={onToggle}
-            title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-            className="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-colors flex-shrink-0"
-          >
-            <span className="material-symbols-outlined text-[22px]">
-              {sidebarOpen ? "menu_open" : "menu"}
-            </span>
-          </button>
+    <header className="h-14 bg-surface-bright border-b border-outline-variant/30 flex items-center px-5 gap-4 flex-shrink-0">
+      <button
+        onClick={onToggle}
+        className="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors flex-shrink-0"
+      >
+        <span className="material-symbols-outlined text-[22px]">
+          {sidebarOpen ? "menu_open" : "menu"}
+        </span>
+      </button>
 
-          {/* Section sub-tabs */}
-          <nav className="flex h-full">
-            {tabs.map((tab) => {
-              const active =
-                tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
-              return (
-                <Link
-                  key={tab.href}
-                  href={tab.href}
-                  className={cn(
-                    "h-16 flex items-center px-sm text-label-md transition-colors border-b-2",
-                    active
-                      ? "text-im-primary border-im-primary font-bold"
-                      : "text-on-surface-variant border-transparent hover:text-on-surface"
-                  )}
-                >
-                  {tab.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+      <span className="text-sm font-semibold text-on-surface-variant">{title}</span>
 
+      <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+        <button
+          onClick={toggleDark}
+          className="p-1.5 text-on-surface-variant hover:text-im-primary hover:bg-surface-container-high rounded-lg transition-colors"
+          title="Toggle dark mode"
+        >
+          <span className="material-symbols-outlined text-[20px]">
+            {dark ? "light_mode" : "dark_mode"}
+          </span>
+        </button>
       </div>
     </header>
   );
