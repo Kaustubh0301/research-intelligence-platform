@@ -14,8 +14,12 @@ import type {
   FeatureMapResponse,
 } from "./types";
 
+// Server-side calls use the direct backend URL; client-side calls go through
+// the Next.js proxy so the backend URL never needs to be baked into the bundle.
 const BASE =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+  typeof window === "undefined"
+    ? (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1")
+    : "/api/proxy";
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
@@ -85,7 +89,10 @@ export const api = {
     body: ChatRequest,
     signal?: AbortSignal,
   ): AsyncGenerator<{ type: string; token?: string; sources?: ChatResponse["sources"]; conversation_id?: string; message?: string }> {
-    const res = await fetch(`${BASE}/chat/stream`, {
+    const proxyBase = typeof window === "undefined"
+      ? (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1")
+      : "/api/proxy";
+    const res = await fetch(`${proxyBase}/chat/stream`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
